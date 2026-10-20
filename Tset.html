@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الزر</title>
+</head>
+<body style="text-align: center; padding-top: 50px; background-color: #222; color: white; font-family: sans-serif;">
+
+    <h2>اكتب أي شيء في الخانة:</h2>
+    <!-- لاحظ خاصية oninput هنا، تقوم بتشغيل الكود فوراً -->
+    <input type="text" id="testInput" oninput="changeColor()" placeholder="اكتب هنا..." style="padding: 10px; font-size: 18px; text-align: center;">
+    
+    <br><br>
+    
+    <button id="testBtn" style="padding: 15px 30px; font-size: 18px; background-color: gray; color: white; border: none; border-radius: 5px; width: 200px;">
+        زر الاختبار
+    </button>
+
+    <script>
+        function changeColor() {
+            var inputVal = document.getElementById("testInput").value;
+            var btn = document.getElementById("testBtn");
+
+            if (inputVal.length > 0) {
+                btn.style.backgroundColor = "blue"; // يتحول للأزرق
+            } else {
+                btn.style.backgroundColor = "gray"; // يرجع رمادي
+            }
+        }
+    </script>
+</body>
+</html>
