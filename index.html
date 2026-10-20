@@ -41,32 +41,81 @@
         }
 
         /* ================= الشاشة الأولى ================= */
+        
+        /* الشريط العلوي الجديد (تصميم احترافي مطابق للصورة) */
         .top-banner {
-            border: 1px solid #e63946;
-            background-color: rgba(20, 10, 10, 0.6);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 30px;
+            border: 1px solid #331111;
+            background: linear-gradient(180deg, rgba(20, 5, 5, 0.8) 0%, rgba(5, 5, 5, 1) 100%);
+            border-radius: 6px;
+            padding: 18px 15px;
+            margin-bottom: 25px;
             text-align: right;
             position: relative;
-            box-shadow: inset 0 0 15px rgba(230, 57, 70, 0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            /* قطع الزاوية السفلية اليسرى لتبدو احترافية */
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 15px 100%, 0 calc(100% - 15px));
         }
+        
+        /* الخط الأحمر الجانبي */
         .top-banner::before {
             content: '';
             position: absolute;
-            top: 0; right: 0; height: 100%; width: 3px;
+            top: 0; right: 0; height: 100%; width: 2px;
             background-color: #e63946;
-            border-radius: 0 8px 8px 0;
+            box-shadow: 0 0 10px #e63946;
         }
-        .top-banner h3 { font-size: 16px; color: #fff; margin-bottom: 5px; }
-        .top-banner p { font-size: 12px; color: #aaa; margin-bottom: 10px; line-height: 1.5; }
-        .btn-telegram {
-            display: block; background-color: #111; color: #fff; text-decoration: none;
-            text-align: center; padding: 10px; border-radius: 6px; font-size: 14px;
-            border: 1px solid #333; transition: 0.3s;
+
+        .banner-header {
+            font-size: 12px;
+            color: #e63946;
+            margin-bottom: 5px;
         }
-        .btn-telegram:hover { background-color: #e63946; border-color: #e63946; }
-        .btn-telegram span { color: #229ED9; font-weight: bold; margin-left: 5px; }
+
+        .banner-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .banner-desc {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* الزر بتصميم الصورة */
+        .btn-telegram-custom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: rgba(15, 15, 15, 0.8);
+            border: 1px solid #222;
+            padding: 10px;
+            border-radius: 4px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-telegram-custom:hover {
+            background-color: #111;
+            border-color: #e63946;
+            box-shadow: 0 0 10px rgba(230, 57, 70, 0.2);
+        }
+
+        .btn-telegram-custom img {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+        }
 
         .profile-section { text-align: center; margin-bottom: 30px; }
         .profile-img {
@@ -115,7 +164,7 @@
         /* ================= الشاشة الثانية ================= */
         #main-page { display: none; text-align: center; position: relative; }
         
-        /* زر تحميل اللاحق (أعلى اليسار) */
+        /* زر تحميل اللاحق */
         .download-btn {
             position: absolute;
             top: -15px;
@@ -223,11 +272,16 @@
         
         <!-- الشاشة الأولى -->
         <div id="login-page">
+            
+            <!-- الشريط العلوي الجديد -->
             <div class="top-banner">
-                <h3>نحن ننتقل للتيليجرام 🚀</h3>
-                <p>لأي استفسار أو مشكلة، تواصل معنا مباشرة.</p>
-                <a href="https://t.me/Nacer_22" target="_blank" class="btn-telegram">
-                    <span>✈️</span> تواصل معنا على تيليجرام
+                <div class="banner-header">نحن ننتقل</div>
+                <div class="banner-title">إلى تيليجرام 🚀</div>
+                <div class="banner-desc">لأي استفسار أو مشكلة، تواصل معنا مباشرة عبر حسابنا الرسمي.</div>
+                <a href="https://t.me/Nacer_22" target="_blank" class="btn-telegram-custom">
+                    <!-- استخدام الصورة التي أرسلتها -->
+                    <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram Icon">
+                    <span>تيليجرام</span>
                 </a>
             </div>
 
@@ -240,7 +294,8 @@
 
             <div class="input-label">مفتاح الوصول</div>
             <div class="input-wrapper">
-                <input type="text" id="accessCode" placeholder="AMHK-XXXX-XXXX-XXXX" autocomplete="off">
+                <!-- تم تغيير AMHK إلى Nacer هنا فقط -->
+                <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off">
                 <button onclick="pasteCode()">لصق</button>
             </div>
 
@@ -259,12 +314,10 @@
         <!-- الشاشة الثانية -->
         <div id="main-page">
             
-            <!-- زر تحميل اللاحق (أعلى اليسار) -->
             <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn">
                 اضغط هنا لتحميل اللاحق
             </a>
 
-            <!-- الدائرة -->
             <div class="timer-circle-container">
                 <svg>
                     <defs>
