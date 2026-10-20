@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة إعدادات البروكسي</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        h1 { color: #4CAF50; }
+        p { margin-bottom: 20px; }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>مرحباً بك في موقع الإعدادات</h1>
+        <p>اضغط على الزر أدناه لنسخ كود الاتصال (JSON) واستخدامه في تطبيقك.</p>
+        
+        <button onclick="copyConfig()">نسخ الكود 📋</button>
+        
+        <p style="margin-top: 20px; font-size: 12px; color: #888;">
+            (سيتم نسخ الكود تلقائياً عند الضغط)
+        </p>
+    </div>
+
+    <script>
+        async function copyConfig() {
+            try {
+                // جلب ملف الإعدادات من نفس المجلد
+                const response = await fetch('config.json');
+                const text = await response.text();
+                
+                // نسخ النص إلى الحافظة
+                await navigator.clipboard.writeText(text);
+                alert('تم نسخ الكود بنجاح! يمكنك الآن لصقه في تطبيقك.');
+            } catch (err) {
+                alert('حدث خطأ أثناء نسخ الكود. تأكد من وجود ملف config.json');
+            }
+        }
+    </script>
+
+</body>
+</html>
