@@ -85,7 +85,7 @@
         
         .input-wrapper {
             display: flex; border: 1px solid #e63946; border-radius: 8px;
-            overflow: hidden; background-color: #050505; margin-bottom: 15px;
+            overflow: hidden; background-color: #050505; margin-bottom: 10px; /* تم تقليل المسافة السفلية ليتناسب مع رسالة الخطأ */
             box-shadow: 0 0 15px rgba(230, 57, 70, 0.1);
         }
         .input-wrapper input {
@@ -99,21 +99,32 @@
         }
         .input-wrapper button:hover { background-color: #e63946; color: #fff; }
 
-        .error-container { display: none; align-items: center; color: #e63946; font-size: 14px; font-weight: bold; margin-bottom: 15px; line-height: 1.5; }
-        .error-container::before { content: '■'; font-size: 12px; margin-left: 5px; }
+        /* تصميم رسالة الخطأ لتكون تحت الخانة مباشرة وواضحة */
+        .error-container { 
+            display: none; 
+            color: #e63946; 
+            font-size: 15px; 
+            font-weight: 900; 
+            margin-bottom: 15px; 
+            text-align: right; 
+            padding-right: 5px;
+            text-shadow: 0 0 5px rgba(230, 57, 70, 0.5);
+        }
+        .error-container::before { content: '⚠ '; font-size: 16px; }
 
+        /* الزر (الحالة الافتراضية رمادي) */
         .btn-open {
-            width: 100%; background-color: #111; color: #555; border: 1px solid #222;
+            width: 100%; background-color: #111 !important; color: #555 !important; border: 1px solid #222 !important;
             padding: 16px; border-radius: 8px; font-family: 'Cairo', sans-serif;
             font-size: 20px; font-weight: 900; cursor: pointer; transition: all 0.3s; margin-bottom: 20px;
         }
 
         /* الزر عندما يمتلئ بالكود (يصبح أحمر) */
         .btn-open.active-btn {
-            background-color: #e63946; 
-            color: #fff; 
-            border-color: #e63946;
-            box-shadow: 0 5px 20px rgba(230, 57, 70, 0.4);
+            background-color: #e63946 !important; 
+            color: #fff !important; 
+            border-color: #e63946 !important;
+            box-shadow: 0 5px 20px rgba(230, 57, 70, 0.4) !important;
             transform: scale(1.02);
         }
 
@@ -225,10 +236,11 @@
 
             <div class="input-label">مفتاح الوصول</div>
             <div class="input-wrapper">
-                <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off">
+                <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off" oninput="toggleButtonColor()">
                 <button onclick="pasteCode()">لصق</button>
             </div>
 
+            <!-- رسالة الخطأ هنا تحت الخانة مباشرة -->
             <div class="error-container" id="errorMsg">
                 <span id="errorText">مفتاح غير صالح</span>
             </div>
@@ -291,14 +303,13 @@
         const inputField = document.getElementById("accessCode");
         const mainBtn = document.getElementById("mainBtn");
 
-        // تغيير لون الزر بمجرد الكتابة يدوياً
-        inputField.addEventListener("input", function() {
-            if (this.value.trim().length > 0) {
+        function toggleButtonColor() {
+            if (inputField.value.trim().length > 0) {
                 mainBtn.classList.add("active-btn");
             } else {
                 mainBtn.classList.remove("active-btn");
             }
-        });
+        }
 
         function getDeviceId() {
             let deviceId = localStorage.getItem('client_device_id');
@@ -313,9 +324,9 @@
             try {
                 const text = await navigator.clipboard.readText();
                 inputField.value = text;
-                inputField.dispatchEvent(new Event('input'));
+                toggleButtonColor();
             } catch (err) {
-                alert("يرجى لصق الكود يدوياً");
+                alert("متصفحك يمنع اللصق التلقائي. اضغط مطولاً على الخانة واختر (لصق).");
             }
         }
 
@@ -325,7 +336,6 @@
             });
         }
 
-        // هنا السر: الانتقال الفوري للواجهة الثانية
         async function checkCode() {
             const inputCode = inputField.value.trim();
             const deviceId = getDeviceId();
@@ -333,22 +343,14 @@
             const errorText = document.getElementById("errorText");
             
             if(!inputCode) {
-                errorDiv.style.display = "flex";
+                errorDiv.style.display = "block"; // إظهار الرسالة
                 errorText.innerText = "يرجى إدخال المفتاح أولاً";
                 return;
             }
 
-            // 1. الانتقال الفوري (بدون انتظار)
-            savedCode = inputCode;
-            document.getElementById("currentCode").innerText = inputCode;
-            document.getElementById("login-page").style.display = "none";
-            document.getElementById("main-page").style.display = "block";
-            
-            // 2. بدء المؤقت الافتراضي (ليبدأ المؤقت فوراً في العمل)
-            const defaultExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-            startCountdown(defaultExpiry);
+            mainBtn.innerText = "جاري التحقق...";
+            errorDiv.style.display = "none"; // إخفاء الرسالة السابقة
 
-            // 3. التحقق من السيرفر في الخلفية
             try {
                 const response = await fetch(RENDER_API_URL, {
                     method: 'POST',
@@ -359,29 +361,29 @@
                 const data = await response.json();
 
                 if (data.valid === true) {
-                    // الكود صحيح، تحديث المؤقت بالوقت الحقيقي من السيرفر
+                    savedCode = inputCode;
+                    document.getElementById("currentCode").innerText = inputCode;
+                    document.getElementById("login-page").style.display = "none";
+                    document.getElementById("main-page").style.display = "block";
+                    
                     if (data.expires_at) {
                         startCountdown(data.expires_at);
                     }
                 } else {
-                    // الكود خاطئ، إرجاع المستخدم للواجهة الأولى
-                    document.getElementById("main-page").style.display = "none";
-                    document.getElementById("login-page").style.display = "block";
-                    
-                    let msg = "مفتاح غير صالح أو منتهي";
-                    if (data.reason === "code_not_found") msg = "هذا المفتاح غير موجود في النظام";
-                    if (data.reason === "code_expired") msg = "هذا المفتاح منتهي الصلاحية";
-                    if (data.reason === "max_devices_reached") msg = "هذا المفتاح وصل للحد الأقصى للأجهزة";
+                    // عرض الرسائل المطلوبة بالضبط
+                    let msg = "مفتاح غير صالح"; 
+                    if (data.reason === "code_expired") {
+                        msg = "مفتاح منتهي صلاحية";
+                    }
                     
                     errorText.innerText = msg;
-                    errorDiv.style.display = "flex";
+                    errorDiv.style.display = "block"; // إظهار الرسالة تحت الخانة
+                    mainBtn.innerText = "فتح";
                 }
             } catch (error) {
-                // السيرفر نائم أو لا يوجد إنترنت
-                document.getElementById("main-page").style.display = "none";
-                document.getElementById("login-page").style.display = "block";
-                errorText.innerText = "تعذر التحقق من المفتاح، يرجى المحاولة لاحقاً.";
-                errorDiv.style.display = "flex";
+                errorText.innerText = "تعذر الاتصال بالسيرفر. يرجى المحاولة بعد 30 ثانية.";
+                errorDiv.style.display = "block"; 
+                mainBtn.innerText = "فتح";
             }
         }
 
@@ -423,4 +425,9 @@
                     countdownText.innerText = `${displayHours}:${displayMinutes}:${displaySeconds}`;
                 }
 
- 
+                const totalMaxTime = 24 * 60 * 60 * 1000;
+                let percentage = distance / totalMaxTime;
+                if(percentage > 1) percentage = 1;
+                
+                const offset = circumference - (percentage * circumference);
+                progressR
