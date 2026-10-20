@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اتصال مباشر - Happ</title>
+    <title>بوابة الدخول - Happ</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #0d1117; color: #c9d1d9; text-align: center; padding: 40px 20px; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .container { background-color: #161b22; padding: 40px 20px; border-radius: 12px; max-width: 380px; width: 100%; box-shadow: 0 8px 24px rgba(0,0,0,0.5); border: 1px solid #30363d; }
         h1 { color: #58a6ff; font-size: 22px; margin-bottom: 10px; }
         p { color: #8b949e; margin-bottom: 20px; font-size: 14px; }
+        input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #30363d; background-color: #0d1117; color: white; font-size: 16px; text-align: center; }
+        button { width: 100%; padding: 12px; background-color: #238636; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #2ea043; }
+        .error { color: #f85149; font-size: 14px; margin-top: 15px; display: none; font-weight: bold; }
+        
+        #main-page { display: none; }
         
         .btn-connect { 
             display: block; 
@@ -21,22 +27,111 @@
             border-radius: 8px; 
             margin-top: 20px; 
             cursor: pointer;
-            transition: background-color 0.3s;
         }
         .btn-connect:hover { background-color: #2ea043; }
+        
+        .timer-box { background-color: #21262d; border: 1px dashed #58a6ff; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .timer-title { font-size: 14px; color: #8b949e; margin-bottom: 5px; }
+        .timer-value { font-size: 20px; color: #3fb950; font-weight: bold; font-family: monospace; }
+        
+        .expired-msg {
+            color: #f85149; font-size: 18px; font-weight: bold; margin-top: 20px;
+            padding: 15px; border: 1px solid #f85149; border-radius: 8px;
+            background-color: rgba(248, 81, 73, 0.1); display: none;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>اتصال مباشر بالسيرفر</h1>
-        <p>اضغط على الزر أدناه لفتح تطبيق Happ وإضافة السيرفر تلقائياً.</p>
-        
-        <!-- رابط مباشر 100% مع الاسم الجديد -->
-        <a href="hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">
-            اتصال الآن ⚡
-        </a>
+    <div class="container" id="login-page">
+        <h1>🔒 بوابة الدخول</h1>
+        <p>أدخل الكود الخاص بك للتحقق من الاشتراك.</p>
+        <input type="text" id="accessCode" placeholder="أدخل الكود هنا...">
+        <button onclick="checkCode()">تحقق ودخول</button>
+        <div class="error" id="errorMsg"></div>
     </div>
 
+    <div class="container" id="main-page">
+        <h1>✅ كود صحيح</h1>
+        <p>مرحباً بك، تم التحقق من الكود بنجاح.</p>
+        
+        <div class="timer-box" id="timer-box">
+            <div class="timer-title">⏳ الوقت المتبقي:</div>
+            <div class="timer-value" id="countdown">جاري الحساب...</div>
+        </div>
+
+        <!-- الزر يوجه إلى open.html (هذه هي الطريقة التي كانت تعمل) -->
+        <a href="open.html" class="btn-connect" id="connect-btn">
+            اتصال الآن ⚡
+        </a>
+
+        <div class="expired-msg" id="expired-msg">
+            🛑 انتهى اشتراك هذا الكود.
+        </div>
+    </div>
+
+    <script>
+        const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
+        let timerInterval;
+
+        function getDeviceId() {
+            let deviceId = localStorage.getItem('client_device_id');
+            if (!deviceId) {
+                deviceId = 'DEV-' + Math.random().toString(36).substring(2, 15);
+                localStorage.setItem('client_device_id', deviceId);
+            }
+            return deviceId;
+        }
+
+        async function checkCode() {
+            const inputCode = document.getElementById("accessCode").value.trim();
+            const deviceId = getDeviceId();
+            document.getElementById("errorMsg").style.display = "none";
+
+            try {
+                const response = await fetch(RENDER_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: inputCode, device_id: deviceId })
+                });
+                const data = await response.json();
+
+                if (data.valid === true) {
+                    document.getElementById("login-page").style.display = "none";
+                    document.getElementById("main-page").style.display = "block";
+                    if (data.expires_at) startCountdown(data.expires_at);
+                } else {
+                    document.getElementById("errorMsg").innerText = "❌ الكود غير صحيح أو منتهي.";
+                    document.getElementById("errorMsg").style.display = "block";
+                }
+            } catch (error) {
+                document.getElementById("errorMsg").innerText = "⚠️ خطأ في الاتصال بالسيرفر.";
+                document.getElementById("errorMsg").style.display = "block";
+            }
+        }
+
+        function startCountdown(expiryDateString) {
+            const countdownElement = document.getElementById("countdown");
+            const expiryDate = new Date(expiryDateString).getTime();
+            if(timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = expiryDate - now;
+                if (distance <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById("timer-box").style.display = "none";
+                    document.getElementById("connect-btn").style.display = "none";
+                    document.getElementById("expired-msg").style.display = "block";
+                    return;
+                }
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                countdownElement.innerText = `${days} يوم, ${hours} ساعة, ${minutes} دقيقة, ${seconds} ثانية`;
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
