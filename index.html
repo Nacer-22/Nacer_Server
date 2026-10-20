@@ -33,7 +33,7 @@
         <button onclick="checkCode()">تحقق ودخول</button>
         
         <div class="error" id="errorMsg"></div>
-        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر (قد يستغرق 30 ثانية إذا كان في وضع النوم)...</div>
+        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر (قد يستغرق 30 ثانية إذا كان نائماً)...</div>
     </div>
 
     <div class="container" id="main-page">
@@ -51,74 +51,95 @@
     </div>
 
     <script>
-        // تم ربط رابط سيرفر Render الخاص بك هنا
-        const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify"; 
-
+        // رابط سيرفر Render الخاص بك
+        const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
+        
         let timerInterval;
+
+        // دالة لإنشاء معرف جهاز وهمي وحفظه في المتصفح (لأن السيرفر يطلبه)
+        function getDeviceId() {
+            let deviceId = localStorage.getItem('client_device_id');
+            if (!deviceId) {
+                // إنشاء معرف عشوائي جديد إذا لم يكن موجوداً
+                deviceId = 'DEV-' + Math.random().toString(36).substring(2, 15);
+                localStorage.setItem('client_device_id', deviceId);
+            }
+            return deviceId;
+        }
 
         async function checkCode() {
             const inputCode = document.getElementById("accessCode").value.trim();
+            const deviceId = getDeviceId();
             
             document.getElementById("errorMsg").style.display = "none";
             document.getElementById("loadingMsg").style.display = "block";
 
             try {
-                // إرسال الكود إلى سيرفر Render
                 const response = await fetch(RENDER_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    // إرسال الكود في المتغير code
-                    body: JSON.stringify({ code: inputCode }) 
+                    body: JSON.stringify({ 
+                        code: inputCode, 
+                        device_id: deviceId 
+                    })
                 });
 
                 const data = await response.json();
 
-                // التحقق من رد السيرفر (بناءً على الكود الذي كتبناه في server.js)
-                if (data.success === true) {
+                // السيرفر الخاص بك يرسل "valid: true" وليس "success: true"
+                if (data.valid === true) {
                     document.getElementById("login-page").style.display = "none";
                     document.getElementById("main-page").style.display = "block";
                     
-                    // تشغيل المؤقت
-                    if (data.timeLeft) {
-                        startCountdown(data.timeLeft);
+                    // السيرفر يرسل تاريخ الانتهاء (expires_at)
+                    if (data.expires_at) {
+                        startCountdown(data.expires_at);
                     } else {
-                        document.getElementById("countdown").innerText = "مفعل (مدة غير محددة)";
+                        document.getElementById("countdown").innerText = "مفعل";
                     }
 
                 } else {
-                    document.getElementById("errorMsg").innerText = "❌ " + (data.message || "الكود غير صحيح أو منتهي.");
+                    // التعامل مع رسائل الخطأ التي يرسلها السيرفر الخاص بك
+                    let msg = "الكود غير صحيح أو منتهي.";
+                    if (data.reason === "code_not_found") msg = "هذا الكود غير موجود.";
+                    if (data.reason === "code_expired") msg = "هذا الكود منتهي الصلاحية.";
+                    if (data.reason === "max_devices_reached") msg = "هذا الكود وصل للحد الأقصى من الأجهزة.";
+                    if (data.reason === "code_disabled") msg = "هذا الكود تم إيقافه من الإدارة.";
+                    
+                    document.getElementById("errorMsg").innerText = "❌ " + msg;
                     document.getElementById("errorMsg").style.display = "block";
                 }
             } catch (error) {
-                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال بالسيرفر. (قد يكون السيرفر يستغرق وقتاً للاستيقاظ).";
+                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال بالسيرفر. قد يكون السيرفر نائماً، انتظر قليلاً وأعد المحاولة.";
                 document.getElementById("errorMsg").style.display = "block";
             } finally {
                 document.getElementById("loadingMsg").style.display = "none";
             }
         }
 
-        function startCountdown(secondsLeft) {
+        function startCountdown(expiryDateString) {
             const countdownElement = document.getElementById("countdown");
+            const expiryDate = new Date(expiryDateString).getTime();
             
             if(timerInterval) clearInterval(timerInterval);
             
-            let timeLeft = secondsLeft;
-
             timerInterval = setInterval(() => {
-                if (timeLeft <= 0) {
+                const now = new Date().getTime();
+                const distance = expiryDate - now;
+
+                if (distance < 0) {
                     clearInterval(timerInterval);
                     countdownElement.innerText = "انتهى الاشتراك!";
                     countdownElement.style.color = "#f85149";
                     return;
                 }
 
-                const days = Math.floor(timeLeft / (60 * 60 * 24));
-                const hours = Math.floor((timeLeft % (60 * 60 * 24)) / (60 * 60));
-                const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
-                const seconds = timeLeft % 60;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 countdownElement.innerText = `${days} يوم, ${hours} ساعة, ${minutes} دقيقة, ${seconds} ثانية`;
-                timeLeft--;
             }, 1000);
         }
     </script>
