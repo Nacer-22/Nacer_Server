@@ -3,80 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الدخول - Happ</title>
+    <title>Nacer_22 - بوابة الدخول</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #0d1117; color: #c9d1d9; text-align: center; padding: 40px 20px; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .container { background-color: #161b22; padding: 40px 20px; border-radius: 12px; max-width: 380px; width: 100%; box-shadow: 0 8px 24px rgba(0,0,0,0.5); border: 1px solid #30363d; }
-        h1 { color: #58a6ff; font-size: 22px; margin-bottom: 10px; }
-        p { color: #8b949e; margin-bottom: 20px; font-size: 14px; }
-        input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #30363d; background-color: #0d1117; color: white; font-size: 16px; text-align: center; }
-        button { width: 100%; padding: 12px; background-color: #238636; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        button:hover { background-color: #2ea043; }
-        .error { color: #f85149; font-size: 14px; margin-top: 15px; display: none; font-weight: bold; }
-        .loading { color: #58a6ff; font-size: 14px; margin-top: 15px; display: none; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-image: url('https://files.catbox.moe/lbr98b.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7); /* تعتيم الخلفية */
+            z-index: 1;
+        }
+        .glass-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(230, 57, 70, 0.3);
+            padding: 30px 20px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 20px rgba(230, 57, 70, 0.2);
+            text-align: center;
+        }
+        .profile-section {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid #e63946;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(230, 57, 70, 0.6);
+        }
+        .profile-name {
+            font-size: 26px;
+            font-weight: 900;
+            color: #fff;
+            margin-top: 15px;
+            text-shadow: 0 2px 10px rgba(230, 57, 70, 0.8);
+            letter-spacing: 1px;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #e63946;
+            box-shadow: 0 0 10px rgba(230, 57, 70, 0.3);
+        }
+        button {
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            background-color: #e63946;
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover { background-color: #d62828; }
+        .btn-paste { background-color: #333; border: 1px solid #555; padding: 0 20px; font-size: 20px;}
+        .btn-paste:hover { background-color: #444; }
+        .btn-login { width: 100%; font-size: 18px; }
         
+        .error-msg { color: #ff6b6b; font-size: 14px; margin-top: 15px; display: none; font-weight: 700; }
+        .loading-msg { color: #4dabf7; font-size: 14px; margin-top: 15px; display: none; }
+        
+        /* الشاشة الثانية */
         #main-page { display: none; }
         
-        /* تنسيق زر الاتصال */
-        .btn-connect { 
-            display: block; 
-            background-color: #238636; 
-            color: white; 
-            text-decoration: none; 
-            padding: 15px; 
-            font-size: 18px; 
-            font-weight: bold; 
-            border-radius: 8px; 
-            margin-top: 20px; 
-            cursor: pointer;
-            transition: background-color 0.3s;
+        .timer-box {
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px dashed #e63946;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
-        .btn-connect:hover {
-            background-color: #2ea043;
-        }
+        .timer-title { font-size: 14px; color: #aaa; margin-bottom: 5px; }
+        .timer-value { font-size: 22px; color: #e63946; font-weight: 900; font-family: monospace; }
         
-        .timer-box { background-color: #21262d; border: 1px dashed #58a6ff; padding: 15px; border-radius: 8px; margin-top: 20px; }
-        .timer-title { font-size: 14px; color: #8b949e; margin-bottom: 5px; }
-        .timer-value { font-size: 20px; color: #3fb950; font-weight: bold; font-family: monospace; }
+        .code-display {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .code-box {
+            flex: 1;
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid #555;
+            padding: 14px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 18px;
+            color: #4dabf7;
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        .btn-copy { background-color: #333; border: 1px solid #555; padding: 0 20px; font-size: 20px; }
+        .btn-copy:hover { background-color: #444; }
+        
+        .btn-connect {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #e63946, #b31217);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 900;
+            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
+            transition: 0.3s;
+        }
+        .btn-connect:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(230, 57, 70, 0.6); }
+        
+        .expired-msg {
+            color: #ff6b6b; font-size: 18px; font-weight: 900; margin-top: 20px;
+            padding: 15px; border: 2px solid #ff6b6b; border-radius: 12px;
+            background-color: rgba(255, 107, 107, 0.1); display: none;
+        }
     </style>
 </head>
 <body>
 
-    <!-- شاشة إدخال الكود -->
-    <div class="container" id="login-page">
-        <h1>🔒 بوابة الدخول</h1>
-        <p>أدخل الكود الخاص بك للتحقق من الاشتراك.</p>
+    <!-- شاشة تسجيل الدخول -->
+    <div class="glass-container" id="login-page">
+        <div class="profile-section">
+            <img src="https://files.catbox.moe/lbr98b.png" alt="Nacer_22" class="profile-img">
+            <div class="profile-name">Nacer_22</div>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="accessCode" placeholder="أدخل الكود هنا...">
+            <button class="btn-paste" onclick="pasteCode()" title="لصق">📋</button>
+        </div>
         
-        <input type="text" id="accessCode" placeholder="أدخل الكود هنا...">
-        <button onclick="checkCode()">تحقق ودخول</button>
+        <button class="btn-login" onclick="checkCode()">تسجيل دخول</button>
         
-        <div class="error" id="errorMsg"></div>
-        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر...</div>
+        <div class="error-msg" id="errorMsg"></div>
+        <div class="loading-msg" id="loadingMsg">⏳ جاري التحقق...</div>
     </div>
 
-    <!-- الشاشة الثانية بعد نجاح الدخول -->
-    <div class="container" id="main-page">
-        <h1>✅ كود صحيح</h1>
-        <p>مرحباً بك، تم التحقق من الكود بنجاح.</p>
+    <!-- الشاشة الثانية بعد التحقق -->
+    <div class="glass-container" id="main-page">
+        <div class="profile-section">
+            <img src="https://files.catbox.moe/lbr98b.png" alt="Nacer_22" class="profile-img">
+            <div class="profile-name">Nacer_22</div>
+        </div>
         
-        <div class="timer-box">
-            <div class="timer-title">⏳ الوقت المتبقي لانتهاء الكود:</div>
+        <div class="timer-box" id="timer-box">
+            <div class="timer-title">⏳ الوقت المتبقي:</div>
             <div class="timer-value" id="countdown">جاري الحساب...</div>
         </div>
 
-        <!-- زر الاتصال المباشر (يستخدم رابط happ:// لفتح التطبيق فوراً) -->
-        <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Aimhack-Server" class="btn-connect">
+        <div class="code-display">
+            <div class="code-box" id="currentCode">Nacer-xxxx</div>
+            <button class="btn-copy" onclick="copyCode()" title="نسخ الكود">📄</button>
+        </div>
+
+        <!-- زر يوجه إلى open.html (الذي يفتح التطبيق) -->
+        <a href="open.html" class="btn-connect" id="connect-btn">
             اتصال الآن ⚡
         </a>
+
+        <div class="expired-msg" id="expired-msg">
+            🛑 انتهى اشتراك هذا الكود.
+        </div>
     </div>
 
     <script>
-        // رابط سيرفر Render الخاص بك
         const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
-        
         let timerInterval;
+        let lastCode = "";
 
-        // دالة لإنشاء معرف جهاز وهمي
         function getDeviceId() {
             let deviceId = localStorage.getItem('client_device_id');
             if (!deviceId) {
@@ -86,12 +220,36 @@
             return deviceId;
         }
 
+        async function pasteCode() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById("accessCode").value = text;
+            } catch (err) {
+                alert("تعذر اللصق. يرجى اللصق يدوياً.");
+            }
+        }
+
+        function copyCode() {
+            navigator.clipboard.writeText(lastCode).then(() => {
+                alert("✅ تم نسخ الكود بنجاح!\nلا تنسَ حفظه.");
+            }).catch(err => {
+                alert("تعذر النسخ.");
+            });
+        }
+
         async function checkCode() {
             const inputCode = document.getElementById("accessCode").value.trim();
             const deviceId = getDeviceId();
             
             document.getElementById("errorMsg").style.display = "none";
             document.getElementById("loadingMsg").style.display = "block";
+
+            if (!inputCode) {
+                document.getElementById("errorMsg").innerText = "❌ يرجى إدخال الكود أولاً.";
+                document.getElementById("errorMsg").style.display = "block";
+                document.getElementById("loadingMsg").style.display = "none";
+                return;
+            }
 
             try {
                 const response = await fetch(RENDER_API_URL, {
@@ -103,13 +261,14 @@
                 const data = await response.json();
 
                 if (data.valid === true) {
+                    lastCode = inputCode;
+                    document.getElementById("currentCode").innerText = inputCode;
+                    
                     document.getElementById("login-page").style.display = "none";
                     document.getElementById("main-page").style.display = "block";
                     
                     if (data.expires_at) {
                         startCountdown(data.expires_at);
-                    } else {
-                        document.getElementById("countdown").innerText = "مفعل";
                     }
                 } else {
                     let msg = "الكود غير صحيح أو منتهي.";
@@ -138,10 +297,11 @@
                 const now = new Date().getTime();
                 const distance = expiryDate - now;
 
-                if (distance < 0) {
+                if (distance <= 0) {
                     clearInterval(timerInterval);
-                    countdownElement.innerText = "انتهى الاشتراك!";
-                    countdownElement.style.color = "#f85149";
+                    document.getElementById("timer-box").style.display = "none";
+                    document.getElementById("connect-btn").style.display = "none";
+                    document.getElementById("expired-msg").style.display = "block";
                     return;
                 }
 
@@ -154,6 +314,5 @@
             }, 1000);
         }
     </script>
-
 </body>
 </html>
