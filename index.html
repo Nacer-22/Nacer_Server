@@ -3,71 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اتصال مباشر - Happ</title>
+    <title>بوابة الدخول - Happ</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #0d1117; 
-            color: #c9d1d9; 
-            text-align: center; 
-            padding: 40px 20px; 
-            margin: 0;
-        }
-        .container { 
-            background-color: #161b22; 
-            padding: 40px 20px; 
-            border-radius: 12px; 
-            max-width: 400px; 
-            margin: auto; 
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            border: 1px solid #30363d;
-        }
-        h1 { 
-            color: #58a6ff; 
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        p { 
-            color: #8b949e; 
-            margin-bottom: 30px; 
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .btn {
-            display: block;
-            background-color: #238636; 
-            color: white; 
-            text-decoration: none;
-            padding: 15px; 
-            font-size: 18px; 
-            font-weight: bold;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-            border: 1px solid rgba(240,246,252,0.1);
-        }
-        .btn:hover { 
-            background-color: #2ea043; 
-        }
-        .note {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #8b949e;
-        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #0d1117; color: #c9d1d9; text-align: center; padding: 40px 20px; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { background-color: #161b22; padding: 40px 20px; border-radius: 12px; max-width: 380px; width: 100%; box-shadow: 0 8px 24px rgba(0,0,0,0.5); border: 1px solid #30363d; }
+        h1 { color: #58a6ff; font-size: 22px; margin-bottom: 10px; }
+        p { color: #8b949e; margin-bottom: 20px; font-size: 14px; }
+        input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #30363d; background-color: #0d1117; color: white; font-size: 16px; text-align: center; }
+        button { width: 100%; padding: 12px; background-color: #238636; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #2ea043; }
+        .error { color: #f85149; font-size: 14px; margin-top: 15px; display: none; font-weight: bold; }
+        .loading { color: #58a6ff; font-size: 14px; margin-top: 15px; display: none; }
+        
+        #main-page { display: none; }
+        .btn-connect { display: block; background-color: #238636; color: white; text-decoration: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 8px; margin-top: 20px; }
+        
+        .timer-box { background-color: #21262d; border: 1px dashed #58a6ff; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .timer-title { font-size: 14px; color: #8b949e; margin-bottom: 5px; }
+        .timer-value { font-size: 20px; color: #3fb950; font-weight: bold; font-family: monospace; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>الاتصال المباشر بالسيرفر</h1>
-        <p>اضغط على الزر أدناه لفتح تطبيق Happ وإضافة السيرفر والاتصال فوراً.</p>
+    <div class="container" id="login-page">
+        <h1>🔒 بوابة الدخول</h1>
+        <p>أدخل الكود الخاص بك للتحقق من الاشتراك.</p>
         
-        <!-- رابط Happ المباشر -->
-        <a href="hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Aimhack-Server" class="btn">
+        <input type="text" id="accessCode" placeholder="أدخل الكود هنا...">
+        <button onclick="checkCode()">تحقق ودخول</button>
+        
+        <div class="error" id="errorMsg"></div>
+        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر...</div>
+    </div>
+
+    <div class="container" id="main-page">
+        <h1>✅ كود صحيح</h1>
+        <p>مرحباً بك، تم التحقق من الكود بنجاح.</p>
+        
+        <div class="timer-box">
+            <div class="timer-title">⏳ الوقت المتبقي لانتهاء الكود:</div>
+            <div class="timer-value" id="countdown">جاري الحساب...</div>
+        </div>
+
+        <a href="hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Aimhack-Server" class="btn-connect">
             اتصال الآن ⚡
         </a>
-
-        <p class="note">ملاحظة: سيطلب منك الهاتف تأكيد فتح التطبيق.</p>
     </div>
+
+    <script>
+        // ⚠️ هنا ضع رابط سيرفر Render الخاص بك
+        // يرجى استبدال الرابط بالرابط الخاص بمشروعك على Render (الذي يظهر في أعلى متصفحك)
+        const RENDER_API_URL = "https://my-system-yn0o.onrender.com/api/verify";
+
+        let timerInterval;
+
+        async function checkCode() {
+            const inputCode = document.getElementById("accessCode").value.trim();
+            
+            document.getElementById("errorMsg").style.display = "none";
+            document.getElementById("loadingMsg").style.display = "block";
+
+            try {
+                // إرسال الكود إلى سيرفر Render الذي أنشأناه
+                const response = await fetch(RENDER_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: inputCode })
+                });
+
+                const data = await response.json();
+
+                // التحقق من رد السيرفر
+                if (data.success === true) {
+                    // الكود صحيح
+                    document.getElementById("login-page").style.display = "none";
+                    document.getElementById("main-page").style.display = "block";
+                    
+                    // تشغيل المؤقت بناءً على الوقت المتبقي الذي يرسله السيرفر
+                    if (data.timeLeft) {
+                        startCountdown(data.timeLeft);
+                    } else {
+                        document.getElementById("countdown").innerText = "مفعل";
+                    }
+
+                } else {
+                    // الكود خاطئ أو منتهي
+                    document.getElementById("errorMsg").innerText = "❌ " + (data.message || "الكود غير صحيح أو منتهي.");
+                    document.getElementById("errorMsg").style.display = "block";
+                }
+            } catch (error) {
+                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال بالسيرفر. تأكد من تشغيل السيرفر على Render.";
+                document.getElementById("errorMsg").style.display = "block";
+            } finally {
+                document.getElementById("loadingMsg").style.display = "none";
+            }
+        }
+
+        function startCountdown(secondsLeft) {
+            const countdownElement = document.getElementById("countdown");
+            
+            if(timerInterval) clearInterval(timerInterval);
+            
+            let timeLeft = secondsLeft;
+
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    countdownElement.innerText = "انتهى الاشتراك!";
+                    countdownElement.style.color = "#f85149";
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (60 * 60 * 24)) / (60 * 60));
+                const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
+                const seconds = timeLeft % 60;
+
+                countdownElement.innerText = `${days} يوم, ${hours} ساعة, ${minutes} دقيقة, ${seconds} ثانية`;
+                timeLeft--;
+            }, 1000);
+        }
+    </script>
 
 </body>
 </html>
