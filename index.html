@@ -33,7 +33,7 @@
         <button onclick="checkCode()">تحقق ودخول</button>
         
         <div class="error" id="errorMsg"></div>
-        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر...</div>
+        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر (قد يستغرق 30 ثانية إذا كان في وضع النوم)...</div>
     </div>
 
     <div class="container" id="main-page">
@@ -51,9 +51,8 @@
     </div>
 
     <script>
-        // ⚠️ هنا ضع رابط سيرفر Render الخاص بك
-        // يرجى استبدال الرابط بالرابط الخاص بمشروعك على Render (الذي يظهر في أعلى متصفحك)
-        const RENDER_API_URL = "https://my-system-yn0o.onrender.com/api/verify";
+        // تم ربط رابط سيرفر Render الخاص بك هنا
+        const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify"; 
 
         let timerInterval;
 
@@ -64,35 +63,34 @@
             document.getElementById("loadingMsg").style.display = "block";
 
             try {
-                // إرسال الكود إلى سيرفر Render الذي أنشأناه
+                // إرسال الكود إلى سيرفر Render
                 const response = await fetch(RENDER_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ code: inputCode })
+                    // إرسال الكود في المتغير code
+                    body: JSON.stringify({ code: inputCode }) 
                 });
 
                 const data = await response.json();
 
-                // التحقق من رد السيرفر
+                // التحقق من رد السيرفر (بناءً على الكود الذي كتبناه في server.js)
                 if (data.success === true) {
-                    // الكود صحيح
                     document.getElementById("login-page").style.display = "none";
                     document.getElementById("main-page").style.display = "block";
                     
-                    // تشغيل المؤقت بناءً على الوقت المتبقي الذي يرسله السيرفر
+                    // تشغيل المؤقت
                     if (data.timeLeft) {
                         startCountdown(data.timeLeft);
                     } else {
-                        document.getElementById("countdown").innerText = "مفعل";
+                        document.getElementById("countdown").innerText = "مفعل (مدة غير محددة)";
                     }
 
                 } else {
-                    // الكود خاطئ أو منتهي
                     document.getElementById("errorMsg").innerText = "❌ " + (data.message || "الكود غير صحيح أو منتهي.");
                     document.getElementById("errorMsg").style.display = "block";
                 }
             } catch (error) {
-                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال بالسيرفر. تأكد من تشغيل السيرفر على Render.";
+                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال بالسيرفر. (قد يكون السيرفر يستغرق وقتاً للاستيقاظ).";
                 document.getElementById("errorMsg").style.display = "block";
             } finally {
                 document.getElementById("loadingMsg").style.display = "none";
