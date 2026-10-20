@@ -3,55 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الدخول</title>
+    <title>اتصال مباشر - Happ</title>
     <style>
-        body { font-family: sans-serif; background-color: #0d1117; color: white; text-align: center; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .box { background-color: #161b22; padding: 30px; border-radius: 10px; border: 1px solid #30363d; width: 300px; }
-        input { width: 90%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #30363d; background: #0d1117; color: white; text-align: center; }
-        button { width: 100%; padding: 12px; background-color: #238636; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        button:hover { background-color: #2ea043; }
-        .error { color: #f85149; margin-top: 10px; display: none; }
+        body { background-color: #0d1117; color: white; font-family: sans-serif; text-align: center; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background-color: #161b22; padding: 40px; border-radius: 12px; border: 1px solid #30363d; width: 300px; }
+        h1 { color: #58a6ff; font-size: 20px; }
+        .btn { display: block; background-color: #238636; color: white; text-decoration: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 8px; margin-top: 20px; cursor: pointer; }
+        .btn:hover { background-color: #2ea043; }
     </style>
 </head>
 <body>
 
     <div class="box">
-        <h2>أدخل الكود للاتصال</h2>
-        <input type="text" id="code" placeholder="أدخل الكود هنا...">
-        <button onclick="checkAndOpen()">اتصال الآن ⚡</button>
-        <div class="error" id="error"></div>
+        <h1>اتصال مباشر بالسيرفر</h1>
+        <p>اضغط على الزر لفتح التطبيق فوراً</p>
+        
+        <!-- هذا الرابط يفتح Happ مباشرة (استخدمنا intent لتجاوز حظر كروم) -->
+        <a href="intent://xAMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Intent;scheme=hysteria2;package=com.happproxy;end" class="btn">
+            فتح التطبيق ⚡
+        </a>
     </div>
-
-    <script>
-        async function checkAndOpen() {
-            const code = document.getElementById("code").value.trim();
-            const errorDiv = document.getElementById("error");
-            errorDiv.style.display = "none";
-
-            try {
-                // التحقق من السيرفر
-                const res = await fetch("https://key-system-yn0o.onrender.com/api/verify", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ code: code, device_id: "device-" + Math.random() })
-                });
-                
-                const data = await res.json();
-
-                if (data.valid === true) {
-                    // إذا كان الكود صحيحاً، افتح التطبيق مباشرة باستخدام intent
-                    const link = "intent://xAMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Intent;scheme=hysteria2;package=com.happproxy;end";
-                    window.location.href = link;
-                } else {
-                    errorDiv.innerText = "❌ الكود غير صحيح أو منتهي الصلاحية.";
-                    errorDiv.style.display = "block";
-                }
-            } catch (e) {
-                errorDiv.innerText = "⚠️ السيرفر نائم، انتظر 30 ثانية وحاول مجدداً.";
-                errorDiv.style.display = "block";
-            }
-        }
-    </script>
 
 </body>
 </html>
