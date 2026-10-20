@@ -33,7 +33,7 @@
         <button onclick="checkCode()">تحقق ودخول</button>
         
         <div class="error" id="errorMsg"></div>
-        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر (قد يستغرق 30 ثانية إذا كان نائماً)...</div>
+        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر...</div>
     </div>
 
     <div class="container" id="main-page">
@@ -56,11 +56,10 @@
         
         let timerInterval;
 
-        // دالة لإنشاء معرف جهاز وهمي وحفظه في المتصفح (لأن السيرفر يطلبه)
+        // دالة لإنشاء معرف جهاز وهمي (لأن السيرفر يطلبه)
         function getDeviceId() {
             let deviceId = localStorage.getItem('client_device_id');
             if (!deviceId) {
-                // إنشاء معرف عشوائي جديد إذا لم يكن موجوداً
                 deviceId = 'DEV-' + Math.random().toString(36).substring(2, 15);
                 localStorage.setItem('client_device_id', deviceId);
             }
@@ -86,12 +85,10 @@
 
                 const data = await response.json();
 
-                // السيرفر الخاص بك يرسل "valid: true" وليس "success: true"
                 if (data.valid === true) {
                     document.getElementById("login-page").style.display = "none";
                     document.getElementById("main-page").style.display = "block";
                     
-                    // السيرفر يرسل تاريخ الانتهاء (expires_at)
                     if (data.expires_at) {
                         startCountdown(data.expires_at);
                     } else {
@@ -99,18 +96,17 @@
                     }
 
                 } else {
-                    // التعامل مع رسائل الخطأ التي يرسلها السيرفر الخاص بك
                     let msg = "الكود غير صحيح أو منتهي.";
                     if (data.reason === "code_not_found") msg = "هذا الكود غير موجود.";
                     if (data.reason === "code_expired") msg = "هذا الكود منتهي الصلاحية.";
                     if (data.reason === "max_devices_reached") msg = "هذا الكود وصل للحد الأقصى من الأجهزة.";
-                    if (data.reason === "code_disabled") msg = "هذا الكود تم إيقافه من الإدارة.";
+                    if (data.reason === "code_disabled") msg = "هذا الكود تم إيقافه.";
                     
                     document.getElementById("errorMsg").innerText = "❌ " + msg;
                     document.getElementById("errorMsg").style.display = "block";
                 }
             } catch (error) {
-                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال بالسيرفر. قد يكون السيرفر نائماً، انتظر قليلاً وأعد المحاولة.";
+                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال. السيرفر قد يكون نائماً، انتظر 30 ثانية وأعد المحاولة.";
                 document.getElementById("errorMsg").style.display = "block";
             } finally {
                 document.getElementById("loadingMsg").style.display = "none";
