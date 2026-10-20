@@ -157,14 +157,14 @@
             <button class="btn-copy" onclick="copyCode()" title="نسخ الكود">📄</button>
         </div>
 
-        <!-- زر الاتصال المباشر (نفس الكود الذي كان يعمل) -->
+        <!-- زر الاتصال المباشر -->
         <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">
             اتصال الآن ⚡
         </a>
     </div>
 
     <script>
-        // رابط سيرفر Render الخاص بك (لم يتغير)
+        // رابط سيرفر Render الخاص بك
         const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
         
         let timerInterval;
@@ -254,48 +254,6 @@
                     clearInterval(timerInterval);
                     countdownElement.innerText = "انتهى الاشتراك!";
                     countdownElement.style.color = "#f85149";
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                countdownElement.innerText = `${days} يوم, ${hours} ساعة, ${minutes} دقيقة, ${seconds} ثانية`;
-            }, 1000);
-        }
-    </script>
-</body>
-</html>ed") msg = "هذا الكود منتهي الصلاحية.";
-                    if (data.reason === "max_devices_reached") msg = "هذا الكود وصل للحد الأقصى من الأجهزة.";
-                    
-                    document.getElementById("errorMsg").innerText = "❌ " + msg;
-                    document.getElementById("errorMsg").style.display = "block";
-                }
-            } catch (error) {
-                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال. السيرفر قد يكون نائماً، انتظر 30 ثانية وأعد المحاولة.";
-                document.getElementById("errorMsg").style.display = "block";
-            } finally {
-                document.getElementById("loadingMsg").style.display = "none";
-            }
-        }
-
-        function startCountdown(expiryDateString) {
-            const countdownElement = document.getElementById("countdown");
-            const expiryDate = new Date(expiryDateString).getTime();
-            
-            if(timerInterval) clearInterval(timerInterval);
-            
-            timerInterval = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = expiryDate - now;
-
-                if (distance <= 0) {
-                    clearInterval(timerInterval);
-                    document.getElementById("timer-box").style.display = "none";
-                    document.getElementById("connect-btn").style.display = "none";
-                    document.getElementById("expired-msg").style.display = "block";
                     return;
                 }
 
