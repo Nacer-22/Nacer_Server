@@ -28,19 +28,12 @@
             border-radius: 8px; 
             margin-top: 20px; 
             cursor: pointer;
-            transition: background-color 0.3s;
         }
         .btn-connect:hover { background-color: #2ea043; }
         
         .timer-box { background-color: #21262d; border: 1px dashed #58a6ff; padding: 15px; border-radius: 8px; margin-top: 20px; }
         .timer-title { font-size: 14px; color: #8b949e; margin-bottom: 5px; }
         .timer-value { font-size: 20px; color: #3fb950; font-weight: bold; font-family: monospace; }
-        
-        .expired-msg {
-            color: #f85149; font-size: 18px; font-weight: bold; margin-top: 20px;
-            padding: 15px; border: 1px solid #f85149; border-radius: 8px;
-            background-color: rgba(248, 81, 73, 0.1); display: none;
-        }
     </style>
 </head>
 <body>
@@ -53,7 +46,7 @@
         <button onclick="checkCode()">تحقق ودخول</button>
         
         <div class="error" id="errorMsg"></div>
-        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر...</div>
+        <div class="loading" id="loadingMsg">⏳ جاري الاتصال...</div>
     </div>
 
     <div class="container" id="main-page">
@@ -65,14 +58,10 @@
             <div class="timer-value" id="countdown">جاري الحساب...</div>
         </div>
 
-        <!-- الرابط المباشر الذي يفتح Happ (بدون رسائل) -->
+        <!-- هذا هو الرابط المباشر الذي كان يعمل في البداية -->
         <a href="hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server-VIP" class="btn-connect" id="connect-btn">
             اتصال الآن ⚡
         </a>
-
-        <div class="expired-msg" id="expired-msg">
-            🛑 انتهى اشتراك هذا الكود، يرجى شراء كود جديد.
-        </div>
     </div>
 
     <script>
@@ -110,20 +99,13 @@
                     
                     if (data.expires_at) {
                         startCountdown(data.expires_at);
-                    } else {
-                        document.getElementById("countdown").innerText = "مفعل";
                     }
                 } else {
-                    let msg = "الكود غير صحيح أو منتهي.";
-                    if (data.reason === "code_not_found") msg = "هذا الكود غير موجود.";
-                    if (data.reason === "code_expired") msg = "هذا الكود منتهي الصلاحية.";
-                    if (data.reason === "max_devices_reached") msg = "هذا الكود وصل للحد الأقصى من الأجهزة.";
-                    
-                    document.getElementById("errorMsg").innerText = "❌ " + msg;
+                    document.getElementById("errorMsg").innerText = "❌ الكود غير صحيح أو منتهي.";
                     document.getElementById("errorMsg").style.display = "block";
                 }
             } catch (error) {
-                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال. السيرفر قد يكون نائماً، انتظر 30 ثانية وأعد المحاولة.";
+                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال. انتظر قليلاً وحاول مجدداً.";
                 document.getElementById("errorMsg").style.display = "block";
             } finally {
                 document.getElementById("loadingMsg").style.display = "none";
@@ -132,10 +114,6 @@
 
         function startCountdown(expiryDateString) {
             const countdownElement = document.getElementById("countdown");
-            const connectBtn = document.getElementById("connect-btn");
-            const timerBox = document.getElementById("timer-box");
-            const expiredMsg = document.getElementById("expired-msg");
-
             const expiryDate = new Date(expiryDateString).getTime();
             
             if(timerInterval) clearInterval(timerInterval);
@@ -146,9 +124,8 @@
 
                 if (distance <= 0) {
                     clearInterval(timerInterval);
-                    timerBox.style.display = "none";
-                    connectBtn.style.display = "none";
-                    expiredMsg.style.display = "block";
+                    document.getElementById("timer-box").style.display = "none";
+                    document.getElementById("connect-btn").style.display = "none";
                     return;
                 }
 
