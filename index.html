@@ -37,6 +37,18 @@
         .timer-box { background-color: #21262d; border: 1px dashed #58a6ff; padding: 15px; border-radius: 8px; margin-top: 20px; }
         .timer-title { font-size: 14px; color: #8b949e; margin-bottom: 5px; }
         .timer-value { font-size: 20px; color: #3fb950; font-weight: bold; font-family: monospace; }
+        
+        .expired-msg {
+            color: #f85149;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #f85149;
+            border-radius: 8px;
+            background-color: rgba(248, 81, 73, 0.1);
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -56,20 +68,24 @@
         <h1>✅ كود صحيح</h1>
         <p>مرحباً بك، تم التحقق من الكود بنجاح.</p>
         
-        <div class="timer-box">
+        <div class="timer-box" id="timer-box">
             <div class="timer-title">⏳ الوقت المتبقي لانتهاء الكود:</div>
             <div class="timer-value" id="countdown">جاري الحساب...</div>
         </div>
 
-        <!-- رابط intent يفتح Happ مباشرة (com.happproxy) ويمرر السيرفر -->
-        <a href="intent://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Intent;scheme=hysteria2;package=com.happproxy;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.happproxy;end" class="btn-connect">
+        <!-- الزر يوجه إلى صفحة open.html -->
+        <a href="open.html" class="btn-connect" id="connect-btn">
             اتصال الآن ⚡
         </a>
+
+        <!-- رسالة تظهر عند انتهاء الوقت -->
+        <div class="expired-msg" id="expired-msg">
+            🛑 انتهى اشتراك هذا الكود، يرجى شراء كود جديد.
+        </div>
     </div>
 
     <script>
         const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
-        
         let timerInterval;
 
         function getDeviceId() {
@@ -125,6 +141,10 @@
 
         function startCountdown(expiryDateString) {
             const countdownElement = document.getElementById("countdown");
+            const connectBtn = document.getElementById("connect-btn");
+            const timerBox = document.getElementById("timer-box");
+            const expiredMsg = document.getElementById("expired-msg");
+
             const expiryDate = new Date(expiryDateString).getTime();
             
             if(timerInterval) clearInterval(timerInterval);
@@ -133,10 +153,11 @@
                 const now = new Date().getTime();
                 const distance = expiryDate - now;
 
-                if (distance < 0) {
+                if (distance <= 0) {
                     clearInterval(timerInterval);
-                    countdownElement.innerText = "انتهى الاشتراك!";
-                    countdownElement.style.color = "#f85149";
+                    timerBox.style.display = "none";
+                    connectBtn.style.display = "none";
+                    expiredMsg.style.display = "block";
                     return;
                 }
 
