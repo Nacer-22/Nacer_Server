@@ -13,7 +13,6 @@
         button { width: 100%; padding: 12px; background-color: #238636; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
         button:hover { background-color: #2ea043; }
         .error { color: #f85149; font-size: 14px; margin-top: 15px; display: none; font-weight: bold; }
-        .loading { color: #58a6ff; font-size: 14px; margin-top: 15px; display: none; }
         
         #main-page { display: none; }
         
@@ -46,19 +45,18 @@
         <button onclick="checkCode()">تحقق ودخول</button>
         
         <div class="error" id="errorMsg"></div>
-        <div class="loading" id="loadingMsg">⏳ جاري الاتصال...</div>
     </div>
 
     <div class="container" id="main-page">
         <h1>✅ كود صحيح</h1>
-        <p>مرحباً بك، تم التحقق من الكود بنجاح.</p>
+        <p>مرحباً بك، يمكنك الآن الاتصال.</p>
         
         <div class="timer-box" id="timer-box">
-            <div class="timer-title">⏳ الوقت المتبقي لانتهاء الكود:</div>
+            <div class="timer-title">⏳ الوقت المتبقي:</div>
             <div class="timer-value" id="countdown">جاري الحساب...</div>
         </div>
 
-        <!-- هذا هو الرابط المباشر الذي كان يعمل في البداية -->
+        <!-- الرابط المباشر والنظيف 100% بدون أي جافاسكريبت -->
         <a href="hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server-VIP" class="btn-connect" id="connect-btn">
             اتصال الآن ⚡
         </a>
@@ -82,7 +80,6 @@
             const deviceId = getDeviceId();
             
             document.getElementById("errorMsg").style.display = "none";
-            document.getElementById("loadingMsg").style.display = "block";
 
             try {
                 const response = await fetch(RENDER_API_URL, {
@@ -105,10 +102,8 @@
                     document.getElementById("errorMsg").style.display = "block";
                 }
             } catch (error) {
-                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال. انتظر قليلاً وحاول مجدداً.";
+                document.getElementById("errorMsg").innerText = "⚠️ خطأ في الاتصال بالسيرفر.";
                 document.getElementById("errorMsg").style.display = "block";
-            } finally {
-                document.getElementById("loadingMsg").style.display = "none";
             }
         }
 
