@@ -17,7 +17,6 @@
         
         #main-page { display: none; }
         
-        /* تنسيق زر الاتصال ليكون كزر حقيقي */
         .btn-connect { 
             display: block; 
             background-color: #238636; 
@@ -42,7 +41,6 @@
 </head>
 <body>
 
-    <!-- شاشة إدخال الكود -->
     <div class="container" id="login-page">
         <h1>🔒 بوابة الدخول</h1>
         <p>أدخل الكود الخاص بك للتحقق من الاشتراك.</p>
@@ -54,7 +52,6 @@
         <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر...</div>
     </div>
 
-    <!-- الشاشة الثانية بعد نجاح الدخول -->
     <div class="container" id="main-page">
         <h1>✅ كود صحيح</h1>
         <p>مرحباً بك، تم التحقق من الكود بنجاح.</p>
@@ -64,19 +61,19 @@
             <div class="timer-value" id="countdown">جاري الحساب...</div>
         </div>
 
-        <!-- زر الاتصال المباشر (يفتح Happ فور الضغط) -->
-        <a href="hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Aimhack-Server" class="btn-connect">
+        <a href="javascript:void(0)" onclick="openHappDirectly()" class="btn-connect">
             اتصال الآن ⚡
         </a>
     </div>
 
     <script>
-        // رابط سيرفر Render الخاص بك
         const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
+        
+        // رابط السيرفر الخاص بك بصيغة Hysteria2
+        const SERVER_LINK = "hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Aimhack-Server";
         
         let timerInterval;
 
-        // دالة لإنشاء معرف جهاز وهمي
         function getDeviceId() {
             let deviceId = localStorage.getItem('client_device_id');
             if (!deviceId) {
@@ -152,6 +149,24 @@
 
                 countdownElement.innerText = `${days} يوم, ${hours} ساعة, ${minutes} دقيقة, ${seconds} ثانية`;
             }, 1000);
+        }
+
+        // دالة لفتح Happ مباشرة باستخدام الرابط العميق الصحيح
+        function openHappDirectly() {
+            // 1. نسخ الرابط كخطة بديلة
+            navigator.clipboard.writeText(SERVER_LINK).catch(() => {});
+            
+            // 2. إنشاء الرابط العميق الصحيح: happ://add/ + رابط السيرفر
+            const deepLink = "happ://add/" + SERVER_LINK;
+            
+            // 3. محاولة فتح التطبيق
+            window.location.href = deepLink;
+            
+            // 4. إذا لم يفتح التطبيق (لأن المتصفح منع الفتح التلقائي)، سنظهر تنبيهاً بعد ثانيتين
+            setTimeout(() => {
+                // هذا التنبيه سيظهر فقط إذا لم يغادر المستخدم الصفحة (أي أن التطبيق لم يفتح)
+                alert("إذا لم يفتح تطبيق Happ تلقائياً، فهذا يعني أن متصفحك يمنع الفتح التلقائي. لقد تم نسخ رابط السيرفر، يمكنك فتح Happ ولصقه يدوياً.");
+            }, 2000);
         }
     </script>
 
