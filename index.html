@@ -7,8 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
             font-family: 'Cairo', sans-serif;
+            background-color: #030303;
             background-image: url('https://files.catbox.moe/lbr98b.png');
             background-size: cover;
             background-position: center;
@@ -20,153 +22,281 @@
             min-height: 100vh;
             padding: 20px;
             position: relative;
+            overflow: hidden;
         }
+
         body::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
+            background: radial-gradient(circle at center, rgba(15, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
             z-index: 1;
         }
+        
         .container {
             position: relative;
             z-index: 2;
-            background: rgba(20, 20, 20, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(230, 57, 70, 0.3);
-            padding: 30px 20px;
-            border-radius: 20px;
-            max-width: 380px; 
-            width: 100%; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 20px rgba(230, 57, 70, 0.2);
-            text-align: center;
+            width: 100%;
+            max-width: 400px;
         }
-        .profile-section { margin-bottom: 20px; }
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid #e63946;
-            object-fit: cover;
-            box-shadow: 0 0 15px rgba(230, 57, 70, 0.6);
-        }
-        .profile-name {
-            font-size: 24px;
-            font-weight: 900;
-            color: #fff;
-            margin-top: 10px;
-            text-shadow: 0 2px 10px rgba(230, 57, 70, 0.8);
-        }
-        h1 { color: #58a6ff; font-size: 20px; margin-bottom: 10px; }
-        p { color: #8b949e; margin-bottom: 20px; font-size: 14px; }
-        
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        input { 
-            flex: 1;
-            padding: 12px; 
-            border-radius: 8px; 
-            border: 1px solid #444; 
-            background-color: rgba(0,0,0,0.6); 
-            color: white; 
-            font-size: 16px; 
-            text-align: center; 
-            font-family: 'Cairo', sans-serif;
-        }
-        input:focus { outline: none; border-color: #e63946; }
-        
-        .btn-paste { padding: 0 15px; background-color: #333; border: 1px solid #555; color: white; border-radius: 8px; cursor: pointer; font-size: 18px; }
-        .btn-paste:hover { background-color: #444; }
-        
-        .btn-submit { width: 100%; padding: 12px; background-color: #238636; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; font-family: 'Cairo', sans-serif; }
-        .btn-submit:hover { background-color: #2ea043; }
-        
-        .error { color: #f85149; font-size: 14px; margin-top: 15px; display: none; font-weight: bold; }
-        .loading { color: #58a6ff; font-size: 14px; margin-top: 15px; display: none; }
-        
-        #main-page { display: none; }
-        
-        .timer-box { background-color: rgba(0,0,0,0.6); border: 1px dashed #58a6ff; padding: 15px; border-radius: 8px; margin-top: 15px; }
-        .timer-title { font-size: 14px; color: #aaa; margin-bottom: 5px; }
-        .timer-value { font-size: 20px; color: #3fb950; font-weight: bold; font-family: monospace; }
-        
-        .code-display { display: flex; gap: 10px; margin-top: 15px; }
-        .code-box { flex: 1; background-color: rgba(0,0,0,0.6); border: 1px solid #555; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 16px; color: #4dabf7; text-align: center; letter-spacing: 1px; font-weight: bold; }
-        .btn-copy { padding: 0 15px; background-color: #333; border: 1px solid #555; color: white; border-radius: 8px; cursor: pointer; font-size: 18px; }
-        .btn-copy:hover { background-color: #444; }
 
-        .btn-connect { 
-            display: block; 
-            background: linear-gradient(135deg, #e63946, #b31217); 
-            color: white; 
-            text-decoration: none; 
-            padding: 15px; 
-            font-size: 18px; 
-            font-weight: bold; 
-            border-radius: 8px; 
-            margin-top: 20px; 
-            cursor: pointer;
-            transition: 0.3s;
+        /* ================= الشاشة الأولى ================= */
+        .top-banner {
+            border: 1px solid #e63946;
+            background-color: rgba(20, 10, 10, 0.6);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: right;
+            position: relative;
+            box-shadow: inset 0 0 15px rgba(230, 57, 70, 0.1);
         }
-        .btn-connect:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4); }
+        .top-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; height: 100%; width: 3px;
+            background-color: #e63946;
+            border-radius: 0 8px 8px 0;
+        }
+        .top-banner h3 { font-size: 16px; color: #fff; margin-bottom: 5px; }
+        .top-banner p { font-size: 12px; color: #aaa; margin-bottom: 10px; line-height: 1.5; }
+        .btn-telegram {
+            display: block; background-color: #111; color: #fff; text-decoration: none;
+            text-align: center; padding: 10px; border-radius: 6px; font-size: 14px;
+            border: 1px solid #333; transition: 0.3s;
+        }
+        .btn-telegram:hover { background-color: #e63946; border-color: #e63946; }
+        .btn-telegram span { color: #229ED9; font-weight: bold; margin-left: 5px; }
+
+        .profile-section { text-align: center; margin-bottom: 30px; }
+        .profile-img {
+            width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+            margin-bottom: 15px; box-shadow: 0 0 30px rgba(230, 57, 70, 0.3);
+            border: 2px solid #1a1a1a;
+        }
+        .profile-name { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        .subtitle { text-align: center; color: #666; font-size: 13px; margin-bottom: 25px; }
+
+        .input-label { display: flex; align-items: center; font-size: 14px; color: #e63946; margin-bottom: 8px; }
+        .input-label::before { content: '■'; font-size: 10px; margin-left: 5px; }
+        
+        .input-wrapper {
+            display: flex; border: 1px solid #e63946; border-radius: 8px;
+            overflow: hidden; background-color: #050505; margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.1);
+        }
+        .input-wrapper input {
+            flex: 1; background: transparent; border: none; padding: 15px;
+            color: #fff; font-size: 18px; font-family: monospace; text-align: center; direction: ltr;
+        }
+        .input-wrapper input:focus { outline: none; }
+        .input-wrapper button {
+            background-color: #111; color: #ccc; border: none; border-right: 1px solid #333;
+            padding: 0 20px; font-family: 'Cairo', sans-serif; font-size: 14px; cursor: pointer; transition: 0.3s;
+        }
+        .input-wrapper button:hover { background-color: #e63946; color: #fff; }
+
+        .error-container { display: none; align-items: center; color: #e63946; font-size: 13px; margin-bottom: 15px; }
+        .error-container::before { content: '■'; font-size: 10px; margin-left: 5px; }
+
+        .btn-open {
+            width: 100%; background-color: #111; color: #555; border: 1px solid #222;
+            padding: 16px; border-radius: 8px; font-family: 'Cairo', sans-serif;
+            font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-bottom: 20px;
+        }
+        .input-wrapper input:not(:placeholder-shown) ~ .btn-open {
+            background-color: #e63946; color: #fff; border-color: #e63946;
+            box-shadow: 0 5px 20px rgba(230, 57, 70, 0.3);
+        }
+
+        .footer { text-align: center; font-size: 12px; color: #555; line-height: 1.8; }
+        .footer a { color: #e63946; text-decoration: none; font-weight: bold; }
+
+        /* ================= الشاشة الثانية ================= */
+        #main-page { display: none; text-align: center; position: relative; }
+        
+        /* زر تحميل اللاحق (أعلى اليسار) */
+        .download-btn {
+            position: absolute;
+            top: -15px;
+            left: -10px;
+            background: linear-gradient(135deg, #e63946, #b31217);
+            color: #fff;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(230, 57, 70, 0.4);
+            z-index: 10;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.6);
+        }
+
+        /* دائرة الوقت */
+        .timer-circle-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin: 40px auto 30px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timer-circle-container svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.4));
+        }
+
+        .circle-bg { fill: none; stroke: #111; stroke-width: 6; }
+        .circle-progress {
+            fill: none; stroke: url(#redGradient); stroke-width: 6;
+            stroke-linecap: round; stroke-dasharray: 628; stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-content {
+            position: absolute;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            width: 100%; height: 100%;
+        }
+
+        .time-text {
+            font-size: 28px; font-weight: 900; font-family: monospace;
+            color: #fff; text-shadow: 0 0 15px rgba(230, 57, 70, 0.6);
+            direction: ltr; letter-spacing: 2px;
+        }
+
+        .time-label {
+            font-size: 12px; color: #e63946; margin-top: 5px;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        .code-display {
+            display: flex; border: 1px solid #333; border-radius: 8px;
+            overflow: hidden; margin-bottom: 30px; background-color: #050505;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+        .code-box {
+            flex: 1; padding: 15px; font-family: monospace; font-size: 16px;
+            color: #aaa; direction: ltr; text-align: center;
+        }
+        .btn-copy {
+            background-color: #111; color: #fff; border: none; border-right: 1px solid #333;
+            padding: 0 20px; font-family: 'Cairo', sans-serif; cursor: pointer; transition: 0.3s;
+        }
+        .btn-copy:hover { background-color: #222; color: #e63946; }
+
+        .btn-connect {
+            display: block;
+            background: linear-gradient(135deg, #e63946 0%, #850c16 100%);
+            color: white; text-decoration: none;
+            padding: 18px; font-size: 18px; font-weight: 900;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-connect::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn-connect:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(230, 57, 70, 0.5); }
+        .btn-connect:hover::after { left: 100%; }
     </style>
 </head>
 <body>
 
-    <!-- شاشة إدخال الكود -->
-    <div class="container" id="login-page">
-        <div class="profile-section">
-            <img src="https://files.catbox.moe/lbr98b.png" alt="Nacer_22" class="profile-img">
-            <div class="profile-name">Nacer_22</div>
+    <div class="container">
+        
+        <!-- الشاشة الأولى -->
+        <div id="login-page">
+            <div class="top-banner">
+                <h3>نحن ننتقل للتيليجرام 🚀</h3>
+                <p>لأي استفسار أو مشكلة، تواصل معنا مباشرة.</p>
+                <a href="https://t.me/Nacer_22" target="_blank" class="btn-telegram">
+                    <span>✈️</span> تواصل معنا على تيليجرام
+                </a>
+            </div>
+
+            <div class="profile-section">
+                <img src="https://files.catbox.moe/lbr98b.png" alt="Nacer_22" class="profile-img">
+                <div class="profile-name">Nacer_22</div>
+            </div>
+
+            <p class="subtitle">لا حاجة لحساب. لا حاجة لكلمة مرور. مفتاح فقط.</p>
+
+            <div class="input-label">مفتاح الوصول</div>
+            <div class="input-wrapper">
+                <input type="text" id="accessCode" placeholder="AMHK-XXXX-XXXX-XXXX" autocomplete="off">
+                <button onclick="pasteCode()">لصق</button>
+            </div>
+
+            <div class="error-container" id="errorMsg">
+                <span id="errorText">مفتاح غير صالح</span>
+            </div>
+
+            <button class="btn-open" onclick="checkCode()" id="mainBtn">فتح</button>
+
+            <div class="footer">
+                لا يوجد مفتاح؟ <a href="https://t.me/Nacer_22" target="_blank">تواصل مع البائع.</a><br>
+                يبدأ وقتك عندما تتصل.
+            </div>
         </div>
 
-        <p>أدخل الكود الخاص بك للتحقق من الاشتراك.</p>
-        
-        <div class="input-group">
-            <input type="text" id="accessCode" placeholder="أدخل الكود هنا...">
-            <button class="btn-paste" onclick="pasteCode()" title="لصق">📋</button>
-        </div>
-        
-        <button class="btn-submit" onclick="checkCode()">تحقق ودخول</button>
-        
-        <div class="error" id="errorMsg"></div>
-        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر...</div>
-    </div>
+        <!-- الشاشة الثانية -->
+        <div id="main-page">
+            
+            <!-- زر تحميل اللاحق (أعلى اليسار) -->
+            <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn">
+                اضغط هنا لتحميل اللاحق
+            </a>
 
-    <!-- الشاشة الثانية بعد نجاح الدخول -->
-    <div class="container" id="main-page">
-        <div class="profile-section">
-            <img src="https://files.catbox.moe/lbr98b.png" alt="Nacer_22" class="profile-img">
-            <div class="profile-name">Nacer_22</div>
-        </div>
-        
-        <h1>✅ كود صحيح</h1>
-        <p>مرحباً بك، تم التحقق من الكود بنجاح.</p>
-        
-        <div class="timer-box">
-            <div class="timer-title">⏳ الوقت المتبقي لانتهاء الكود:</div>
-            <div class="timer-value" id="countdown">جاري الحساب...</div>
+            <!-- الدائرة -->
+            <div class="timer-circle-container">
+                <svg>
+                    <defs>
+                        <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff4d4d" />
+                            <stop offset="50%" stop-color="#e63946" />
+                            <stop offset="100%" stop-color="#550000" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="circle-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="circle-progress" id="progressRing" cx="110" cy="110" r="100"></circle>
+                </svg>
+                <div class="timer-content">
+                    <div class="time-text" id="countdownText">00:00:00</div>
+                    <div class="time-label">الوقت المتبقي</div>
+                </div>
+            </div>
+
+            <div class="code-display">
+                <div class="code-box" id="currentCode">Nacer-xxxx</div>
+                <button class="btn-copy" onclick="copyCode()">نسخ</button>
+            </div>
+
+            <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">
+                اتصال الآن ⚡
+            </a>
         </div>
 
-        <!-- خانة عرض الكود وزر النسخ -->
-        <div class="code-display">
-            <div class="code-box" id="currentCode">Nacer-xxxx</div>
-            <button class="btn-copy" onclick="copyCode()" title="نسخ الكود">📄</button>
-        </div>
-
-        <!-- زر الاتصال المباشر -->
-        <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">
-            اتصال الآن ⚡
-        </a>
     </div>
 
     <script>
-        // رابط سيرفر Render الخاص بك
         const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
-        
         let timerInterval;
         let savedCode = "";
 
@@ -179,13 +309,12 @@
             return deviceId;
         }
 
-        // دوال اللصق والنسخ
         async function pasteCode() {
             try {
                 const text = await navigator.clipboard.readText();
                 document.getElementById("accessCode").value = text;
             } catch (err) {
-                alert("تعذر اللصق. يرجى اللصق يدوياً.");
+                alert("يرجى لصق الكود يدوياً");
             }
         }
 
@@ -198,9 +327,18 @@
         async function checkCode() {
             const inputCode = document.getElementById("accessCode").value.trim();
             const deviceId = getDeviceId();
+            const errorDiv = document.getElementById("errorMsg");
+            const mainBtn = document.getElementById("mainBtn");
             
-            document.getElementById("errorMsg").style.display = "none";
-            document.getElementById("loadingMsg").style.display = "block";
+            errorDiv.style.display = "none";
+            mainBtn.innerText = "جاري التحقق...";
+
+            if(!inputCode) {
+                errorDiv.style.display = "flex";
+                document.getElementById("errorText").innerText = "يرجى إدخال المفتاح أولاً";
+                mainBtn.innerText = "فتح";
+                return;
+            }
 
             try {
                 const response = await fetch(RENDER_API_URL, {
@@ -220,28 +358,31 @@
                     
                     if (data.expires_at) {
                         startCountdown(data.expires_at);
-                    } else {
-                        document.getElementById("countdown").innerText = "مفعل";
                     }
                 } else {
-                    let msg = "الكود غير صحيح أو منتهي.";
-                    if (data.reason === "code_not_found") msg = "هذا الكود غير موجود.";
-                    if (data.reason === "code_expired") msg = "هذا الكود منتهي الصلاحية.";
-                    if (data.reason === "max_devices_reached") msg = "هذا الكود وصل للحد الأقصى من الأجهزة.";
+                    let msg = "مفتاح غير صالح أو منتهي";
+                    if (data.reason === "code_not_found") msg = "هذا المفتاح غير موجود";
+                    if (data.reason === "code_expired") msg = "هذا المفتاح منتهي الصلاحية";
+                    if (data.reason === "max_devices_reached") msg = "هذا المفتاح وصل للحد الأقصى";
                     
-                    document.getElementById("errorMsg").innerText = "❌ " + msg;
-                    document.getElementById("errorMsg").style.display = "block";
+                    document.getElementById("errorText").innerText = msg;
+                    errorDiv.style.display = "flex";
+                    mainBtn.innerText = "فتح";
                 }
             } catch (error) {
-                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال. السيرفر قد يكون نائماً، انتظر 30 ثانية وأعد المحاولة.";
-                document.getElementById("errorMsg").style.display = "block";
-            } finally {
-                document.getElementById("loadingMsg").style.display = "none";
+                document.getElementById("errorText").innerText = "خطأ في الاتصال بالسيرفر، انتظر قليلاً";
+                errorDiv.style.display = "flex";
+                mainBtn.innerText = "فتح";
             }
         }
 
         function startCountdown(expiryDateString) {
-            const countdownElement = document.getElementById("countdown");
+            const countdownText = document.getElementById("countdownText");
+            const progressRing = document.getElementById("progressRing");
+            
+            const radius = 100;
+            const circumference = 2 * Math.PI * radius;
+            
             const expiryDate = new Date(expiryDateString).getTime();
             
             if(timerInterval) clearInterval(timerInterval);
@@ -252,8 +393,9 @@
 
                 if (distance < 0) {
                     clearInterval(timerInterval);
-                    countdownElement.innerText = "انتهى الاشتراك!";
-                    countdownElement.style.color = "#f85149";
+                    countdownText.innerText = "00:00:00";
+                    countdownText.style.color = "#e63946";
+                    progressRing.style.strokeDashoffset = circumference;
                     return;
                 }
 
@@ -262,7 +404,23 @@
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                countdownElement.innerText = `${days} يوم, ${hours} ساعة, ${minutes} دقيقة, ${seconds} ثانية`;
+                let displayHours = hours < 10 ? '0' + hours : hours;
+                let displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+                let displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+                
+                if (days > 0) {
+                    countdownText.innerText = `${days}ي : ${displayHours}:${displayMinutes}:${displaySeconds}`;
+                } else {
+                    countdownText.innerText = `${displayHours}:${displayMinutes}:${displaySeconds}`;
+                }
+
+                const totalMaxTime = 24 * 60 * 60 * 1000;
+                let percentage = distance / totalMaxTime;
+                if(percentage > 1) percentage = 1;
+                
+                const offset = circumference - (percentage * circumference);
+                progressRing.style.strokeDashoffset = offset;
+
             }, 1000);
         }
     </script>
