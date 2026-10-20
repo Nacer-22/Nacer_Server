@@ -22,14 +22,15 @@
             min-height: 100vh;
             padding: 20px;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
+        /* تعتيم قوي للخلفية لبروز العناصر */
         body::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at center, rgba(15, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+            background: radial-gradient(circle at center, rgba(10, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.99) 100%);
             z-index: 1;
         }
         
@@ -38,11 +39,10 @@
             z-index: 2;
             width: 100%;
             max-width: 400px;
+            padding-bottom: 20px;
         }
 
         /* ================= الشاشة الأولى ================= */
-        
-        /* الشريط العلوي الجديد (تصميم احترافي مطابق للصورة) */
         .top-banner {
             border: 1px solid #331111;
             background: linear-gradient(180deg, rgba(20, 5, 5, 0.8) 0%, rgba(5, 5, 5, 1) 100%);
@@ -52,11 +52,8 @@
             text-align: right;
             position: relative;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            /* قطع الزاوية السفلية اليسرى لتبدو احترافية */
             clip-path: polygon(0 0, 100% 0, 100% 100%, 15px 100%, 0 calc(100% - 15px));
         }
-        
-        /* الخط الأحمر الجانبي */
         .top-banner::before {
             content: '';
             position: absolute;
@@ -64,64 +61,22 @@
             background-color: #e63946;
             box-shadow: 0 0 10px #e63946;
         }
-
-        .banner-header {
-            font-size: 12px;
-            color: #e63946;
-            margin-bottom: 5px;
-        }
-
-        .banner-title {
-            font-size: 20px;
-            font-weight: 900;
-            color: #fff;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .banner-desc {
-            font-size: 12px;
-            color: #888;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        /* الزر بتصميم الصورة */
+        .banner-header { font-size: 12px; color: #e63946; margin-bottom: 5px; }
+        .banner-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .banner-desc { font-size: 12px; color: #888; line-height: 1.6; margin-bottom: 15px; }
         .btn-telegram-custom {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background-color: rgba(15, 15, 15, 0.8);
-            border: 1px solid #222;
-            padding: 10px;
-            border-radius: 4px;
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background-color: rgba(15, 15, 15, 0.8); border: 1px solid #222; padding: 10px;
+            border-radius: 4px; color: #fff; text-decoration: none; font-size: 14px;
+            font-weight: bold; transition: 0.3s;
         }
-
-        .btn-telegram-custom:hover {
-            background-color: #111;
-            border-color: #e63946;
-            box-shadow: 0 0 10px rgba(230, 57, 70, 0.2);
-        }
-
-        .btn-telegram-custom img {
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
-        }
+        .btn-telegram-custom:hover { background-color: #111; border-color: #e63946; box-shadow: 0 0 10px rgba(230, 57, 70, 0.2); }
+        .btn-telegram-custom img { width: 18px; height: 18px; object-fit: contain; }
 
         .profile-section { text-align: center; margin-bottom: 30px; }
         .profile-img {
             width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
-            margin-bottom: 15px; box-shadow: 0 0 30px rgba(230, 57, 70, 0.3);
-            border: 2px solid #1a1a1a;
+            margin-bottom: 15px; box-shadow: 0 0 30px rgba(230, 57, 70, 0.3); border: 2px solid #1a1a1a;
         }
         .profile-name { font-size: 26px; font-weight: 900; color: #fff; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
         .subtitle { text-align: center; color: #666; font-size: 13px; margin-bottom: 25px; }
@@ -164,26 +119,76 @@
         /* ================= الشاشة الثانية ================= */
         #main-page { display: none; text-align: center; position: relative; }
         
-        /* زر تحميل اللاحق */
-        .download-btn {
-            position: absolute;
-            top: -15px;
-            left: -10px;
-            background: linear-gradient(135deg, #e63946, #b31217);
+        /* شريط تحميل الحاقن (أعلى الصفحة) */
+        .download-btn-top {
+            display: block;
+            width: 100%;
+            background: linear-gradient(90deg, #b31217, #e63946, #b31217);
+            background-size: 200% auto;
             color: #fff;
             text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: bold;
-            box-shadow: 0 2px 10px rgba(230, 57, 70, 0.4);
-            z-index: 10;
-            transition: 0.3s;
-            white-space: nowrap;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 900;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+            animation: shine 3s linear infinite;
+            position: relative;
+            overflow: hidden;
         }
-        .download-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.6);
+        .download-btn-top::before {
+            content: '⬇️';
+            margin-left: 8px;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* إطار الصورة مع تأثير النيران */
+        .fire-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* النيران الدوارة في الخلفية */
+        .fire-container::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            background: conic-gradient(#ff0000, #ff8c00, #ff0000, #ff8c00, #ff0000);
+            animation: rotateFire 3s linear infinite;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* توهج ثابت للصورة */
+        .fire-profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 0 20px #ff4500, 0 0 40px #ff0000;
+            position: relative;
+            z-index: 2;
+            animation: pulseFire 1.5s infinite alternate;
+        }
+
+        @keyframes rotateFire {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseFire {
+            0% { box-shadow: 0 0 15px #ff4500, 0 0 30px #ff0000; }
+            100% { box-shadow: 0 0 25px #ff8c00, 0 0 50px #ff0000; }
         }
 
         /* دائرة الوقت */
@@ -191,7 +196,7 @@
             position: relative;
             width: 220px;
             height: 220px;
-            margin: 40px auto 30px auto;
+            margin: 0 auto 30px auto;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -201,7 +206,7 @@
             transform: rotate(-90deg);
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.4));
+            filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.5));
         }
 
         .circle-bg { fill: none; stroke: #111; stroke-width: 6; }
@@ -220,13 +225,13 @@
 
         .time-text {
             font-size: 28px; font-weight: 900; font-family: monospace;
-            color: #fff; text-shadow: 0 0 15px rgba(230, 57, 70, 0.6);
+            color: #fff; text-shadow: 0 0 15px rgba(230, 57, 70, 0.8);
             direction: ltr; letter-spacing: 2px;
         }
 
         .time-label {
             font-size: 12px; color: #e63946; margin-top: 5px;
-            letter-spacing: 1px; text-transform: uppercase;
+            letter-spacing: 1px; text-transform: uppercase; font-weight: bold;
         }
 
         .code-display {
@@ -250,19 +255,20 @@
             color: white; text-decoration: none;
             padding: 18px; font-size: 18px; font-weight: 900;
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4);
             transition: 0.3s;
             position: relative;
             overflow: hidden;
+            border: 1px solid #ff4d4d;
         }
         .btn-connect::after {
             content: '';
             position: absolute;
             top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transition: 0.5s;
         }
-        .btn-connect:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(230, 57, 70, 0.5); }
+        .btn-connect:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(230, 57, 70, 0.6); }
         .btn-connect:hover::after { left: 100%; }
     </style>
 </head>
@@ -272,14 +278,11 @@
         
         <!-- الشاشة الأولى -->
         <div id="login-page">
-            
-            <!-- الشريط العلوي الجديد -->
             <div class="top-banner">
                 <div class="banner-header">نحن ننتقل</div>
                 <div class="banner-title">إلى تيليجرام 🚀</div>
                 <div class="banner-desc">لأي استفسار أو مشكلة، تواصل معنا مباشرة عبر حسابنا الرسمي.</div>
                 <a href="https://t.me/Nacer_22" target="_blank" class="btn-telegram-custom">
-                    <!-- استخدام الصورة التي أرسلتها -->
                     <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram Icon">
                     <span>تيليجرام</span>
                 </a>
@@ -294,7 +297,6 @@
 
             <div class="input-label">مفتاح الوصول</div>
             <div class="input-wrapper">
-                <!-- تم تغيير AMHK إلى Nacer هنا فقط -->
                 <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off">
                 <button onclick="pasteCode()">لصق</button>
             </div>
@@ -314,10 +316,17 @@
         <!-- الشاشة الثانية -->
         <div id="main-page">
             
-            <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn">
-                اضغط هنا لتحميل اللاحق
+            <!-- زر تحميل الحاقن في الأعلى -->
+            <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn-top">
+                اضغط هنا لتحميل الحاقن
             </a>
 
+            <!-- إطار الصورة مع النيران -->
+            <div class="fire-container">
+                <img src="https://files.catbox.moe/lbr98b.png" alt="Nacer_22" class="fire-profile-img">
+            </div>
+
+            <!-- دائرة المؤقت -->
             <div class="timer-circle-container">
                 <svg>
                     <defs>
@@ -477,5 +486,4 @@
             }, 1000);
         }
     </script>
-</body>
-</html>
+</
