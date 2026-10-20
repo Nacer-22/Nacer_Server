@@ -25,10 +25,10 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.7); /* تعتيم الخلفية */
+            background: rgba(0, 0, 0, 0.75);
             z-index: 1;
         }
-        .glass-container {
+        .container {
             position: relative;
             z-index: 2;
             background: rgba(20, 20, 20, 0.9);
@@ -36,180 +36,139 @@
             border: 1px solid rgba(230, 57, 70, 0.3);
             padding: 30px 20px;
             border-radius: 20px;
-            width: 100%;
-            max-width: 400px;
+            max-width: 380px; 
+            width: 100%; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 20px rgba(230, 57, 70, 0.2);
             text-align: center;
         }
-        .profile-section {
-            position: relative;
-            margin-bottom: 25px;
-        }
+        .profile-section { margin-bottom: 20px; }
         .profile-img {
-            width: 110px;
-            height: 110px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             border: 3px solid #e63946;
             object-fit: cover;
-            box-shadow: 0 0 20px rgba(230, 57, 70, 0.6);
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.6);
         }
         .profile-name {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 900;
             color: #fff;
-            margin-top: 15px;
+            margin-top: 10px;
             text-shadow: 0 2px 10px rgba(230, 57, 70, 0.8);
-            letter-spacing: 1px;
         }
+        h1 { color: #58a6ff; font-size: 20px; margin-bottom: 10px; }
+        p { color: #8b949e; margin-bottom: 20px; font-size: 14px; }
+        
         .input-group {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
-        input {
+        input { 
             flex: 1;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid #444;
-            background-color: rgba(0, 0, 0, 0.6);
-            color: #fff;
+            padding: 12px; 
+            border-radius: 8px; 
+            border: 1px solid #444; 
+            background-color: rgba(0,0,0,0.6); 
+            color: white; 
+            font-size: 16px; 
+            text-align: center; 
             font-family: 'Cairo', sans-serif;
-            font-size: 16px;
-            text-align: center;
-            transition: 0.3s;
         }
-        input:focus {
-            outline: none;
-            border-color: #e63946;
-            box-shadow: 0 0 10px rgba(230, 57, 70, 0.3);
-        }
-        button {
-            padding: 14px;
-            border-radius: 10px;
-            border: none;
-            background-color: #e63946;
-            color: #fff;
-            font-family: 'Cairo', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
+        input:focus { outline: none; border-color: #e63946; }
+        
+        .btn-paste { padding: 0 15px; background-color: #333; border: 1px solid #555; color: white; border-radius: 8px; cursor: pointer; font-size: 18px; }
+        .btn-paste:hover { background-color: #444; }
+        
+        .btn-submit { width: 100%; padding: 12px; background-color: #238636; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; font-family: 'Cairo', sans-serif; }
+        .btn-submit:hover { background-color: #2ea043; }
+        
+        .error { color: #f85149; font-size: 14px; margin-top: 15px; display: none; font-weight: bold; }
+        .loading { color: #58a6ff; font-size: 14px; margin-top: 15px; display: none; }
+        
+        #main-page { display: none; }
+        
+        .timer-box { background-color: rgba(0,0,0,0.6); border: 1px dashed #58a6ff; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .timer-title { font-size: 14px; color: #aaa; margin-bottom: 5px; }
+        .timer-value { font-size: 20px; color: #3fb950; font-weight: bold; font-family: monospace; }
+        
+        .code-display { display: flex; gap: 10px; margin-top: 15px; }
+        .code-box { flex: 1; background-color: rgba(0,0,0,0.6); border: 1px solid #555; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 16px; color: #4dabf7; text-align: center; letter-spacing: 1px; font-weight: bold; }
+        .btn-copy { padding: 0 15px; background-color: #333; border: 1px solid #555; color: white; border-radius: 8px; cursor: pointer; font-size: 18px; }
+        .btn-copy:hover { background-color: #444; }
+
+        .btn-connect { 
+            display: block; 
+            background: linear-gradient(135deg, #e63946, #b31217); 
+            color: white; 
+            text-decoration: none; 
+            padding: 15px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            margin-top: 20px; 
             cursor: pointer;
             transition: 0.3s;
         }
-        button:hover { background-color: #d62828; }
-        .btn-paste { background-color: #333; border: 1px solid #555; padding: 0 20px; font-size: 20px;}
-        .btn-paste:hover { background-color: #444; }
-        .btn-login { width: 100%; font-size: 18px; }
-        
-        .error-msg { color: #ff6b6b; font-size: 14px; margin-top: 15px; display: none; font-weight: 700; }
-        .loading-msg { color: #4dabf7; font-size: 14px; margin-top: 15px; display: none; }
-        
-        /* الشاشة الثانية */
-        #main-page { display: none; }
-        
-        .timer-box {
-            background-color: rgba(0, 0, 0, 0.6);
-            border: 1px dashed #e63946;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        .timer-title { font-size: 14px; color: #aaa; margin-bottom: 5px; }
-        .timer-value { font-size: 22px; color: #e63946; font-weight: 900; font-family: monospace; }
-        
-        .code-display {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-        .code-box {
-            flex: 1;
-            background-color: rgba(0, 0, 0, 0.6);
-            border: 1px solid #555;
-            padding: 14px;
-            border-radius: 10px;
-            font-family: monospace;
-            font-size: 18px;
-            color: #4dabf7;
-            text-align: center;
-            letter-spacing: 1px;
-            font-weight: bold;
-        }
-        .btn-copy { background-color: #333; border: 1px solid #555; padding: 0 20px; font-size: 20px; }
-        .btn-copy:hover { background-color: #444; }
-        
-        .btn-connect {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #e63946, #b31217);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 20px;
-            font-weight: 900;
-            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
-            transition: 0.3s;
-        }
-        .btn-connect:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(230, 57, 70, 0.6); }
-        
-        .expired-msg {
-            color: #ff6b6b; font-size: 18px; font-weight: 900; margin-top: 20px;
-            padding: 15px; border: 2px solid #ff6b6b; border-radius: 12px;
-            background-color: rgba(255, 107, 107, 0.1); display: none;
-        }
+        .btn-connect:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4); }
     </style>
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول -->
-    <div class="glass-container" id="login-page">
+    <!-- شاشة إدخال الكود -->
+    <div class="container" id="login-page">
         <div class="profile-section">
             <img src="https://files.catbox.moe/lbr98b.png" alt="Nacer_22" class="profile-img">
             <div class="profile-name">Nacer_22</div>
         </div>
 
+        <p>أدخل الكود الخاص بك للتحقق من الاشتراك.</p>
+        
         <div class="input-group">
             <input type="text" id="accessCode" placeholder="أدخل الكود هنا...">
             <button class="btn-paste" onclick="pasteCode()" title="لصق">📋</button>
         </div>
         
-        <button class="btn-login" onclick="checkCode()">تسجيل دخول</button>
+        <button class="btn-submit" onclick="checkCode()">تحقق ودخول</button>
         
-        <div class="error-msg" id="errorMsg"></div>
-        <div class="loading-msg" id="loadingMsg">⏳ جاري التحقق...</div>
+        <div class="error" id="errorMsg"></div>
+        <div class="loading" id="loadingMsg">⏳ جاري الاتصال بالسيرفر...</div>
     </div>
 
-    <!-- الشاشة الثانية بعد التحقق -->
-    <div class="glass-container" id="main-page">
+    <!-- الشاشة الثانية بعد نجاح الدخول -->
+    <div class="container" id="main-page">
         <div class="profile-section">
             <img src="https://files.catbox.moe/lbr98b.png" alt="Nacer_22" class="profile-img">
             <div class="profile-name">Nacer_22</div>
         </div>
         
-        <div class="timer-box" id="timer-box">
-            <div class="timer-title">⏳ الوقت المتبقي:</div>
+        <h1>✅ كود صحيح</h1>
+        <p>مرحباً بك، تم التحقق من الكود بنجاح.</p>
+        
+        <div class="timer-box">
+            <div class="timer-title">⏳ الوقت المتبقي لانتهاء الكود:</div>
             <div class="timer-value" id="countdown">جاري الحساب...</div>
         </div>
 
+        <!-- خانة عرض الكود وزر النسخ -->
         <div class="code-display">
             <div class="code-box" id="currentCode">Nacer-xxxx</div>
             <button class="btn-copy" onclick="copyCode()" title="نسخ الكود">📄</button>
         </div>
 
-        <!-- زر يوجه إلى open.html (الذي يفتح التطبيق) -->
-        <a href="open.html" class="btn-connect" id="connect-btn">
+        <!-- زر الاتصال المباشر (نفس الكود الذي كان يعمل) -->
+        <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">
             اتصال الآن ⚡
         </a>
-
-        <div class="expired-msg" id="expired-msg">
-            🛑 انتهى اشتراك هذا الكود.
-        </div>
     </div>
 
     <script>
+        // رابط سيرفر Render الخاص بك (لم يتغير)
         const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
+        
         let timerInterval;
-        let lastCode = "";
+        let savedCode = "";
 
         function getDeviceId() {
             let deviceId = localStorage.getItem('client_device_id');
@@ -220,6 +179,7 @@
             return deviceId;
         }
 
+        // دوال اللصق والنسخ
         async function pasteCode() {
             try {
                 const text = await navigator.clipboard.readText();
@@ -230,10 +190,8 @@
         }
 
         function copyCode() {
-            navigator.clipboard.writeText(lastCode).then(() => {
-                alert("✅ تم نسخ الكود بنجاح!\nلا تنسَ حفظه.");
-            }).catch(err => {
-                alert("تعذر النسخ.");
+            navigator.clipboard.writeText(savedCode).then(() => {
+                alert("✅ تم نسخ الكود بنجاح!");
             });
         }
 
@@ -243,13 +201,6 @@
             
             document.getElementById("errorMsg").style.display = "none";
             document.getElementById("loadingMsg").style.display = "block";
-
-            if (!inputCode) {
-                document.getElementById("errorMsg").innerText = "❌ يرجى إدخال الكود أولاً.";
-                document.getElementById("errorMsg").style.display = "block";
-                document.getElementById("loadingMsg").style.display = "none";
-                return;
-            }
 
             try {
                 const response = await fetch(RENDER_API_URL, {
@@ -261,19 +212,62 @@
                 const data = await response.json();
 
                 if (data.valid === true) {
-                    lastCode = inputCode;
+                    savedCode = inputCode;
                     document.getElementById("currentCode").innerText = inputCode;
-                    
+
                     document.getElementById("login-page").style.display = "none";
                     document.getElementById("main-page").style.display = "block";
                     
                     if (data.expires_at) {
                         startCountdown(data.expires_at);
+                    } else {
+                        document.getElementById("countdown").innerText = "مفعل";
                     }
                 } else {
                     let msg = "الكود غير صحيح أو منتهي.";
                     if (data.reason === "code_not_found") msg = "هذا الكود غير موجود.";
                     if (data.reason === "code_expired") msg = "هذا الكود منتهي الصلاحية.";
+                    if (data.reason === "max_devices_reached") msg = "هذا الكود وصل للحد الأقصى من الأجهزة.";
+                    
+                    document.getElementById("errorMsg").innerText = "❌ " + msg;
+                    document.getElementById("errorMsg").style.display = "block";
+                }
+            } catch (error) {
+                document.getElementById("errorMsg").innerText = "⚠️ حدث خطأ في الاتصال. السيرفر قد يكون نائماً، انتظر 30 ثانية وأعد المحاولة.";
+                document.getElementById("errorMsg").style.display = "block";
+            } finally {
+                document.getElementById("loadingMsg").style.display = "none";
+            }
+        }
+
+        function startCountdown(expiryDateString) {
+            const countdownElement = document.getElementById("countdown");
+            const expiryDate = new Date(expiryDateString).getTime();
+            
+            if(timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = expiryDate - now;
+
+                if (distance < 0) {
+                    clearInterval(timerInterval);
+                    countdownElement.innerText = "انتهى الاشتراك!";
+                    countdownElement.style.color = "#f85149";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownElement.innerText = `${days} يوم, ${hours} ساعة, ${minutes} دقيقة, ${seconds} ثانية`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>ed") msg = "هذا الكود منتهي الصلاحية.";
                     if (data.reason === "max_devices_reached") msg = "هذا الكود وصل للحد الأقصى من الأجهزة.";
                     
                     document.getElementById("errorMsg").innerText = "❌ " + msg;
