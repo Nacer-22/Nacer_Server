@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HAX_NON_ROOT - الاتصال بسيرفر</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -26,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* زر التيليجرام في الزاوية العلوية اليسرى */
+        /* زر التيليجرام (دائري ويطفو) */
         .telegram-top {
             position: absolute;
             top: 20px;
@@ -36,24 +35,31 @@
             align-items: center;
             text-decoration: none;
             z-index: 10;
-            transition: transform 0.3s;
+            animation: float 3s ease-in-out infinite; /* تأثير الطفو */
         }
-        .telegram-top:hover { transform: scale(1.1); }
         .telegram-top img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(0, 150, 255, 0.4);
-            border: 2px solid rgba(255,255,255,0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* دائري تماماً */
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.8);
             margin-bottom: 5px;
         }
         .telegram-top span {
             font-size: 12px;
             color: #aaa;
             font-weight: bold;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
 
-        /* الحاوية الرئيسية */
+        /* حركة الطفو */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
         .container {
             width: 100%;
             max-width: 420px;
@@ -63,132 +69,69 @@
             z-index: 2;
         }
 
-        /* ===== اسم Nacer_22 والتاج (الجديد) ===== */
+        /* اسم Nacer_22 */
         .user-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 15px;
-            margin-top: 10px;
+            display: flex; flex-direction: column; align-items: center;
+            margin-bottom: 15px; margin-top: 10px;
         }
         .crown-icon {
-            color: #d4af37; /* لون ذهبي */
-            font-size: 22px;
-            margin-bottom: 5px;
+            color: #d4af37; font-size: 22px; margin-bottom: 5px;
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
         }
-        .name-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .name-container { display: flex; align-items: center; gap: 15px; }
         .username {
-            font-family: 'Times New Roman', serif;
-            font-size: 24px;
-            font-weight: bold;
-            color: #f5c518; /* لون ذهبي */
-            letter-spacing: 1px;
+            font-family: 'Times New Roman', serif; font-size: 24px;
+            font-weight: bold; color: #f5c518; letter-spacing: 1px;
             text-shadow: 0 0 10px rgba(245, 197, 24, 0.4);
         }
-        .line {
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #f5c518, transparent);
-        }
-        /* ======================================= */
+        .line { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, #f5c518, transparent); }
 
-        /* الشعار (صورة الجمجمة) */
-        .logo-container {
-            margin-bottom: 20px;
-            text-align: center;
-        }
+        /* حل مشكلة المربع الأسود (تلاشي الحواف) */
+        .logo-container { margin-bottom: 20px; text-align: center; }
         .logo-container img {
-            width: 180px;
-            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.4));
+            width: 220px;
+            /* هذه الخاصية تجعل حواف الصورة تتلاشى وتختفي لتبدو دائرية وطبيعية */
+            -webkit-mask-image: radial-gradient(circle, black 45%, transparent 70%);
+            mask-image: radial-gradient(circle, black 45%, transparent 70%);
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6));
         }
 
         /* العناوين */
         .title {
-            font-size: 24px;
-            font-weight: 900;
-            color: #fff;
-            margin-bottom: 8px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            font-size: 24px; font-weight: 900; color: #fff;
+            margin-bottom: 8px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
-        .subtitle {
-            font-size: 14px;
-            color: #aaa;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
+        .subtitle { font-size: 14px; color: #aaa; margin-bottom: 25px; font-weight: 600; }
 
         /* صندوق إدخال الكود */
         .input-box {
             width: 100%;
             background-color: rgba(10, 0, 0, 0.8);
             border: 1px solid #ff1a1a;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            padding: 5px 15px;
-            box-shadow: 0 0 15px rgba(255, 26, 26, 0.2), inset 0 0 10px rgba(255, 26, 26, 0.1);
-            margin-bottom: 15px;
-            position: relative;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            display: flex; align-items: center; padding: 8px 15px;
+            box-shadow: 0 0 15px rgba(255, 26, 26, 0.3), inset 0 0 15px rgba(255, 26, 26, 0.2);
+            margin-bottom: 15px; position: relative;
         }
-        .input-box i.fa-key {
-            color: #ff1a1a;
-            font-size: 18px;
-            margin-left: 10px;
-        }
+        .input-box i.fa-key { color: #ff1a1a; font-size: 20px; margin-left: 10px; text-shadow: 0 0 10px red; }
         .input-box input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 18px;
-            padding: 12px 0;
-            font-family: monospace;
-            text-align: left;
-            direction: ltr;
-            outline: none;
+            flex: 1; background: transparent; border: none; color: #fff;
+            font-size: 18px; padding: 12px 0; font-family: monospace;
+            text-align: left; direction: ltr; outline: none;
         }
-        .input-box input::placeholder {
-            color: #555;
-            font-family: 'Cairo', sans-serif;
-            direction: rtl;
-            text-align: right;
-        }
+        .input-box input::placeholder { color: #555; font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; }
         .input-box .paste-btn {
-            background: transparent;
-            border: 1px solid #333;
-            color: #aaa;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: 0.3s;
+            background: transparent; border: 1px solid #333; color: #aaa;
+            padding: 8px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: 0.3s;
         }
-        .input-box .paste-btn:hover {
-            background: #222;
-            color: #fff;
-            border-color: #ff1a1a;
-        }
+        .input-box .paste-btn:hover { background: #222; color: #fff; border-color: #ff1a1a; }
 
         /* صندوق المثال */
         .example-box {
-            width: 100%;
-            background-color: rgba(15, 15, 15, 0.8);
-            border: 1px solid #222;
-            border-radius: 8px;
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 25px;
+            width: 100%; background-color: rgba(15, 15, 15, 0.8);
+            border: 1px solid #222; border-radius: 8px;
+            padding: 12px 15px; display: flex; align-items: center; gap: 10px; margin-bottom: 25px;
         }
         .example-box i { color: #ff1a1a; }
         .example-box div { font-size: 13px; color: #888; }
@@ -196,94 +139,47 @@
 
         /* رسالة الخطأ */
         .error-msg {
-            display: none;
-            color: #ff1a1a;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-            width: 100%;
-            text-shadow: 0 0 5px rgba(255,0,0,0.5);
+            display: none; color: #ff1a1a; font-size: 14px; font-weight: bold;
+            margin-bottom: 15px; text-align: center; width: 100%; text-shadow: 0 0 5px rgba(255,0,0,0.5);
         }
 
         /* زر التحقق */
         .verify-btn {
             width: 100%;
-            background: linear-gradient(180deg, #cc0000 0%, #800000 100%);
-            color: #fff;
-            border: 1px solid #ff4d4d;
-            border-radius: 10px;
-            padding: 16px;
-            font-size: 18px;
-            font-weight: 900;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.2);
-            transition: 0.3s;
-            margin-bottom: 25px;
+            background: linear-gradient(180deg, #cc0000 0%, #550000 100%);
+            color: #fff; border: 1px solid #ff1a1a;
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 20px 100%, 0 50%);
+            padding: 16px; font-size: 20px; font-weight: 900;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
+            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: 0.3s; margin-bottom: 25px;
         }
         .verify-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
+            background: linear-gradient(180deg, #ff0000 0%, #880000 100%);
+            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
         }
 
         /* صندوق حالة الاتصال */
         .status-box {
-            width: 100%;
-            background-color: rgba(10, 10, 10, 0.9);
-            border: 1px solid #222;
-            border-radius: 8px;
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 25px;
-            border-right: 3px solid #ff1a1a;
+            width: 100%; background-color: rgba(10, 10, 10, 0.9);
+            border: 1px solid #222; border-radius: 8px;
+            padding: 12px 15px; display: flex; align-items: center; gap: 12px;
+            margin-bottom: 25px; border-right: 3px solid #ff1a1a;
         }
-        .status-box i.fa-globe {
-            color: #ff1a1a;
-            font-size: 20px;
-            animation: pulse 2s infinite;
-        }
-        .status-box div {
-            font-size: 13px;
-            color: #888;
-            font-weight: bold;
-        }
+        .status-box i.fa-globe { color: #ff1a1a; font-size: 20px; animation: pulse 2s infinite; }
+        .status-box div { font-size: 13px; color: #888; font-weight: bold; }
 
         /* زر القناة الأساسي */
         .channel-btn {
-            width: 100%;
-            background-color: rgba(20, 0, 0, 0.6);
-            border: 1px solid #ff1a1a;
-            color: #ff1a1a;
-            text-decoration: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            transition: 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
+            width: 100%; background-color: rgba(20, 0, 0, 0.6);
+            border: 1px solid #ff1a1a; color: #ff1a1a; text-decoration: none;
+            padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold;
+            text-align: center; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;
             box-shadow: 0 0 10px rgba(255, 26, 26, 0.1);
         }
-        .channel-btn:hover {
-            background-color: #ff1a1a;
-            color: #fff;
-            box-shadow: 0 0 20px rgba(255, 26, 26, 0.5);
-        }
+        .channel-btn:hover { background-color: #ff1a1a; color: #fff; box-shadow: 0 0 20px rgba(255, 26, 26, 0.5); }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         /* ================= الشاشة الثانية ================= */
         #main-page { display: none; text-align: center; position: relative; width: 100%; }
@@ -370,7 +266,7 @@
         <!-- الشاشة الأولى -->
         <div id="login-page" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             
-            <!-- اسم Nacer_22 مع التاج (تمت إضافته هنا) -->
+            <!-- اسم Nacer_22 -->
             <div class="user-header">
                 <i class="fa-solid fa-crown crown-icon"></i>
                 <div class="name-container">
@@ -380,7 +276,7 @@
                 </div>
             </div>
 
-            <!-- الشعار -->
+            <!-- الشعار (تم حل مشكلة المربع الأسود) -->
             <div class="logo-container">
                 <img src="https://files.catbox.moe/lbr98b.png" alt="HAX_NON_ROOT Logo">
             </div>
@@ -524,4 +420,17 @@
 
         function startCountdown(expiryDateString) {
             const countdownText = document.getElementById("countdownText");
-     
+            const progressRing = document.getElementById("progressRing");
+            const radius = 100;
+            const circumference = 2 * Math.PI * radius;
+            const expiryDate = new Date(expiryDateString).getTime();
+            
+            if(timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = expiryDate - now;
+                if (distance < 0) {
+                    clearInterval(timerInterval);
+                    countdownText.innerText = "00:00:00";
+                    countdownText.style.col
