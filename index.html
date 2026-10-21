@@ -3,29 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAX_NON_ROOT - الاتصال بسيرفر</title>
+    <title>HAX_NON_ROOT - بوابة الاتصال</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         
+        :root {
+            --primary-red: #e63946;
+            --dark-red: #8b0000;
+            --bg-color: #050000;
+            --card-bg: rgba(15, 5, 5, 0.85);
+            --text-main: #ffffff;
+            --text-muted: #888888;
+        }
+
         body {
-            background-color: #050000;
+            background-color: var(--bg-color);
+            /* خلفية متدرجة احترافية */
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(200, 0, 0, 0.15) 0%, transparent 60%),
-                radial-gradient(circle at 0% 100%, rgba(200, 0, 0, 0.1) 0%, transparent 50%);
-            color: #fff;
+                radial-gradient(circle at 50% -10%, rgba(230, 57, 70, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 10% 110%, rgba(139, 0, 0, 0.15) 0%, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            position: relative;
             overflow-x: hidden;
         }
 
-        /* زر التيليجرام (دائري ويطفو) */
+        /* تأثير الطفو لزر التيليجرام */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+
         .telegram-top {
             position: absolute;
             top: 20px;
@@ -34,188 +46,396 @@
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            z-index: 10;
-            animation: float 3s ease-in-out infinite; /* تأثير الطفو */
+            z-index: 100;
+            animation: float 3s ease-in-out infinite;
+            transition: 0.3s;
         }
+        .telegram-top:hover { transform: scale(1.1); }
         .telegram-top img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%; /* دائري تماماً */
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
             object-fit: cover;
-            box-shadow: 0 0 20px rgba(0, 150, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.4);
             margin-bottom: 5px;
         }
-        .telegram-top span {
-            font-size: 12px;
-            color: #aaa;
-            font-weight: bold;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
-        }
-
-        /* حركة الطفو */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
+        .telegram-top span { font-size: 11px; color: var(--text-muted); font-weight: bold; }
 
         .container {
             width: 100%;
             max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            position: relative;
             z-index: 2;
         }
 
-        /* اسم Nacer_22 */
+        /* تنسيق اسم Nacer_22 */
         .user-header {
             display: flex; flex-direction: column; align-items: center;
-            margin-bottom: 15px; margin-top: 10px;
+            margin-bottom: 20px;
         }
         .crown-icon {
-            color: #d4af37; font-size: 22px; margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+            color: #ffd700; font-size: 24px; margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
         }
         .name-container { display: flex; align-items: center; gap: 15px; }
         .username {
-            font-family: 'Times New Roman', serif; font-size: 24px;
-            font-weight: bold; color: #f5c518; letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(245, 197, 24, 0.4);
+            font-family: 'Times New Roman', serif; font-size: 26px;
+            font-weight: bold; color: #ffd700; letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
-        .line { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, #f5c518, transparent); }
+        .line { width: 50px; height: 1px; background: linear-gradient(90deg, transparent, #ffd700, transparent); }
 
-        /* حل مشكلة المربع الأسود (تلاشي الحواف) */
-        .logo-container { margin-bottom: 20px; text-align: center; }
+        /* الشعار الاحترافي (دمج مع الخلفية) */
+        .logo-container { text-align: center; margin-bottom: 25px; position: relative; }
+        .logo-container::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 180px; height: 180px; background: rgba(230, 57, 70, 0.2);
+            border-radius: 50%; filter: blur(40px); z-index: -1;
+        }
         .logo-container img {
-            width: 220px;
-            /* هذه الخاصية تجعل حواف الصورة تتلاشى وتختفي لتبدو دائرية وطبيعية */
-            -webkit-mask-image: radial-gradient(circle, black 45%, transparent 70%);
-            mask-image: radial-gradient(circle, black 45%, transparent 70%);
-            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6));
+            width: 200px;
+            /* دمج الشعار لاختفاء المربع الأسود */
+            mix-blend-mode: screen;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.3));
         }
 
-        /* العناوين */
-        .title {
-            font-size: 24px; font-weight: 900; color: #fff;
-            margin-bottom: 8px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        .subtitle { font-size: 14px; color: #aaa; margin-bottom: 25px; font-weight: 600; }
+        .title { text-align: center; font-size: 26px; font-weight: 900; margin-bottom: 5px; text-shadow: 0 2px 10px rgba(255,255,255,0.1); }
+        .subtitle { text-align: center; font-size: 14px; color: var(--text-muted); margin-bottom: 25px; font-weight: 600; }
 
-        /* صندوق إدخال الكود */
-        .input-box {
-            width: 100%;
-            background-color: rgba(10, 0, 0, 0.8);
-            border: 1px solid #ff1a1a;
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            display: flex; align-items: center; padding: 8px 15px;
-            box-shadow: 0 0 15px rgba(255, 26, 26, 0.3), inset 0 0 15px rgba(255, 26, 26, 0.2);
-            margin-bottom: 15px; position: relative;
+        /* صندوق الإدخال الزجاجي */
+        .input-group {
+            background: var(--card-bg);
+            border: 1px solid rgba(230, 57, 70, 0.3);
+            border-radius: 12px;
+            display: flex; align-items: center;
+            padding: 5px 15px; margin-bottom: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(230, 57, 70, 0.05);
+            transition: 0.3s;
         }
-        .input-box i.fa-key { color: #ff1a1a; font-size: 20px; margin-left: 10px; text-shadow: 0 0 10px red; }
-        .input-box input {
-            flex: 1; background: transparent; border: none; color: #fff;
-            font-size: 18px; padding: 12px 0; font-family: monospace;
-            text-align: left; direction: ltr; outline: none;
+        .input-group:focus-within {
+            border-color: var(--primary-red);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 15px rgba(230, 57, 70, 0.2);
         }
-        .input-box input::placeholder { color: #555; font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; }
-        .input-box .paste-btn {
-            background: transparent; border: 1px solid #333; color: #aaa;
-            padding: 8px 12px; border-radius: 6px; cursor: pointer;
+        .input-group i { color: var(--primary-red); font-size: 18px; margin-left: 10px; }
+        .input-group input {
+            flex: 1; background: transparent; border: none; outline: none;
+            color: #fff; font-size: 18px; padding: 12px 0; font-family: monospace; direction: ltr; text-align: left;
+        }
+        .input-group input::placeholder { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; color: #555; }
+        
+        .paste-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #ccc; padding: 8px 12px; border-radius: 8px; cursor: pointer;
             font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: 0.3s;
         }
-        .input-box .paste-btn:hover { background: #222; color: #fff; border-color: #ff1a1a; }
+        .paste-btn:hover { background: var(--primary-red); color: #fff; border-color: var(--primary-red); }
 
         /* صندوق المثال */
         .example-box {
-            width: 100%; background-color: rgba(15, 15, 15, 0.8);
-            border: 1px solid #222; border-radius: 8px;
-            padding: 12px 15px; display: flex; align-items: center; gap: 10px; margin-bottom: 25px;
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(0, 0, 0, 0.4); border: 1px solid #222;
+            padding: 12px 15px; border-radius: 10px; margin-bottom: 25px;
         }
-        .example-box i { color: #ff1a1a; }
-        .example-box div { font-size: 13px; color: #888; }
-        .example-box span { color: #ff1a1a; font-family: monospace; direction: ltr; display: inline-block; }
+        .example-box i { color: var(--primary-red); font-size: 16px; }
+        .example-box div { font-size: 13px; color: var(--text-muted); font-weight: bold; }
+        .example-box span { color: var(--primary-red); font-family: monospace; font-size: 14px; direction: ltr; }
 
         /* رسالة الخطأ */
         .error-msg {
-            display: none; color: #ff1a1a; font-size: 14px; font-weight: bold;
-            margin-bottom: 15px; text-align: center; width: 100%; text-shadow: 0 0 5px rgba(255,0,0,0.5);
+            display: none; text-align: center; color: var(--primary-red);
+            font-size: 14px; font-weight: bold; margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+            animation: shake 0.4s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
-        /* زر التحقق */
-        .verify-btn {
-            width: 100%;
-            background: linear-gradient(180deg, #cc0000 0%, #550000 100%);
-            color: #fff; border: 1px solid #ff1a1a;
-            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 20px 100%, 0 50%);
-            padding: 16px; font-size: 20px; font-weight: 900;
+        /* الزر الرئيسي (تحقق) */
+        .btn-verify {
+            width: 100%; background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: #fff; border: 1px solid #ff4d4d; border-radius: 12px;
+            padding: 16px; font-size: 18px; font-weight: 900;
             cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
-            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4);
-            transition: 0.3s; margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+            transition: 0.3s; margin-bottom: 20px; position: relative; overflow: hidden;
         }
-        .verify-btn:hover {
-            background: linear-gradient(180deg, #ff0000 0%, #880000 100%);
-            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 0, 0, 0.7);
+        .btn-verify::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
         }
+        .btn-verify:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(230, 57, 70, 0.4); }
+        .btn-verify:hover::after { left: 100%; }
 
-        /* صندوق حالة الاتصال */
+        /* صندوق الحالة */
         .status-box {
-            width: 100%; background-color: rgba(10, 10, 10, 0.9);
-            border: 1px solid #222; border-radius: 8px;
-            padding: 12px 15px; display: flex; align-items: center; gap: 12px;
-            margin-bottom: 25px; border-right: 3px solid #ff1a1a;
+            display: flex; align-items: center; gap: 12px;
+            background: var(--card-bg); border: 1px solid #222; border-right: 3px solid var(--primary-red);
+            padding: 12px 15px; border-radius: 10px; margin-bottom: 25px;
         }
-        .status-box i.fa-globe { color: #ff1a1a; font-size: 20px; animation: pulse 2s infinite; }
-        .status-box div { font-size: 13px; color: #888; font-weight: bold; }
+        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+        .status-box i { color: var(--primary-red); font-size: 18px; animation: pulse 2s infinite; }
+        .status-box div { font-size: 13px; color: var(--text-muted); font-weight: bold; }
 
-        /* زر القناة الأساسي */
-        .channel-btn {
-            width: 100%; background-color: rgba(20, 0, 0, 0.6);
-            border: 1px solid #ff1a1a; color: #ff1a1a; text-decoration: none;
-            padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold;
-            text-align: center; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;
-            box-shadow: 0 0 10px rgba(255, 26, 26, 0.1);
+        /* زر القناة */
+        .btn-channel {
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+            width: 100%; background: rgba(20, 0, 0, 0.6); border: 1px solid var(--primary-red);
+            color: var(--primary-red); text-decoration: none; padding: 14px; border-radius: 10px;
+            font-size: 15px; font-weight: bold; transition: 0.3s;
         }
-        .channel-btn:hover { background-color: #ff1a1a; color: #fff; box-shadow: 0 0 20px rgba(255, 26, 26, 0.5); }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .btn-channel:hover { background: var(--primary-red); color: #fff; box-shadow: 0 0 20px rgba(230, 57, 70, 0.4); }
 
         /* ================= الشاشة الثانية ================= */
-        #main-page { display: none; text-align: center; position: relative; width: 100%; }
-        
-        .download-btn-top {
-            display: block; width: 100%; background: linear-gradient(90deg, #b31217, #e63946, #b31217);
+        #main-page { display: none; text-align: center; width: 100%; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-download {
+            display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%;
+            background: linear-gradient(90deg, var(--dark-red), var(--primary-red), var(--dark-red));
             background-size: 200% auto; color: #fff; text-decoration: none; padding: 14px;
-            border-radius: 8px; font-size: 15px; font-weight: 900; margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4); animation: shine 3s linear infinite;
+            border-radius: 10px; font-size: 15px; font-weight: 900; margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3); animation: shine 3s linear infinite;
         }
-        .download-btn-top::before { content: '⬇️'; margin-left: 8px; }
         @keyframes shine { to { background-position: 200% center; } }
 
-        .fire-container {
-            position: relative; width: 120px; height: 120px; margin: 0 auto 30px auto;
+        .profile-fire-container {
+            position: relative; width: 130px; height: 130px; margin: 0 auto 35px auto;
             display: flex; justify-content: center; align-items: center;
         }
-        .fire-container::before {
+        .profile-fire-container::before {
             content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 50%; background: conic-gradient(#ff0000, #ff8c00, #ff0000, #ff8c00, #ff0000);
-            animation: rotateFire 3s linear infinite; filter: blur(8px); z-index: -1;
-        }
-        .fire-profile-img {
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-            border: 3px solid #fff; box-shadow: 0 0 20px #ff4500, 0 0 40px #ff0000;
-            position: relative; z-index: 2; animation: pulseFire 1.5s infinite alternate;
+            border-radius: 50%; background: conic-gradient(var(--primary-red), orange, var(--primary-red), orange, var(--primary-red));
+            animation: rotateFire 3s linear infinite; filter: blur(10px); z-index: -1;
         }
         @keyframes rotateFire { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulseFire {
-            0% { box-shadow: 0 0 15px #ff4500, 0 0 30px #ff0000; }
-            100% { box-shadow: 0 0 25px #ff8c00, 0 0 50px #ff0000; }
+        .profile-fire-img {
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+            border: 3px solid #fff; box-shadow: 0 0 20px var(--primary-red);
+            position: relative; z-index: 2; background: #000;
         }
 
-        .timer-circle-container {
-            position: relative; width: 220px; height: 220px; margin: 0 auto 30px auto;
+        .timer-container {
+            position: relative; width: 230px; height: 230px; margin: 0 auto 35px auto;
             display: flex; justify-content: center; align-items: center;
+        }
+        .timer-container svg { transform: rotate(-90deg); width: 100%; height: 100%; filter: drop-shadow(0 0 10px rgba(230, 57, 70, 0.4)); }
+        .circle-bg { fill: none; stroke: #1a1a1a; stroke-width: 8; }
+        .circle-progress {
+            fill: none; stroke: url(#redGradient); stroke-width: 8;
+            stroke-linecap: round; stroke-dasharray: 628; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear;
+        }
+        .timer-text-content {
+            position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 100%; height: 100%;
+        }
+        .time-text {
+            font-size: 32px; font-weight: 900; font-family: monospace;
+            color: #fff; text-shadow: 0 0 15px rgba(230, 57, 70, 0.6); direction: ltr; letter-spacing: 2px;
+        }
+        .time-label { font-size: 13px; color: var(--primary-red); margin-top: 5px; letter-spacing: 1px; font-weight: bold; }
+
+        .code-display-group {
+            display: flex; border: 1px solid #333; border-radius: 10px;
+            overflow: hidden; margin-bottom: 30px; background: rgba(0,0,0,0.5);
+        }
+        .code-box { flex: 1; padding: 15px; font-family: monospace; font-size: 16px; color: #aaa; direction: ltr; text-align: center; }
+        .btn-copy {
+            background: rgba(255,255,255,0.05); color: #fff; border: none; border-right: 1px solid #333;
+            padding: 0 20px; font-family: 'Cairo', sans-serif; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .btn-copy:hover { background: var(--primary-red); }
+
+        .btn-connect {
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            color: #fff; text-decoration: none; padding: 18px; font-size: 20px; font-weight: 900;
+            border-radius: 12px; box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4); transition: 0.3s;
+            border: 1px solid #ff4d4d; width: 100%;
+        }
+        .btn-connect:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(230, 57, 70, 0.6); }
+
+    </style>
+</head>
+<body>
+
+    <!-- زر التيليجرام العلوي -->
+    <a href="https://t.me/Nacer_22" target="_blank" class="telegram-top">
+        <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram">
+        <span>تيليجرام</span>
+    </a>
+
+    <div class="container">
+        
+        <!-- ================= الشاشة الأولى ================= -->
+        <div id="login-page" style="width: 100%;">
+            
+            <div class="user-header">
+                <i class="fa-solid fa-crown crown-icon"></i>
+                <div class="name-container">
+                    <span class="line"></span>
+                    <span class="username">Nacer_22</span>
+                    <span class="line"></span>
+                </div>
+            </div>
+
+            <div class="logo-container">
+                <!-- الشعار -->
+                <img src="https://files.catbox.moe/lbr98b.png" alt="Logo">
+            </div>
+
+            <h1 class="title">الاتصال بسيرفر</h1>
+            <p class="subtitle">أدخل مفتاح التفعيل الخاص بك للتحقق من جهازك</p>
+
+            <div class="input-group">
+                <i class="fa-solid fa-key"></i>
+                <input type="text" id="accessCode" placeholder="Nacer-XXXX_XXXX-XXXX" autocomplete="off">
+                <button class="paste-btn" onclick="pasteCode()">
+                    <i class="fa-regular fa-copy"></i> لصق
+                </button>
+            </div>
+
+            <div class="example-box">
+                <i class="fa-solid fa-circle-info"></i>
+                <div>مثال على الصيغة: <span>Nacer-XXXX_XXXX-XXXX</span></div>
+            </div>
+
+            <div class="error-msg" id="errorMsg">
+                <span id="errorText">مفتاح غير صالح</span>
+            </div>
+
+            <button class="btn-verify" id="mainBtn" onclick="checkCode()">
+                <i class="fa-solid fa-shield-halved"></i> تحقق
+            </button>
+
+            <div class="status-box">
+                <i class="fa-solid fa-globe"></i>
+                <div id="statusText">جاري الاتصال بالخادم...</div>
+            </div>
+
+            <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="btn-channel">
+                انقر هنا للتو جه للقناة الأساسية <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+        </div>
+
+        <!-- ================= الشاشة الثانية ================= -->
+        <div id="main-page">
+            
+            <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="btn-download">
+                <i class="fa-brands fa-android"></i> اضغط هنا لتحميل الحاقن
+            </a>
+
+            <div class="profile-fire-container">
+                <img src="https://files.catbox.moe/lbr98b.png" alt="Profile" class="profile-fire-img">
+            </div>
+
+            <div class="timer-container">
+                <svg>
+                    <defs>
+                        <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff4d4d" />
+                            <stop offset="50%" stop-color="#e63946" />
+                            <stop offset="100%" stop-color="#550000" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="circle-bg" cx="115" cy="115" r="100"></circle>
+                    <circle class="circle-progress" id="progressRing" cx="115" cy="115" r="100"></circle>
+                </svg>
+                <div class="timer-text-content">
+                    <div class="time-text" id="countdownText">00:00:00</div>
+                    <div class="time-label">الوقت المتبقي</div>
+                </div>
+            </div>
+
+            <div class="code-display-group">
+                <div class="code-box" id="currentCode">Nacer-xxxx</div>
+                <button class="btn-copy" onclick="copyCode()">نسخ</button>
+            </div>
+
+            <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">
+                اتصال الآن ⚡
+            </a>
+
+        </div>
+
+    </div>
+
+    <script>
+        const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
+        let timerInterval;
+        let savedCode = "";
+
+        const inputField = document.getElementById("accessCode");
+        const mainBtn = document.getElementById("mainBtn");
+        const statusText = document.getElementById("statusText");
+
+        // دالة اللصق
+        async function pasteCode() {
+            try {
+                const text = await navigator.clipboard.readText();
+                inputField.value = text;
+            } catch (err) {
+                alert("متصفحك يمنع اللصق التلقائي، يرجى اللصق يدوياً.");
+            }
+        }
+
+        // دالة النسخ
+        function copyCode() {
+            if(!savedCode) return;
+            navigator.clipboard.writeText(savedCode).then(() => {
+                alert("✅ تم نسخ الكود بنجاح!");
+            });
+        }
+
+        // الدالة الرئيسية للتحقق
+        async function checkCode() {
+            const inputCode = inputField.value.trim();
+            const errorDiv = document.getElementById("errorMsg");
+            const errorText = document.getElementById("errorText");
+            
+            if(!inputCode) {
+                errorDiv.style.display = "block";
+                errorText.innerText = "يرجى إدخال المفتاح أولاً";
+                return;
+            }
+
+            // 1. الانتقال الفوري (UX محترم)
+            savedCode = inputCode;
+            document.getElementById("currentCode").innerText = inputCode;
+            document.getElementById("login-page").style.display = "none";
+            document.getElementById("main-page").style.display = "block";
+            errorDiv.style.display = "none";
+            
+            // تشغيل مؤقت وهمي مبدئياً
+            startCountdown(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
+
+            // 2. التحقق الصامت في الخلفية
+            try {
+                const response = await fetch(RENDER_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: inputCode, device_id: "device-" + Math.random() })
+                });
+                
+                const data = await response.json();
+
+                if (data.valid === true) {
+                    // الكود صحيح: تحديث الوقت الحقيقي
+                    if (data.expires_at) {
+                        startCountdown(data.expires_at);
+                    }
+                } else {
+                    // الكود خاطئ: إرجاع المستخدم
+                    document.getElementById("main-page").style.display = "none";
+                    document.getElementById("login-page").style.display = "block";
+                    
+                    let msg = "مفتاح غير صالح"; 
+                    if (data.reason === "code_expire            display: flex; justify-content: center; align-items: center;
         }
         .timer-circle-container svg { transform: rotate(-90deg); width: 100%; height: 100%; filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.5)); }
         .circle-bg { fill: none; stroke: #111; stroke-width: 6; }
