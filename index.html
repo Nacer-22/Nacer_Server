@@ -140,8 +140,11 @@
         }
         .channel-btn:hover { background-color: #e63946; color: #fff; }
 
-        /* ================= الشاشة الثانية ================= */
-        #main-page { display: none; text-align: center; width: 100%; position: relative; }
+        /* ================= الشاشة الثانية (مخفية تماماً حتى يتم التحقق) ================= */
+        #main-page { 
+            display: none !important; /* إخفاء إجباري */
+            text-align: center; width: 100%; position: relative; 
+        }
         
         .download-btn-top {
             display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -314,6 +317,9 @@
         const errorText = document.getElementById("errorText");
         const mainBtn = document.getElementById("mainBtn");
 
+        // إجبار المتصفح على إخفاء الصفحة الثانية عند فتح الموقع (حماية إضافية)
+        document.getElementById("main-page").style.display = "none";
+
         async function pasteCode() {
             try {
                 const text = await navigator.clipboard.readText();
@@ -355,6 +361,8 @@
                     savedCode = inputCode;
                     document.getElementById("currentCode").innerText = inputCode;
                     document.getElementById("login-page").style.display = "none";
+                    
+                    // إظهار الصفحة الثانية (تجاوز display:none)
                     document.getElementById("main-page").style.display = "block";
                     
                     if (data.expires_at) {
@@ -373,7 +381,7 @@
                     mainBtn.style.pointerEvents = "auto";
                 }
             } catch (error) {
-                // خطأ في الاتصال
+                // خطأ في الاتصال (السيرفر نائم)
                 errorText.innerText = "تعذر الاتصال بالسيرفر. يرجى المحاولة لاحقاً.";
                 errorDiv.classList.add("show");
                 
