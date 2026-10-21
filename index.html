@@ -288,7 +288,6 @@
                 <div class="time-text" id="countdownText">00:00:00</div>
             </div>
 
-            <!-- هنا تم وضع رابط بديل ومستقر لصورة الجمجمة -->
             <div class="fire-container">
                 <img src="https://i.imgur.com/lbr98b.png" class="fire-profile-img" alt="Logo">
             </div>
@@ -337,8 +336,9 @@
                 return;
             }
 
+            // تغيير نص الزر وإظهار حالة الانتظار
             mainBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحقق...';
-            mainBtn.style.pointerEvents = "none";
+            mainBtn.style.pointerEvents = "none"; // منع الضغط المتكرر
             errorDiv.classList.remove("show");
 
             try {
@@ -351,6 +351,7 @@
                 const data = await response.json();
 
                 if (data.valid === true) {
+                    // الكود صحيح: الانتقال للواجهة الثانية
                     savedCode = inputCode;
                     document.getElementById("currentCode").innerText = inputCode;
                     document.getElementById("login-page").style.display = "none";
@@ -360,19 +361,23 @@
                         startCountdown(data.expires_at);
                     }
                 } else {
+                    // الكود خاطئ: إظهار الخطأ وعدم الانتقال
                     let msg = "مفتاح غير صالح"; 
                     if (data.reason === "code_expired") msg = "مفتاح منتهي صلاحية";
                     
                     errorText.innerText = msg;
                     errorDiv.classList.add("show");
                     
+                    // إعادة الزر لحالته الطبيعية
                     mainBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> تحقق';
                     mainBtn.style.pointerEvents = "auto";
                 }
             } catch (error) {
+                // خطأ في الاتصال
                 errorText.innerText = "تعذر الاتصال بالسيرفر. يرجى المحاولة لاحقاً.";
                 errorDiv.classList.add("show");
                 
+                // إعادة الزر لحالته الطبيعية
                 mainBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> تحقق';
                 mainBtn.style.pointerEvents = "auto";
             }
