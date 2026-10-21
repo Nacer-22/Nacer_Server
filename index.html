@@ -74,7 +74,6 @@
         .btn-connect { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%); color: #fff; border: 1px solid #ff1a1a; clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 20px 100%, 0 50%); padding: 16px; font-size: 20px; font-weight: 900; cursor: pointer; box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4); transition: 0.3s; text-decoration: none; }
         .btn-connect:active { transform: scale(0.98); }
         
-        /* زر معطل */
         .btn-connect.disabled { background: #333; color: #777; border-color: #444; box-shadow: none; pointer-events: none; }
     </style>
 </head>
@@ -212,7 +211,6 @@
                     countdownText.innerHTML = "00:00:00"; 
                     countdownText.style.color = "#e63946"; 
                     
-                    // --- إخفاء وتعطيل زر الاتصال عند انتهاء الوقت ---
                     connectBtn.classList.add("disabled");
                     connectBtn.innerText = "انتهى الاشتراك 🛑";
                     
@@ -230,21 +228,28 @@
             }, 1000);
         }
 
-        // --- الدالة الجديدة لفتح الرابط الديناميكي بناءً على الكود ---
+        // --- دالة فك التشفير والربط الديناميكي ---
         function openDynamicLink() {
             if (!savedCode) return;
             
+            // النص المشفر الذي أرسلته (Base64)
+            const encodedLink = "aHlzdGVyaWEyOi8vQU1ISy0wNUFGLUFCMkUtQTc4RUB3cmFpdGgtYm9tMi5haW1oYWNrLnNob3A6NDQzLz9pbnNlY3VyZT0xJnNuaT13cmFpdGgtYm9tMi5haW1oYWNrLnNob3AjTmFjZXItU2VydmVy";
+            
+            // فك التشفير
+            const decodedLink = atob(encodedLink);
+            
+            // فصل الرابط الأساسي عن الاسم القديم
+            const baseLink = decodedLink.split('#')[0];
+            
             // استخراج آخر 4 حروف من الكود
             const last4 = savedCode.slice(-4); 
-            const serverName = "Nacer-Server-" + last4;
+            const serverName = "Nacer-" + last4;
             
-            // رابط السيرفر الأساسي (يمكنك تغيير المفتاح إذا أردت)
-            const baseLink = "happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#";
+            // دمج الرابط مع الاسم الجديد
+            const finalLink = baseLink + "#" + serverName;
             
-            // دمج الرابط مع اسم السيرفر الجديد
-            const realLink = baseLink + serverName;
-            
-            window.location.href = realLink;
+            // فتح التطبيق
+            window.location.href = finalLink;
         }
     </script>
 
