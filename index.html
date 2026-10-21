@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAX_NON_ROOT - الاتصال بسيرفر</title>
+    <title>HAX_NON_ROOT - تفعيل التطبيق</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -13,8 +13,8 @@
         body {
             background-color: #050000;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(200, 0, 0, 0.15) 0%, transparent 60%),
-                radial-gradient(circle at 0% 100%, rgba(200, 0, 0, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 50% 0%, rgba(139, 0, 0, 0.25) 0%, transparent 60%),
+                radial-gradient(circle at 0% 100%, rgba(139, 0, 0, 0.15) 0%, transparent 50%);
             background-attachment: fixed;
             color: #fff;
             display: flex;
@@ -25,110 +25,129 @@
             overflow-x: hidden;
         }
 
-        /* زر التيليجرام العلوي */
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
-        .telegram-top {
-            position: absolute; top: 20px; left: 20px;
-            display: flex; flex-direction: column; align-items: center;
-            text-decoration: none; z-index: 100; animation: float 3s ease-in-out infinite;
-        }
-        .telegram-top img {
-            width: 45px; height: 45px; border-radius: 50%; object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 15px rgba(0, 150, 255, 0.4); margin-bottom: 5px;
-        }
-        .telegram-top span { font-size: 12px; color: #aaa; font-weight: bold; }
-
         .container {
-            width: 100%; max-width: 400px; position: relative; z-index: 2;
-            display: flex; flex-direction: column; align-items: center;
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* إصلاح جذري للشعار (تلاشي الحواف) */
-        .logo-wrapper {
-            position: relative; width: 200px; height: 200px; margin: 0 auto 15px auto;
+        /* التاج والاسم */
+        .header-section {
+            display: flex; flex-direction: column; align-items: center; margin-bottom: 10px;
+        }
+        .crown-icon { color: #ffd700; font-size: 24px; margin-bottom: 5px; text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+        .name-container { display: flex; align-items: center; gap: 15px; }
+        .username {
+            font-family: 'Times New Roman', serif; font-size: 26px;
+            font-weight: bold; color: #ffd700; letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+        .line { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, #ffd700, transparent); }
+
+        /* الشعار بدون مربع */
+        .logo-container {
+            width: 200px; height: 200px; margin: 0 auto;
             display: flex; justify-content: center; align-items: center;
         }
-        .logo-wrapper::before {
-            content: ''; position: absolute; width: 80%; height: 80%;
-            background: radial-gradient(circle, rgba(255, 0, 0, 0.4) 0%, transparent 70%);
-            filter: blur(20px); z-index: -1;
-        }
-        .logo-wrapper img {
+        .logo-container img {
             width: 100%; height: 100%; object-fit: contain;
-            /* هذه الخاصية تذيب المربع الأسود وتجعله دائرياً */
-            -webkit-mask-image: radial-gradient(circle, black 45%, transparent 65%);
-            mask-image: radial-gradient(circle, black 45%, transparent 65%);
-            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.6));
+            mix-blend-mode: screen; /* إزالة المربع الأسود */
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
         }
 
-        /* العنوان والخطوط */
-        .title-container {
-            display: flex; align-items: center; justify-content: center;
-            gap: 15px; margin-bottom: 8px; width: 100%;
+        /* العنوان مع تأثير الفرشاة الحمراء */
+        .title-wrapper {
+            position: relative; width: 100%; text-align: center; margin: 15px 0 10px 0;
         }
-        .title-line { flex: 1; height: 2px; background: linear-gradient(90deg, transparent, #ff1a1a, transparent); }
-        .title { font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); }
-        .subtitle { font-size: 14px; color: #888; margin-bottom: 25px; font-weight: 600; text-align: center; }
+        .title-bg {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80%; height: 40px; background: radial-gradient(ellipse, rgba(230, 57, 70, 0.4) 0%, transparent 70%);
+            filter: blur(10px); z-index: -1;
+        }
+        .title { font-size: 26px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        
+        .subtitle { font-size: 14px; color: #ccc; margin-bottom: 15px; font-weight: 600; text-align: center; }
 
-        /* خانة الإدخال (مرتبة بشكل احترافي) */
+        /* صيغة المثال */
+        .example-text {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            font-size: 14px; color: #e63946; font-family: monospace; margin-bottom: 20px; direction: ltr;
+        }
+        .example-text span { color: #aaa; font-family: 'Cairo', sans-serif; direction: rtl; }
+
+        /* خانة الإدخال */
         .input-box {
             display: flex; align-items: center; width: 100%;
-            background-color: rgba(10, 0, 0, 0.85);
-            border: 1px solid #ff1a1a;
-            border-radius: 12px;
-            padding: 8px 15px; margin-bottom: 15px;
-            box-shadow: 0 0 15px rgba(255, 26, 26, 0.2), inset 0 0 10px rgba(255, 26, 26, 0.1);
+            background-color: rgba(10, 10, 10, 0.9); border: 1px solid #e63946; border-radius: 8px;
+            padding: 10px 15px; margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.2), inset 0 0 10px rgba(230, 57, 70, 0.1);
         }
-        .input-box i.fa-key { color: #ff1a1a; font-size: 18px; margin-left: 10px; }
+        .input-box i.fa-key { color: #e63946; font-size: 18px; margin-left: 10px; }
         .input-box input {
             flex: 1; background: transparent; border: none; color: #fff;
-            font-size: 16px; padding: 10px 5px; font-family: monospace;
-            text-align: center; direction: ltr; outline: none;
+            font-size: 16px; padding: 5px; font-family: monospace;
+            text-align: right; outline: none;
         }
-        .input-box input::placeholder { color: #666; font-family: 'Cairo', sans-serif; direction: rtl; font-size: 14px; }
-        .input-box .paste-btn {
-            background: transparent; border: 1px solid #444; color: #aaa;
-            padding: 6px 12px; border-radius: 6px; cursor: pointer;
-            font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: 0.3s;
+        .input-box input::placeholder { color: #888; font-family: 'Cairo', sans-serif; font-size: 15px; }
+        .input-box .clear-btn {
+            background: transparent; border: none; color: #888; cursor: pointer; font-size: 16px;
         }
-        .input-box .paste-btn:hover { background: #222; color: #fff; border-color: #ff1a1a; }
+        .input-box .clear-btn:hover { color: #fff; }
 
-        /* صندوق المثال */
-        .example-box {
-            width: 100%; display: flex; align-items: center; gap: 10px;
-            background-color: rgba(15, 15, 15, 0.8); border: 1px solid #222;
-            border-radius: 10px; padding: 12px 15px; margin-bottom: 25px;
+        /* زر اللصق */
+        .paste-btn {
+            width: 100%; background-color: rgba(20, 10, 10, 0.8);
+            border: 1px solid #e63946; border-radius: 8px; color: #fff;
+            padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            margin-bottom: 20px; transition: 0.3s;
         }
-        .example-box i { color: #ff1a1a; font-size: 16px; }
-        .example-box div { font-size: 13px; color: #888; font-weight: 600; }
-        .example-box span { color: #ff1a1a; font-family: monospace; font-size: 14px; direction: ltr; }
+        .paste-btn:hover { background-color: rgba(230, 57, 70, 0.2); }
+
+        /* زر التحقق الكبير */
+        .verify-btn {
+            width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%);
+            color: #fff; border: 1px solid #ff4d4d; border-radius: 12px;
+            padding: 16px; font-size: 22px; font-weight: 900; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 15px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.4);
+            transition: 0.3s; margin-bottom: 25px; position: relative;
+        }
+        .verify-btn:hover { box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), inset 0 0 20px rgba(255, 0, 0, 0.6); }
+        .verify-btn:active { transform: scale(0.98); }
+        .verify-btn i.fa-chevron-left, .verify-btn i.fa-chevron-right { font-size: 16px; color: #ff9999; }
 
         /* رسالة الخطأ */
         .error-msg {
-            display: none; color: #ff1a1a; font-size: 14px; font-weight: bold;
-            margin-bottom: 15px; text-align: center; width: 100%; text-shadow: 0 0 5px rgba(255,0,0,0.5);
+            display: none; color: #e63946; font-size: 14px; font-weight: bold;
+            margin-bottom: 15px; text-align: center; width: 100%;
+            background: rgba(230, 57, 70, 0.1); padding: 10px; border-radius: 5px; border: 1px solid #e63946;
         }
 
-        /* زر التحقق (شكل احترافي بدون قطع) */
-        .verify-btn {
-            width: 100%; background: linear-gradient(180deg, #e63946 0%, #8b0000 100%);
-            color: #fff; border: 1px solid #ff4d4d; border-radius: 12px;
-            padding: 16px; font-size: 20px; font-weight: 900; cursor: pointer;
-            display: flex; justify-content: center; align-items: center; gap: 10px;
-            box-shadow: 0 5px 20px rgba(230, 57, 70, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.2);
-            transition: 0.3s; margin-bottom: 25px;
+        /* الأيقونات السفلية */
+        .bottom-features {
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; background-color: rgba(10, 10, 10, 0.8);
+            border: 1px solid #222; border-radius: 8px; padding: 15px 10px;
+            margin-bottom: 20px;
         }
-        .verify-btn:active { transform: scale(0.98); }
+        .feature-item {
+            display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1;
+        }
+        .feature-item i { color: #e63946; font-size: 18px; }
+        .feature-item span { font-size: 11px; color: #aaa; font-weight: 600; text-align: center; }
+        .divider { width: 1px; height: 30px; background-color: #333; }
 
-        /* زر القناة */
-        .channel-btn {
-            width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;
-            background-color: rgba(20, 0, 0, 0.6); border: 1px solid #ff1a1a;
-            color: #ff1a1a; text-decoration: none; padding: 14px; border-radius: 10px;
-            font-size: 15px; font-weight: bold; transition: 0.3s;
+        /* شعار أسفل الصفحة */
+        .footer-logo {
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
-        .channel-btn:hover { background-color: #ff1a1a; color: #fff; }
+        .footer-logo i { color: #ffd700; font-size: 14px; }
+        .footer-logo span { color: #e63946; font-size: 12px; font-weight: bold; letter-spacing: 1px; }
 
         /* ================= الشاشة الثانية ================= */
         #main-page { display: none; text-align: center; width: 100%; }
@@ -200,54 +219,93 @@
 </head>
 <body>
 
-    <!-- زر التيليجرام العلوي -->
-    <a href="https://t.me/Nacer_22" target="_blank" class="telegram-top">
-        <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram">
-        <span>تيليجرام</span>
-    </a>
-
     <div class="container">
         
         <!-- الشاشة الأولى -->
         <div id="login-page" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             
-            <div class="logo-wrapper">
-                <img src="https://files.catbox.moe/lbr98b.png" alt="Logo">
+            <!-- التاج والاسم -->
+            <div class="header-section">
+                <i class="fa-solid fa-crown crown-icon"></i>
+                <div class="name-container">
+                    <span class="line"></span>
+                    <span class="username">Nacer_22</span>
+                    <span class="line"></span>
+                </div>
             </div>
 
-            <div class="title-container">
-                <div class="title-line"></div>
-                <div class="title">الاتصال بسيرفر</div>
-                <div class="title-line"></div>
+            <!-- الشعار -->
+            <div class="logo-container">
+                <img src="https://files.catbox.moe/lbr98b.png" alt="HAX_NON_ROOT Logo">
             </div>
 
-            <div class="subtitle">أدخل مفتاح التفعيل الخاص بك للتحقق من جهازك</div>
+            <!-- العنوان -->
+            <div class="title-wrapper">
+                <div class="title-bg"></div>
+                <div class="title">تفعيل التطبيق</div>
+            </div>
+            
+            <div class="subtitle">يرجى إدخال مفتاح التفعيل للمتابعة</div>
 
-            <!-- ترتيب خانة الإدخال: الأيقونة يمين، النص منتصف، الزر يسار -->
+            <!-- المثال -->
+            <div class="example-text">
+                <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i>
+                Nacer-XXXX_XXXX-XXXX
+                <i class="fa-solid fa-arrow-left" style="font-size:10px;"></i>
+            </div>
+
+            <!-- خانة الإدخال -->
             <div class="input-box">
                 <i class="fa-solid fa-key"></i>
-                <input type="text" id="accessCode" placeholder="Nacer-XXXX_XXXX-XXXX" autocomplete="off">
-                <button class="paste-btn" onclick="pasteCode()">
-                    <i class="fa-regular fa-copy"></i> لصق
-                </button>
+                <input type="text" id="accessCode" placeholder="أدخل مفتاح التفعيل" autocomplete="off">
+                <button class="clear-btn" onclick="document.getElementById('accessCode').value=''"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <div class="example-box">
-                <i class="fa-solid fa-circle-info"></i>
-                <div>مثال على الصيغة: <span>Nacer-XXXX_XXXX-XXXX</span></div>
-            </div>
+            <!-- زر اللصق -->
+            <button class="paste-btn" onclick="pasteCode()">
+                <i class="fa-regular fa-clipboard"></i> لصق الكود
+            </button>
 
+            <!-- رسالة الخطأ -->
             <div class="error-msg" id="errorMsg">
                 <span id="errorText">مفتاح غير صالح</span>
             </div>
 
+            <!-- زر التحقق -->
             <button class="verify-btn" id="mainBtn" onclick="checkCode()">
+                <i class="fa-solid fa-chevron-left"></i>
                 <i class="fa-solid fa-shield-halved"></i> تحقق
+                <i class="fa-solid fa-chevron-right"></i>
             </button>
 
-            <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="channel-btn">
-                انقر هنا لتوجه للقنات الأساسية <i class="fa-solid fa-arrow-left"></i>
-            </a>
+            <!-- الأيقونات السفلية -->
+            <div class="bottom-features">
+                <div class="feature-item">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>تفعيل آمن</span>
+                </div>
+                <div class="divider"></div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>اتصال بالسيرفر</span>
+                </div>
+                <div class="divider"></div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>تحقق فوري</span>
+                </div>
+                <div class="divider"></div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>الوصول للواجهة</span>
+                </div>
+            </div>
+
+            <!-- شعار أسفل الصفحة -->
+            <div class="footer-logo">
+                <i class="fa-solid fa-crown"></i>
+                <span>HAX_NON_ROOT</span>
+            </div>
 
         </div>
 
@@ -370,17 +428,4 @@
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                let displayHours = hours < 10 ? '0' + hours : hours;
-                let displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-                let displaySeconds = seconds < 10 ? '0' + seconds : seconds;
-                countdownText.innerText = days > 0 ? `${days}ي : ${displayHours}:${displayMinutes}:${displaySeconds}` : `${displayHours}:${displayMinutes}:${displaySeconds}`;
-                const totalMaxTime = 24 * 60 * 60 * 1000;
-                let percentage = distance / totalMaxTime;
-                if(percentage > 1) percentage = 1;
-                const offset = circumference - (percentage * circumference);
-                progressRing.style.strokeDashoffset = offset;
-            }, 1000);
-        }
-    </script>
-</body>
-</html>
+                let displayHours =
