@@ -140,10 +140,13 @@
         }
         .channel-btn:hover { background-color: #e63946; color: #fff; }
 
-        /* ================= الشاشة الثانية (مخفية تماماً حتى يتم التحقق) ================= */
+        /* ================= الشاشة الثانية ================= */
+        /* هنا تم إخفاء الشاشة الثانية بشكل صريح ومحمي */
         #main-page { 
-            display: none !important; /* إخفاء إجباري */
-            text-align: center; width: 100%; position: relative; 
+            display: none; 
+            text-align: center; 
+            width: 100%; 
+            position: relative; 
         }
         
         .download-btn-top {
@@ -278,7 +281,7 @@
             </a>
         </div>
 
-        <!-- الشاشة الثانية -->
+        <!-- الشاشة الثانية (مخفية) -->
         <div id="main-page">
             
             <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn-top">
@@ -292,7 +295,7 @@
             </div>
 
             <div class="fire-container">
-                <img src="https://i.imgur.com/lbr98b.png" class="fire-profile-img" alt="Logo">
+                <img src="https://files.catbox.moe/lbr98b.png" class="fire-profile-img" alt="Logo">
             </div>
 
             <div class="code-display">
@@ -316,9 +319,6 @@
         const errorDiv = document.getElementById("errorMsg");
         const errorText = document.getElementById("errorText");
         const mainBtn = document.getElementById("mainBtn");
-
-        // إجبار المتصفح على إخفاء الصفحة الثانية عند فتح الموقع (حماية إضافية)
-        document.getElementById("main-page").style.display = "none";
 
         async function pasteCode() {
             try {
@@ -360,9 +360,9 @@
                     // الكود صحيح: الانتقال للواجهة الثانية
                     savedCode = inputCode;
                     document.getElementById("currentCode").innerText = inputCode;
-                    document.getElementById("login-page").style.display = "none";
                     
-                    // إظهار الصفحة الثانية (تجاوز display:none)
+                    // إخفاء الأولى وإظهار الثانية
+                    document.getElementById("login-page").style.display = "none";
                     document.getElementById("main-page").style.display = "block";
                     
                     if (data.expires_at) {
