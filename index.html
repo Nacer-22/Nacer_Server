@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nacer_22 - بوابة الدخول</title>
+    <title>HAX_NON_ROOT - الاتصال بسيرفر</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- مكتبة الأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #030303;
-            background-image: url('https://files.catbox.moe/lbr98b.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-color: #050000;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(200, 0, 0, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 0% 100%, rgba(200, 0, 0, 0.1) 0%, transparent 50%);
             color: #fff;
             display: flex;
             justify-content: center;
@@ -23,94 +25,268 @@
             position: relative;
             overflow-x: hidden;
         }
-        body::before {
-            content: '';
+
+        /* زر التيليجرام في الزاوية العلوية اليسرى */
+        .telegram-top {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at center, rgba(10, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.99) 100%);
-            z-index: 1;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            z-index: 10;
+            transition: transform 0.3s;
         }
+        .telegram-top:hover { transform: scale(1.1); }
+        .telegram-top img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.4);
+            border: 2px solid rgba(255,255,255,0.1);
+            margin-bottom: 5px;
+        }
+        .telegram-top span {
+            font-size: 12px;
+            color: #aaa;
+            font-weight: bold;
+        }
+
+        /* الحاوية الرئيسية */
         .container {
-            position: relative;
-            z-index: 2;
             width: 100%;
-            max-width: 400px;
-            padding-bottom: 20px;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
         }
-        .top-banner {
-            border: 1px solid #331111;
-            background: linear-gradient(180deg, rgba(20, 5, 5, 0.8) 0%, rgba(5, 5, 5, 1) 100%);
-            border-radius: 6px;
-            padding: 18px 15px;
+
+        /* ===== اسم Nacer_22 والتاج (الجديد) ===== */
+        .user-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+        .crown-icon {
+            color: #d4af37; /* لون ذهبي */
+            font-size: 22px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+        }
+        .name-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .username {
+            font-family: 'Times New Roman', serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #f5c518; /* لون ذهبي */
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(245, 197, 24, 0.4);
+        }
+        .line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #f5c518, transparent);
+        }
+        /* ======================================= */
+
+        /* الشعار (صورة الجمجمة) */
+        .logo-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .logo-container img {
+            width: 180px;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.4));
+        }
+
+        /* العناوين */
+        .title {
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #aaa;
             margin-bottom: 25px;
-            text-align: right;
+            font-weight: 600;
+        }
+
+        /* صندوق إدخال الكود */
+        .input-box {
+            width: 100%;
+            background-color: rgba(10, 0, 0, 0.8);
+            border: 1px solid #ff1a1a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            padding: 5px 15px;
+            box-shadow: 0 0 15px rgba(255, 26, 26, 0.2), inset 0 0 10px rgba(255, 26, 26, 0.1);
+            margin-bottom: 15px;
             position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 15px 100%, 0 calc(100% - 15px));
         }
-        .top-banner::before {
-            content: '';
-            position: absolute; top: 0; right: 0; height: 100%; width: 2px;
-            background-color: #e63946; box-shadow: 0 0 10px #e63946;
+        .input-box i.fa-key {
+            color: #ff1a1a;
+            font-size: 18px;
+            margin-left: 10px;
         }
-        .banner-header { font-size: 12px; color: #e63946; margin-bottom: 5px; }
-        .banner-title { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 8px; }
-        .banner-desc { font-size: 13px; color: #888; line-height: 1.6; margin-bottom: 15px; }
-        .btn-telegram-custom {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            background-color: rgba(15, 15, 15, 0.8); border: 1px solid #222; padding: 12px;
-            border-radius: 4px; color: #fff; text-decoration: none; font-size: 15px; font-weight: 900; transition: 0.3s;
+        .input-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            padding: 12px 0;
+            font-family: monospace;
+            text-align: left;
+            direction: ltr;
+            outline: none;
         }
-        .btn-telegram-custom:hover { background-color: #111; border-color: #e63946; }
-        .btn-telegram-custom img { width: 20px; height: 20px; object-fit: contain; }
-
-        .profile-section { text-align: center; margin-bottom: 30px; }
-        .profile-img {
-            width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
-            margin-bottom: 15px; box-shadow: 0 0 30px rgba(230, 57, 70, 0.3); border: 2px solid #1a1a1a;
+        .input-box input::placeholder {
+            color: #555;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            text-align: right;
         }
-        .profile-name { font-size: 28px; font-weight: 900; color: #fff; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-
-        .subtitle { text-align: center; color: #aaa; font-size: 15px; margin-bottom: 25px; font-weight: 700; }
-        .channel-link { color: #e63946; text-decoration: none; font-weight: 900; font-size: 16px; text-shadow: 0 0 10px rgba(230, 57, 70, 0.4); }
-        
-        .input-label { display: flex; align-items: center; font-size: 15px; color: #e63946; margin-bottom: 8px; font-weight: 900; }
-        .input-label::before { content: '■'; font-size: 12px; margin-left: 5px; }
-        
-        .input-wrapper {
-            display: flex; border: 1px solid #e63946; border-radius: 8px;
-            overflow: hidden; background-color: #050505; margin-bottom: 10px;
-            box-shadow: 0 0 15px rgba(230, 57, 70, 0.1);
+        .input-box .paste-btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: #aaa;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
         }
-        .input-wrapper input {
-            flex: 1; background: transparent; border: none; padding: 15px;
-            color: #fff; font-size: 18px; font-family: monospace; text-align: center; direction: ltr;
-        }
-        .input-wrapper input:focus { outline: none; }
-        .input-wrapper button {
-            background-color: #111; color: #ccc; border: none; border-right: 1px solid #333;
-            padding: 0 20px; font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        .input-wrapper button:hover { background-color: #e63946; color: #fff; }
-
-        .error-container { 
-            display: none; color: #e63946; font-size: 15px; font-weight: 900; margin-bottom: 15px; text-align: right; padding-right: 5px;
-            text-shadow: 0 0 5px rgba(230, 57, 70, 0.5);
-        }
-        .error-container::before { content: '⚠ '; font-size: 16px; }
-
-        /* الزر */
-        #mainBtn {
-            width: 100%; background-color: #111; color: #555; border: 1px solid #222;
-            padding: 16px; border-radius: 8px; font-family: 'Cairo', sans-serif;
-            font-size: 20px; font-weight: 900; cursor: pointer; transition: all 0.3s; margin-bottom: 20px;
+        .input-box .paste-btn:hover {
+            background: #222;
+            color: #fff;
+            border-color: #ff1a1a;
         }
 
-        .footer { text-align: center; font-size: 13px; color: #555; line-height: 1.8; font-weight: 700; }
-        .footer a { color: #e63946; text-decoration: none; font-weight: 900; }
+        /* صندوق المثال */
+        .example-box {
+            width: 100%;
+            background-color: rgba(15, 15, 15, 0.8);
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .example-box i { color: #ff1a1a; }
+        .example-box div { font-size: 13px; color: #888; }
+        .example-box span { color: #ff1a1a; font-family: monospace; direction: ltr; display: inline-block; }
 
-        /* الشاشة الثانية */
-        #main-page { display: none; text-align: center; position: relative; }
+        /* رسالة الخطأ */
+        .error-msg {
+            display: none;
+            color: #ff1a1a;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
+            text-shadow: 0 0 5px rgba(255,0,0,0.5);
+        }
+
+        /* زر التحقق */
+        .verify-btn {
+            width: 100%;
+            background: linear-gradient(180deg, #cc0000 0%, #800000 100%);
+            color: #fff;
+            border: 1px solid #ff4d4d;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.2);
+            transition: 0.3s;
+            margin-bottom: 25px;
+        }
+        .verify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
+        }
+
+        /* صندوق حالة الاتصال */
+        .status-box {
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.9);
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            border-right: 3px solid #ff1a1a;
+        }
+        .status-box i.fa-globe {
+            color: #ff1a1a;
+            font-size: 20px;
+            animation: pulse 2s infinite;
+        }
+        .status-box div {
+            font-size: 13px;
+            color: #888;
+            font-weight: bold;
+        }
+
+        /* زر القناة الأساسي */
+        .channel-btn {
+            width: 100%;
+            background-color: rgba(20, 0, 0, 0.6);
+            border: 1px solid #ff1a1a;
+            color: #ff1a1a;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 10px rgba(255, 26, 26, 0.1);
+        }
+        .channel-btn:hover {
+            background-color: #ff1a1a;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 26, 26, 0.5);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* ================= الشاشة الثانية ================= */
+        #main-page { display: none; text-align: center; position: relative; width: 100%; }
         
         .download-btn-top {
             display: block; width: 100%; background: linear-gradient(90deg, #b31217, #e63946, #b31217);
@@ -169,58 +345,85 @@
         .code-box { flex: 1; padding: 15px; font-family: monospace; font-size: 16px; color: #aaa; direction: ltr; text-align: center; }
         .btn-copy {
             background-color: #111; color: #fff; border: none; border-right: 1px solid #333;
-            padding: 0 20px; font-family: 'Cairo', sans-serif; font-weight: bold; cursor: pointer;
+            padding: 0 20px; font-family: 'Cairo', sans-serif; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
+        .btn-copy:hover { background-color: #222; color: #e63946; }
 
         .btn-connect {
             display: block; background: linear-gradient(135deg, #e63946 0%, #850c16 100%);
             color: white; text-decoration: none; padding: 18px; font-size: 20px; font-weight: 900;
             border-radius: 8px; box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4); transition: 0.3s;
-            border: 1px solid #ff4d4d;
+            border: 1px solid #ff4d4d; width: 100%;
         }
     </style>
 </head>
 <body>
 
+    <!-- زر التيليجرام العلوي -->
+    <a href="https://t.me/Nacer_22" target="_blank" class="telegram-top">
+        <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram">
+        <span>تيليجرام</span>
+    </a>
+
     <div class="container">
         
         <!-- الشاشة الأولى -->
-        <div id="login-page">
-            <div class="top-banner">
-                <div class="banner-header">نحن ننتقل</div>
-                <div class="banner-title">إلى تيليجرام</div>
-                <div class="banner-desc">لأي استفسار أو مشكلة، تواصل معنا مباشرة عبر حسابنا الرسمي.</div>
-                <a href="https://t.me/Nacer_22" target="_blank" class="btn-telegram-custom">
-                    <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram">
-                    <span>تيليجرام</span>
-                </a>
+        <div id="login-page" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            
+            <!-- اسم Nacer_22 مع التاج (تمت إضافته هنا) -->
+            <div class="user-header">
+                <i class="fa-solid fa-crown crown-icon"></i>
+                <div class="name-container">
+                    <span class="line"></span>
+                    <span class="username">Nacer_22</span>
+                    <span class="line"></span>
+                </div>
             </div>
 
-            <div class="profile-section">
-                <img src="https://files.catbox.moe/lbr98b.png" alt="Nacer_22" class="profile-img">
-                <div class="profile-name">Nacer_22</div>
+            <!-- الشعار -->
+            <div class="logo-container">
+                <img src="https://files.catbox.moe/lbr98b.png" alt="HAX_NON_ROOT Logo">
             </div>
 
-            <p class="subtitle">
-                تابع <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="channel-link">قناتنا</a> من اجل كل جديد
-            </p>
+            <h1 class="title">الاتصال بسيرفر</h1>
+            <p class="subtitle">أدخل مفتاح التفعيل الخاص بك للتحقق من جهازك</p>
 
-            <div class="input-label">مفتاح الوصول</div>
-            <div class="input-wrapper">
-                <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off">
-                <button onclick="pasteCode()">لصق</button>
+            <!-- خانة الإدخال -->
+            <div class="input-box">
+                <i class="fa-solid fa-key"></i>
+                <input type="text" id="accessCode" placeholder="Nacer-XXXX_XXXX-XXXX" autocomplete="off">
+                <button class="paste-btn" onclick="pasteCode()">
+                    <i class="fa-regular fa-copy"></i> لصق
+                </button>
             </div>
 
-            <div class="error-container" id="errorMsg">
+            <!-- صندوق المثال -->
+            <div class="example-box">
+                <i class="fa-solid fa-circle-info"></i>
+                <div>مثال على الصيغة: <span>Nacer-XXXX_XXXX-XXXX</span></div>
+            </div>
+
+            <!-- رسالة الخطأ -->
+            <div class="error-msg" id="errorMsg">
                 <span id="errorText">مفتاح غير صالح</span>
             </div>
 
-            <button id="mainBtn" onclick="checkCode()">فتح</button>
+            <!-- زر التحقق -->
+            <button class="verify-btn" id="mainBtn" onclick="checkCode()">
+                <i class="fa-solid fa-shield-halved"></i> تحقق
+            </button>
 
-            <div class="footer">
-                لا يوجد مفتاح؟ <a href="https://t.me/Nacer_22" target="_blank">تواصل مع البائع.</a><br>
-                يبدأ وقتك عندما تتصل.
+            <!-- حالة الاتصال -->
+            <div class="status-box">
+                <i class="fa-solid fa-globe"></i>
+                <div id="statusText">جاري الاتصال بالخادم...</div>
             </div>
+
+            <!-- زر القناة الأساسية -->
+            <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="channel-btn">
+                انقر هنا لتوجه للقنات الأساسية <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
         </div>
 
         <!-- الشاشة الثانية -->
@@ -244,38 +447,17 @@
             </div>
             <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">اتصال الآن ⚡</a>
         </div>
+
     </div>
 
     <script>
         const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
         let timerInterval;
         let savedCode = "";
+
         const inputField = document.getElementById("accessCode");
         const mainBtn = document.getElementById("mainBtn");
-
-        // 🔴 الحل الجذري: فحص الخانة كل 500 ملي ثانية لتغيير لون الزر (مستحيل أن يفشل)
-        setInterval(function() {
-            if (inputField.value.trim().length > 0) {
-                mainBtn.style.setProperty("background-color", "#e63946", "important");
-                mainBtn.style.setProperty("color", "#ffffff", "important");
-                mainBtn.style.setProperty("border-color", "#e63946", "important");
-                mainBtn.style.setProperty("box-shadow", "0 5px 20px rgba(230, 57, 70, 0.4)", "important");
-            } else {
-                mainBtn.style.setProperty("background-color", "#111111", "important");
-                mainBtn.style.setProperty("color", "#555555", "important");
-                mainBtn.style.setProperty("border-color", "#222222", "important");
-                mainBtn.style.setProperty("box-shadow", "none", "important");
-            }
-        }, 500);
-
-        function getDeviceId() {
-            let deviceId = localStorage.getItem('client_device_id');
-            if (!deviceId) {
-                deviceId = 'DEV-' + Math.random().toString(36).substring(2, 15);
-                localStorage.setItem('client_device_id', deviceId);
-            }
-            return deviceId;
-        }
+        const statusText = document.getElementById("statusText");
 
         async function pasteCode() {
             try {
@@ -290,10 +472,8 @@
             navigator.clipboard.writeText(savedCode).then(() => alert("✅ تم نسخ الكود!"));
         }
 
-        // 🟢 الانتقال الفوري للواجهة الثانية، والتحقق في الخلفية
         async function checkCode() {
             const inputCode = inputField.value.trim();
-            const deviceId = getDeviceId();
             const errorDiv = document.getElementById("errorMsg");
             const errorText = document.getElementById("errorText");
             
@@ -303,84 +483,45 @@
                 return;
             }
 
-            // 1. الانتقال الفوري (كما طلبت)
-            savedCode = inputCode;
-            document.getElementById("currentCode").innerText = inputCode;
-            document.getElementById("login-page").style.display = "none";
-            document.getElementById("main-page").style.display = "block";
-            
-            // تشغيل مؤقت وهمي مبدئياً (سيتم تحديثه لاحقاً)
-            startCountdown(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
+            mainBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحقق...';
+            errorDiv.style.display = "none";
+            statusText.innerHTML = "جاري الاتصال بالخادم والتحقق من المفتاح...";
 
-            // 2. التحقق في الخلفية
             try {
                 const response = await fetch(RENDER_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ code: inputCode, device_id: deviceId })
+                    body: JSON.stringify({ code: inputCode, device_id: "device-" + Math.random() })
                 });
                 
                 const data = await response.json();
 
                 if (data.valid === true) {
-                    // إذا كان صحيحاً، تحديث المؤقت بالوقت الحقيقي
+                    savedCode = inputCode;
+                    document.getElementById("currentCode").innerText = inputCode;
+                    document.getElementById("login-page").style.display = "none";
+                    document.getElementById("main-page").style.display = "block";
+                    
                     if (data.expires_at) {
                         startCountdown(data.expires_at);
                     }
                 } else {
-                    // إذا كان خاطئاً، نرجع المستخدم للواجهة الأولى ونظهر الخطأ
-                    document.getElementById("main-page").style.display = "none";
-                    document.getElementById("login-page").style.display = "block";
-                    
                     let msg = "مفتاح غير صالح"; 
                     if (data.reason === "code_expired") msg = "مفتاح منتهي صلاحية";
                     
                     errorText.innerText = msg;
-                    errorDiv.style.display = "block"; 
+                    errorDiv.style.display = "block";
+                    mainBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> تحقق';
+                    statusText.innerHTML = "فشل الاتصال. تأكد من المفتاح.";
                 }
             } catch (error) {
-                // إذا كان السيرفر نائماً، نرجع المستخدم ونظهر رسالة
-                document.getElementById("main-page").style.display = "none";
-                document.getElementById("login-page").style.display = "block";
-                errorText.innerText = "تعذر الاتصال بالسيرفر. يرجى المحاولة بعد قليل.";
-                errorDiv.style.display = "block"; 
+                errorText.innerText = "تعذر الاتصال بالسيرفر. يرجى المحاولة لاحقاً.";
+                errorDiv.style.display = "block";
+                mainBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> تحقق';
+                statusText.innerHTML = "الخادم لا يستجيب حالياً.";
             }
         }
 
         function startCountdown(expiryDateString) {
             const countdownText = document.getElementById("countdownText");
-            const progressRing = document.getElementById("progressRing");
-            const radius = 100;
-            const circumference = 2 * Math.PI * radius;
-            const expiryDate = new Date(expiryDateString).getTime();
-            
-            if(timerInterval) clearInterval(timerInterval);
-            
-            timerInterval = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = expiryDate - now;
-                if (distance < 0) {
-                    clearInterval(timerInterval);
-                    countdownText.innerText = "00:00:00";
-                    countdownText.style.color = "#e63946";
-                    progressRing.style.strokeDashoffset = circumference;
-                    return;
-                }
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                let displayHours = hours < 10 ? '0' + hours : hours;
-                let displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-                let displaySeconds = seconds < 10 ? '0' + seconds : seconds;
-                countdownText.innerText = days > 0 ? `${days}ي : ${displayHours}:${displayMinutes}:${displaySeconds}` : `${displayHours}:${displayMinutes}:${displaySeconds}`;
-                const totalMaxTime = 24 * 60 * 60 * 1000;
-                let percentage = distance / totalMaxTime;
-                if(percentage > 1) percentage = 1;
-                const offset = circumference - (percentage * circumference);
-                progressRing.style.strokeDashoffset = offset;
-            }, 1000);
-        }
-    </script>
-</body>
-</html>
+     
