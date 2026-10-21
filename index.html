@@ -124,7 +124,6 @@
                 <button class="btn-copy" onclick="copyCode()">نسخ</button>
             </div>
             
-            <!-- زر الاتصال يعمل عبر دالة جافاسكريبت -->
             <a href="javascript:void(0)" id="connectBtn" onclick="openLink()" class="btn-connect">اتصال الآن ⚡</a>
         </div>
     </div>
@@ -229,22 +228,18 @@
             }, 1000);
         }
 
-        // دالة فتح الرابط (تعمل فوراً بدون تعقيد)
         function openLink() {
             if (!savedCode) return;
-
-            // النص المشفر للرابط الأساسي (يخفي الباسورد)
-            const encoded = "aHlzdGVyaWEyOi8vQU1ISy0wNUFGLUFCMkUtQTc4RUB3cmFpdGgtYm9tMi5haW1oYWNrLnNob3A6NDQzLz9pbnNlY3VyZT0xJnNuaT13cmFpdGgtYm9tMi5haW1oYWNrLnNob3A=";
             
-            // فك التشفير
-            const baseLink = atob(encoded);
+            // رابط ملف الاشتراك الخاص بك
+            const subUrl = "https://raw.githubusercontent.com/Nacer-22/Nacer_Server/main/sub.txt";
             
             // اسم السيرفر الديناميكي (آخر 4 حروف)
             const last4 = savedCode.slice(-4);
             const serverName = "Nacer-" + last4;
             
-            // الرابط النهائي
-            const finalLink = "happ://add/" + baseLink + "#" + serverName;
+            // إرسال رابط الاشتراك للتطبيق
+            const finalLink = "happ://add/" + subUrl + "#" + serverName;
             
             // فتح التطبيق فوراً
             window.location.href = finalLink;
