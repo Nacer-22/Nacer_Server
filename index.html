@@ -120,85 +120,72 @@
         }
         .channel-btn:hover { background-color: #e63946; color: #fff; }
 
-        /* ================= الشاشة الثانية (تعديلات جديدة) ================= */
+        /* ================= الشاشة الثانية ================= */
         #main-page { display: none; text-align: center; width: 100%; position: relative; }
         
-        /* زر تحميل الحاقن */
+        /* تصميم زر تحميل الحاقن الجديد (زجاجي متوهج) مع الصورة */
         .download-btn-top {
-            display: block; width: 100%; background: linear-gradient(90deg, #b31217, #e63946, #b31217);
-            background-size: 200% auto; color: #fff; text-decoration: none; padding: 12px;
-            border-radius: 8px; font-size: 15px; font-weight: 900; margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4); animation: shine 3s linear infinite;
-            border: 1px solid #ff4d4d;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; background: rgba(20, 5, 5, 0.8);
+            border: 1px solid #e63946; color: #fff; text-decoration: none; 
+            padding: 12px 15px; border-radius: 8px; font-size: 16px; font-weight: 900; 
+            margin-bottom: 20px; box-shadow: 0 0 15px rgba(230, 57, 70, 0.2);
+            transition: 0.3s; position: relative; overflow: hidden;
         }
-        .download-btn-top::before { content: '⬇️'; margin-left: 8px; }
-        @keyframes shine { to { background-position: 200% center; } }
+        .download-btn-top:hover {
+            background: rgba(230, 57, 70, 0.2);
+            box-shadow: 0 0 25px rgba(230, 57, 70, 0.6);
+        }
+        /* الصورة المربعة الصغيرة للحاقن */
+        .download-btn-top img {
+            width: 26px; height: 26px; object-fit: cover; border-radius: 6px;
+            border: 1px solid #ff4d4d; background: #000;
+        }
 
-        /* المؤقت الصغير (أعلى اليمين) */
-        .timer-circle-container {
-            position: absolute; top: 70px; right: 0px;
-            width: 90px; height: 90px; 
-            display: flex; justify-content: center; align-items: center;
-            z-index: 10;
+        /* تصميم خانة الوقت الجديدة (مستطيلة في المنتصف بالأعلى) */
+        .timer-display {
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            width: 100%; background: rgba(10, 0, 0, 0.9); border: 1px solid #e63946;
+            padding: 10px; border-radius: 8px; margin-bottom: 25px;
+            box-shadow: inset 0 0 15px rgba(230, 57, 70, 0.2), 0 0 10px rgba(230, 57, 70, 0.3);
+            /* إضافة خطوط أفقية (Scanlines) */
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 0, 0, 0.05) 2px, rgba(255, 0, 0, 0.05) 4px);
         }
-        .timer-circle-container svg { 
-            transform: rotate(-90deg); width: 100%; height: 100%; 
-            filter: drop-shadow(0 0 8px rgba(230, 57, 70, 0.8)); 
-        }
-        .circle-bg { fill: #000; stroke: #222; stroke-width: 4; }
-        .circle-progress {
-            fill: none; stroke: url(#redGradient); stroke-width: 4;
-            stroke-linecap: round; stroke-dasharray: 283; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear;
-        }
-        /* إضافة خطوط أفقية داخل الدائرة */
-        .timer-content {
-            position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 0, 0, 0.1) 2px, rgba(255, 0, 0, 0.1) 3px);
-            border-radius: 50%;
-        }
+        .timer-title { font-size: 12px; color: #e63946; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px;}
         .time-text {
-            font-size: 12px; font-weight: 900; font-family: monospace;
-            color: #fff; text-shadow: 0 0 5px #e63946; direction: ltr; 
-            line-height: 1.2;
+            font-size: 24px; font-weight: 900; font-family: monospace;
+            color: #fff; text-shadow: 0 0 10px #e63946; direction: ltr; letter-spacing: 2px;
         }
-        .time-label { font-size: 8px; color: #e63946; margin-top: 2px; font-weight: bold; }
 
         /* صورة الجمجمة الكبيرة مع توهج النار */
         .fire-container {
-            position: relative; width: 180px; height: 180px; margin: 30px auto 30px auto;
+            position: relative; width: 180px; height: 180px; margin: 0 auto 30px auto;
             display: flex; justify-content: center; align-items: center;
         }
         .fire-container::before {
             content: ''; position: absolute; top: -15px; left: -15px; right: -15px; bottom: -15px;
             border-radius: 50%; 
             background: radial-gradient(circle, #ff0000 0%, #ff4500 30%, transparent 70%);
-            animation: fireGlow 2s infinite alternate;
-            filter: blur(15px); z-index: -1;
+            animation: fireGlow 2s infinite alternate; filter: blur(15px); z-index: -1;
         }
         .fire-profile-img {
             width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-            position: relative; z-index: 2; background: #000;
-            box-shadow: inset 0 0 20px #000;
+            position: relative; z-index: 2; background: #000; box-shadow: inset 0 0 20px #000;
         }
         @keyframes fireGlow {
             0% { transform: scale(0.9); opacity: 0.7; }
             100% { transform: scale(1.1); opacity: 1; }
         }
 
-        /* خانة الكود (بنفس شكل الواجهة الأولى) */
+        /* خانة الكود */
         .code-display {
-            display: flex; width: 100%;
-            background-color: rgba(10, 0, 0, 0.9); border: 1px solid #e63946;
+            display: flex; width: 100%; background-color: rgba(10, 0, 0, 0.9); border: 1px solid #e63946;
             clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
             padding: 5px 15px; margin-bottom: 20px;
             box-shadow: 0 0 15px rgba(230, 57, 70, 0.3), inset 0 0 10px rgba(230, 57, 70, 0.2);
             align-items: center;
         }
-        .code-box { 
-            flex: 1; padding: 12px 5px; font-family: monospace; font-size: 16px; 
-            color: #aaa; direction: ltr; text-align: center; 
-        }
+        .code-box { flex: 1; padding: 12px 5px; font-family: monospace; font-size: 16px; color: #aaa; direction: ltr; text-align: center; }
         .btn-copy {
             background: transparent; border: 1px solid #444; color: #aaa;
             padding: 6px 12px; border-radius: 6px; cursor: pointer;
@@ -206,7 +193,7 @@
         }
         .btn-copy:hover { background: #222; color: #fff; border-color: #e63946; }
 
-        /* زر الاتصال (بنفس شكل زر التحقق) */
+        /* زر الاتصال */
         .btn-connect {
             display: flex; justify-content: center; align-items: center; gap: 10px;
             width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%);
@@ -222,7 +209,6 @@
 </head>
 <body>
 
-    <!-- صورة تيليجرام -->
     <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="telegram-top">
         <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram">
         <span>تيليجرام</span>
@@ -266,28 +252,19 @@
             </a>
         </div>
 
-        <!-- الشاشة الثانية (بعد التفعيل) -->
+        <!-- الشاشة الثانية -->
         <div id="main-page">
             
-            <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn-top">اضغط هنا لتحميل الحاقن</a>
+            <!-- زر التحميل مع صورة Happ المربعة الصغيرة داخل الإطار -->
+            <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn-top">
+                <img src="https://i.imgur.com/YexrNvz.jpeg" alt="Happ Icon"> 
+                اضغط هنا لتحميل الحاقن
+            </a>
 
-            <!-- المؤقت الصغير في الزاوية -->
-            <div class="timer-circle-container">
-                <svg>
-                    <defs>
-                        <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#ff4d4d" />
-                            <stop offset="50%" stop-color="#e63946" />
-                            <stop offset="100%" stop-color="#550000" />
-                        </linearGradient>
-                    </defs>
-                    <circle class="circle-bg" cx="45" cy="45" r="40"></circle>
-                    <circle class="circle-progress" id="progressRing" cx="45" cy="45" r="40"></circle>
-                </svg>
-                <div class="timer-content">
-                    <div class="time-text" id="countdownText">00:00:00</div>
-                    <div class="time-label">الوقت</div>
-                </div>
+            <!-- خانة الوقت الجديدة (مستطيلة في المنتصف) -->
+            <div class="timer-display">
+                <div class="timer-title">الوقت المتبقي للاتصال</div>
+                <div class="time-text" id="countdownText">00:00:00</div>
             </div>
 
             <!-- الصورة الكبيرة مع توهج النار -->
@@ -295,13 +272,12 @@
                 <img src="https://files.catbox.moe/lbr98b.png" class="fire-profile-img">
             </div>
 
-            <!-- خانة الكود بتصميم الواجهة الأولى -->
+            <!-- خانة الكود -->
             <div class="code-display">
                 <div class="code-box" id="currentCode">Nacer-xxxx</div>
                 <button class="btn-copy" onclick="copyCode()">نسخ</button>
             </div>
 
-            <!-- زر الاتصال بتصميم زر التحقق -->
             <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">
                 اتصال الآن ⚡
             </a>
@@ -381,9 +357,6 @@
 
         function startCountdown(expiryDateString) {
             const countdownText = document.getElementById("countdownText");
-            const progressRing = document.getElementById("progressRing");
-            const radius = 40;
-            const circumference = 2 * Math.PI * radius;
             const expiryDate = new Date(expiryDateString).getTime();
             
             if(timerInterval) clearInterval(timerInterval);
@@ -391,11 +364,11 @@
             timerInterval = setInterval(() => {
                 const now = new Date().getTime();
                 const distance = expiryDate - now;
+                
                 if (distance < 0) {
                     clearInterval(timerInterval);
                     countdownText.innerHTML = "00:00:00";
                     countdownText.style.color = "#e63946";
-                    progressRing.style.strokeDashoffset = circumference;
                     return;
                 }
                 
@@ -408,18 +381,11 @@
                 let displayMinutes = minutes < 10 ? '0' + minutes : minutes;
                 let displaySeconds = seconds < 10 ? '0' + seconds : seconds;
                 
-                // ترتيب الأيام والساعات بشكل أفقي ومنظم
                 if (days > 0) {
-                    countdownText.innerHTML = `${days}ي<br>${displayHours}:${displayMinutes}:${displaySeconds}`;
+                    countdownText.innerHTML = `${days} يوم : ${displayHours}:${displayMinutes}:${displaySeconds}`;
                 } else {
                     countdownText.innerHTML = `${displayHours}:${displayMinutes}:${displaySeconds}`;
                 }
-
-                const totalMaxTime = 24 * 60 * 60 * 1000;
-                let percentage = distance / totalMaxTime;
-                if(percentage > 1) percentage = 1;
-                const offset = circumference - (percentage * circumference);
-                progressRing.style.strokeDashoffset = offset;
             }, 1000);
         }
     </script>
