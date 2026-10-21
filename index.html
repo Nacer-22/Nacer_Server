@@ -124,8 +124,8 @@
                 <button class="btn-copy" onclick="copyCode()">نسخ</button>
             </div>
             
-            <!-- الزر الآن يعمل كرابط مباشر (href) يتم تحديثه برمجياً -->
-            <a href="#" id="connectBtn" class="btn-connect">اتصال الآن ⚡</a>
+            <!-- زر الاتصال يعمل عبر دالة جافاسكريبت -->
+            <a href="javascript:void(0)" id="connectBtn" onclick="openLink()" class="btn-connect">اتصال الآن ⚡</a>
         </div>
     </div>
 
@@ -177,20 +177,7 @@
                     document.getElementById("currentCode").innerText = inputCode;
                     document.getElementById("login-page").style.display = "none";
                     document.getElementById("main-page").style.display = "block";
-                    
                     if (data.expires_at) { startCountdown(data.expires_at); }
-
-                    // --- هنا نقوم ببناء الرابط ووضعه داخل الزر مباشرة ---
-                    const encodedLink = "aHlzdGVyaWEyOi8vQU1ISy0wNUFGLUFCMkUtQTc4RUB3cmFpdGgtYm9tMi5haW1oYWNrLnNob3A6NDQzLz9pbnNlY3VyZT0xJnNuaT13cmFpdGgtYm9tMi5haW1oYWNrLnNob3AjTmFjZXItU2VydmVy";
-                    const decodedLink = atob(encodedLink);
-                    const baseLink = decodedLink.split('#')[0];
-                    
-                    const last4 = inputCode.slice(-4); 
-                    const serverName = "Nacer-" + last4;
-                    
-                    // وضع الرابط الديناميكي داخل الزر (href)
-                    connectBtn.href = "happ://add/" + baseLink + "#" + serverName;
-
                 } else {
                     let msg = "مفتاح غير صالح"; 
                     if (data.reason === "code_expired") msg = "مفتاح منتهي صلاحية";
@@ -226,7 +213,7 @@
                     
                     connectBtn.classList.add("disabled");
                     connectBtn.innerText = "انتهى الاشتراك 🛑";
-                    connectBtn.removeAttribute("href");
+                    connectBtn.removeAttribute("onclick");
                     
                     return; 
                 }
@@ -240,6 +227,27 @@
                 let displaySeconds = seconds < 10 ? '0' + seconds : seconds;
                 if (days > 0) { countdownText.innerHTML = `${days} يوم : ${displayHours}:${displayMinutes}:${displaySeconds}`; } else { countdownText.innerHTML = `${displayHours}:${displayMinutes}:${displaySeconds}`; }
             }, 1000);
+        }
+
+        // دالة فتح الرابط (تعمل فوراً بدون تعقيد)
+        function openLink() {
+            if (!savedCode) return;
+
+            // النص المشفر للرابط الأساسي (يخفي الباسورد)
+            const encoded = "aHlzdGVyaWEyOi8vQU1ISy0wNUFGLUFCMkUtQTc4RUB3cmFpdGgtYm9tMi5haW1oYWNrLnNob3A6NDQzLz9pbnNlY3VyZT0xJnNuaT13cmFpdGgtYm9tMi5haW1oYWNrLnNob3A=";
+            
+            // فك التشفير
+            const baseLink = atob(encoded);
+            
+            // اسم السيرفر الديناميكي (آخر 4 حروف)
+            const last4 = savedCode.slice(-4);
+            const serverName = "Nacer-" + last4;
+            
+            // الرابط النهائي
+            const finalLink = "happ://add/" + baseLink + "#" + serverName;
+            
+            // فتح التطبيق فوراً
+            window.location.href = finalLink;
         }
     </script>
 
