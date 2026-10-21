@@ -73,6 +73,9 @@
 
         .btn-connect { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%); color: #fff; border: 1px solid #ff1a1a; clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 20px 100%, 0 50%); padding: 16px; font-size: 20px; font-weight: 900; cursor: pointer; box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4); transition: 0.3s; text-decoration: none; }
         .btn-connect:active { transform: scale(0.98); }
+        
+        /* زر معطل */
+        .btn-connect.disabled { background: #333; color: #777; border-color: #444; box-shadow: none; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -121,7 +124,9 @@
                 <div class="code-box" id="currentCode">Nacer-xxxx</div>
                 <button class="btn-copy" onclick="copyCode()">نسخ</button>
             </div>
-            <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">اتصال الآن ⚡</a>
+            
+            <!-- زر الاتصال -->
+            <a href="javascript:void(0)" id="connectBtn" onclick="openDynamicLink()" class="btn-connect">اتصال الآن ⚡</a>
         </div>
     </div>
 
@@ -135,17 +140,14 @@
         const errorText = document.getElementById("errorText");
         const mainBtn = document.getElementById("mainBtn");
 
-        // --- الدالة الجديدة لحفظ معرف الجهاز في المتصفح ---
         function getDeviceId() {
             let deviceId = localStorage.getItem('nacer_device_id');
             if (!deviceId) {
-                // إذا لم يكن هناك معرف، ننشئ واحداً ونحفظه
                 deviceId = 'DEV-' + Math.random().toString(36).substring(2, 15);
                 localStorage.setItem('nacer_device_id', deviceId);
             }
             return deviceId;
         }
-        // ---------------------------------------------------
 
         async function pasteCode() {
             try { const text = await navigator.clipboard.readText(); inputField.value = text; } catch (err) { alert("يرجى لصق الكود يدوياً"); }
@@ -161,9 +163,7 @@
             errorDiv.classList.remove("show");
 
             try {
-                // استخدام معرف الجهاز الثابت بدلاً من العشوائي
                 const deviceId = getDeviceId();
-
                 const response = await fetch(RENDER_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -182,6 +182,7 @@
                     let msg = "مفتاح غير صالح"; 
                     if (data.reason === "code_expired") msg = "مفتاح منتهي صلاحية";
                     if (data.reason === "max_devices_reached") msg = "هذا المفتاح مستخدم على جهاز آخر";
+                    if (data.reason === "too_many_requests") msg = "محاولات كثيرة جداً، انتظر 15 دقيقة.";
                     
                     errorText.innerText = msg;
                     errorDiv.classList.add("show");
@@ -198,13 +199,26 @@
 
         function startCountdown(expiryDateString) {
             const countdownText = document.getElementById("countdownText");
+            const connectBtn = document.getElementById("connectBtn");
             const expiryDate = new Date(expiryDateString).getTime();
             if(timerInterval) clearInterval(timerInterval);
             
             timerInterval = setInterval(() => {
                 const now = new Date().getTime();
                 const distance = expiryDate - now;
-                if (distance < 0) { clearInterval(timerInterval); countdownText.innerHTML = "00:00:00"; countdownText.style.color = "#e63946"; return; }
+                
+                if (distance < 0) { 
+                    clearInterval(timerInterval); 
+                    countdownText.innerHTML = "00:00:00"; 
+                    countdownText.style.color = "#e63946"; 
+                    
+                    // --- إخفاء وتعطيل زر الاتصال عند انتهاء الوقت ---
+                    connectBtn.classList.add("disabled");
+                    connectBtn.innerText = "انتهى الاشتراك 🛑";
+                    
+                    return; 
+                }
+                
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -215,6 +229,35 @@
                 if (days > 0) { countdownText.innerHTML = `${days} يوم : ${displayHours}:${displayMinutes}:${displaySeconds}`; } else { countdownText.innerHTML = `${displayHours}:${displayMinutes}:${displaySeconds}`; }
             }, 1000);
         }
+
+        // --- الدالة الجديدة لفتح الرابط الديناميكي بناءً على الكود ---
+        function openDynamicLink() {
+            if (!savedCode) return;
+            
+            // استخراج آخر 4 حروف من الكود
+            const last4 = savedCode.slice(-4); 
+            const serverName = "Nacer-Server-" + last4;
+            
+            // رابط السيرفر الأساسي (يمكنك تغيير المفتاح إذا أردت)
+            const baseLink = "happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#";
+            
+            // دمج الرابط مع اسم السيرفر الجديد
+            const realLink = baseLink + serverName;
+            
+            window.location.href = realLink;
+        }
+    </script>
+
+    <!-- كود الحماية -->
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
+        };
     </script>
 </body>
 </html>
