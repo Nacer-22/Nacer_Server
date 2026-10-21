@@ -27,35 +27,35 @@
             overflow: hidden;
         }
 
-        /* تصميم أيقونة تيليجرام (متناسقة) */
+        /* تصميم أيقونة تيليجرام */
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
         .telegram-top {
-            position: absolute; top: 20px; left: 20px;
+            position: absolute; top: 25px; left: 25px;
             display: flex; flex-direction: column; align-items: center;
             text-decoration: none; z-index: 100; animation: float 3s ease-in-out infinite;
         }
         .telegram-icon-wrapper {
-            width: 60px; height: 60px; 
+            width: 45px; height: 45px; 
             background-color: #229ED9; 
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            border: 2px solid #fff; /* الإطار الأبيض */
-            box-shadow: 0 0 20px rgba(34, 158, 217, 0.8), 0 0 40px rgba(34, 158, 217, 0.4);
-            margin-bottom: 8px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px rgba(34, 158, 217, 0.8), 0 0 30px rgba(34, 158, 217, 0.4);
+            margin-bottom: 5px;
             transition: 0.3s;
             overflow: hidden; 
         }
         .telegram-top:hover .telegram-icon-wrapper {
             transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(34, 158, 217, 1), 0 0 50px rgba(34, 158, 217, 0.6);
+            box-shadow: 0 0 25px rgba(34, 158, 217, 1), 0 0 40px rgba(34, 158, 217, 0.6);
         }
         .telegram-icon-wrapper i {
             color: #fff;
-            font-size: 32px; /* تم تصغير الأيقونة لتكون في المنتصف */
-            margin-right: 3px; /* تعديل بسيط لتوسيط الأيقونة */
+            font-size: 24px; 
+            margin-right: 2px; 
         }
         .telegram-top span { 
-            font-size: 14px; 
+            font-size: 11px; 
             color: #fff; 
             font-weight: bold; 
             text-shadow: 0 2px 5px rgba(0,0,0,0.8); 
@@ -288,8 +288,9 @@
                 <div class="time-text" id="countdownText">00:00:00</div>
             </div>
 
+            <!-- هنا تم وضع رابط بديل ومستقر لصورة الجمجمة -->
             <div class="fire-container">
-                <img src="https://files.catbox.moe/lbr98b.png" class="fire-profile-img">
+                <img src="https://i.imgur.com/lbr98b.png" class="fire-profile-img" alt="Logo">
             </div>
 
             <div class="code-display">
@@ -312,6 +313,7 @@
         const inputField = document.getElementById("accessCode");
         const errorDiv = document.getElementById("errorMsg");
         const errorText = document.getElementById("errorText");
+        const mainBtn = document.getElementById("mainBtn");
 
         async function pasteCode() {
             try {
@@ -335,13 +337,9 @@
                 return;
             }
 
-            savedCode = inputCode;
-            document.getElementById("currentCode").innerText = inputCode;
-            document.getElementById("login-page").style.display = "none";
-            document.getElementById("main-page").style.display = "block";
+            mainBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحقق...';
+            mainBtn.style.pointerEvents = "none";
             errorDiv.classList.remove("show");
-            
-            startCountdown(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
 
             try {
                 const response = await fetch(RENDER_API_URL, {
@@ -353,24 +351,30 @@
                 const data = await response.json();
 
                 if (data.valid === true) {
+                    savedCode = inputCode;
+                    document.getElementById("currentCode").innerText = inputCode;
+                    document.getElementById("login-page").style.display = "none";
+                    document.getElementById("main-page").style.display = "block";
+                    
                     if (data.expires_at) {
                         startCountdown(data.expires_at);
                     }
                 } else {
-                    document.getElementById("main-page").style.display = "none";
-                    document.getElementById("login-page").style.display = "flex";
-                    
                     let msg = "مفتاح غير صالح"; 
                     if (data.reason === "code_expired") msg = "مفتاح منتهي صلاحية";
                     
                     errorText.innerText = msg;
                     errorDiv.classList.add("show");
+                    
+                    mainBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> تحقق';
+                    mainBtn.style.pointerEvents = "auto";
                 }
             } catch (error) {
-                document.getElementById("main-page").style.display = "none";
-                document.getElementById("login-page").style.display = "flex";
                 errorText.innerText = "تعذر الاتصال بالسيرفر. يرجى المحاولة لاحقاً.";
                 errorDiv.classList.add("show");
+                
+                mainBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> تحقق';
+                mainBtn.style.pointerEvents = "auto";
             }
         }
 
