@@ -114,7 +114,6 @@
                 <div class="timer-title">الوقت المتبقي للاتصال</div>
                 <div class="time-text" id="countdownText">00:00:00</div>
             </div>
-            <!-- تم وضع رابط Imgur الجديد هنا -->
             <div class="fire-container">
                 <img src="https://i.imgur.com/kf1AmpO.png" class="fire-profile-img" alt="Logo">
             </div>
@@ -136,6 +135,18 @@
         const errorText = document.getElementById("errorText");
         const mainBtn = document.getElementById("mainBtn");
 
+        // --- الدالة الجديدة لحفظ معرف الجهاز في المتصفح ---
+        function getDeviceId() {
+            let deviceId = localStorage.getItem('nacer_device_id');
+            if (!deviceId) {
+                // إذا لم يكن هناك معرف، ننشئ واحداً ونحفظه
+                deviceId = 'DEV-' + Math.random().toString(36).substring(2, 15);
+                localStorage.setItem('nacer_device_id', deviceId);
+            }
+            return deviceId;
+        }
+        // ---------------------------------------------------
+
         async function pasteCode() {
             try { const text = await navigator.clipboard.readText(); inputField.value = text; } catch (err) { alert("يرجى لصق الكود يدوياً"); }
         }
@@ -150,10 +161,13 @@
             errorDiv.classList.remove("show");
 
             try {
+                // استخدام معرف الجهاز الثابت بدلاً من العشوائي
+                const deviceId = getDeviceId();
+
                 const response = await fetch(RENDER_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ code: inputCode, device_id: "device-" + Math.random() })
+                    body: JSON.stringify({ code: inputCode, device_id: deviceId })
                 });
                 
                 const data = await response.json();
@@ -167,6 +181,8 @@
                 } else {
                     let msg = "مفتاح غير صالح"; 
                     if (data.reason === "code_expired") msg = "مفتاح منتهي صلاحية";
+                    if (data.reason === "max_devices_reached") msg = "هذا المفتاح مستخدم على جهاز آخر";
+                    
                     errorText.innerText = msg;
                     errorDiv.classList.add("show");
                     mainBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> تحقق';
