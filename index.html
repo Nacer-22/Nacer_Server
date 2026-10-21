@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <!-- منع الشاشة من التحرك أو التكبير عند فتح الكيبورد -->
+    <!-- منع تحرك الشاشة وتثبيتها -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HAX_NON_ROOT - تفعيل سيرفر</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -22,31 +22,25 @@
             justify-content: center;
             align-items: flex-end;
             min-height: 100vh;
+            min-height: 100dvh; /* لضمان الثبات على الهواتف */
             padding: 20px;
             padding-bottom: 30px;
-            overflow-x: hidden;
+            overflow: hidden; /* منع التمرير وتثبيت الشاشة */
         }
 
-        /* علامة القائمة (Menu) */
-        .menu-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: #e63946;
-            font-size: 24px;
-            z-index: 100;
-            background: rgba(10, 0, 0, 0.8);
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid #e63946;
-            text-decoration: none;
-            box-shadow: 0 0 15px rgba(230, 57, 70, 0.3);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* صورة تيليجرام التي تطفو في أعلى اليسار (كما طلبت) */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+        .telegram-top {
+            position: absolute; top: 20px; left: 20px;
+            display: flex; flex-direction: column; align-items: center;
+            text-decoration: none; z-index: 100; animation: float 3s ease-in-out infinite;
         }
-        .menu-btn:hover { background: #e63946; color: #fff; }
+        .telegram-top img {
+            width: 45px; height: 45px; border-radius: 50%; object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.4); margin-bottom: 5px;
+        }
+        .telegram-top span { font-size: 12px; color: #aaa; font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 
         .container {
             width: 100%; max-width: 400px; position: relative; z-index: 2;
@@ -100,7 +94,7 @@
         .example-box div { font-size: 13px; color: #aaa; font-weight: 600; }
         .example-box span { color: #e63946; font-family: monospace; font-size: 14px; direction: ltr; }
 
-        /* رسالة الخطأ - مساحة ثابتة */
+        /* رسالة الخطأ - مساحة ثابتة لا تحرك الشاشة */
         .error-msg {
             height: 24px;
             display: flex; align-items: center; justify-content: center;
@@ -201,9 +195,10 @@
 </head>
 <body>
 
-    <!-- زر القائمة للدخول إلى لوحة التحكم -->
-    <a href="https://key-system-yn0o.onrender.com" target="_blank" class="menu-btn" title="لوحة التحكم">
-        <i class="fa-solid fa-bars"></i>
+    <!-- صورة تيليجرام التي تطفو (تم وضعها في أعلى اليسار) -->
+    <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="telegram-top">
+        <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram">
+        <span>تيليجرام</span>
     </a>
 
     <div class="container">
@@ -219,7 +214,7 @@
 
             <div class="subtitle">أدخل مفتاح التفعيل الخاص بك للتحقق من جهازك</div>
 
-            <!-- خانة الإدخال (تم تعديل الصيغة هنا) -->
+            <!-- خانة الإدخال (صيغة صحيحة بدون _) -->
             <div class="input-box">
                 <i class="fa-solid fa-key"></i>
                 <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off">
@@ -228,7 +223,7 @@
                 </button>
             </div>
 
-            <!-- صندوق المثال (تم تعديل الصيغة هنا) -->
+            <!-- صندوق المثال -->
             <div class="example-box">
                 <i class="fa-solid fa-circle-info"></i>
                 <div>مثال على الصيغة: <span>Nacer-XXXX-XXXX-XXXX</span></div>
@@ -381,4 +376,4 @@
         }
     </script>
 </body>
-</html>
+    </html>
