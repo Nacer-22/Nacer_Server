@@ -2,8 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAX_NON_ROOT - تفعيل التطبيق</title>
+    <!-- منع الشاشة من التحرك أو التكبير عند فتح الكيبورد -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HAX_NON_ROOT - تفعيل سيرفر</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -11,7 +12,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         
         body {
-            /* هنا تم وضع الرابط المباشر لصورتك كخلفية */
             background-image: url('https://i.imgur.com/DXmoUmz.png');
             background-size: cover;
             background-position: center top;
@@ -20,21 +20,42 @@
             color: #fff;
             display: flex;
             justify-content: center;
-            align-items: flex-end; /* جعل المحتوى في الأسفل لأن الصورة تحتوي على الشعار في الأعلى */
+            align-items: flex-end;
             min-height: 100vh;
             padding: 20px;
-            padding-bottom: 40px;
+            padding-bottom: 30px;
             overflow-x: hidden;
         }
+
+        /* علامة القائمة (Menu) */
+        .menu-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #e63946;
+            font-size: 24px;
+            z-index: 100;
+            background: rgba(10, 0, 0, 0.8);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e63946;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.3);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-btn:hover { background: #e63946; color: #fff; }
 
         .container {
             width: 100%; max-width: 400px; position: relative; z-index: 2;
             display: flex; flex-direction: column; align-items: center;
-            background: rgba(5, 0, 0, 0.7); /* خلفية شفافة للمحتوى لضمان قراءة النص */
-            padding: 25px 20px;
+            background: rgba(5, 0, 0, 0.8);
+            padding: 20px;
             border-radius: 15px;
-            border: 1px solid rgba(230, 57, 70, 0.3);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(230, 57, 70, 0.4);
+            backdrop-filter: blur(8px);
         }
 
         /* العنوان */
@@ -45,14 +66,14 @@
         .title-line { flex: 1; height: 2px; background: linear-gradient(90deg, transparent, #e63946, transparent); }
         .title { font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); }
         
-        .subtitle { font-size: 14px; color: #ccc; margin-bottom: 25px; font-weight: 600; text-align: center; }
+        .subtitle { font-size: 14px; color: #ccc; margin-bottom: 20px; font-weight: 600; text-align: center; }
 
-        /* خانة الإدخال (بشكل الصورة الثانية) */
+        /* خانة الإدخال */
         .input-box {
             display: flex; align-items: center; width: 100%;
             background-color: rgba(10, 0, 0, 0.9); border: 1px solid #e63946;
             clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            padding: 5px 15px; margin-bottom: 15px;
+            padding: 5px 15px; margin-bottom: 10px;
             box-shadow: 0 0 15px rgba(230, 57, 70, 0.3), inset 0 0 10px rgba(230, 57, 70, 0.2);
         }
         .input-box i.fa-key { color: #e63946; font-size: 18px; margin-left: 10px; }
@@ -73,17 +94,21 @@
         .example-box {
             width: 100%; display: flex; align-items: center; gap: 10px;
             background-color: rgba(15, 15, 15, 0.8); border: 1px solid #222;
-            border-radius: 8px; padding: 12px 15px; margin-bottom: 25px;
+            border-radius: 8px; padding: 12px 15px; margin-bottom: 10px;
         }
         .example-box i { color: #e63946; font-size: 16px; }
         .example-box div { font-size: 13px; color: #aaa; font-weight: 600; }
         .example-box span { color: #e63946; font-family: monospace; font-size: 14px; direction: ltr; }
 
-        /* رسالة الخطأ */
+        /* رسالة الخطأ - مساحة ثابتة */
         .error-msg {
-            display: none; color: #e63946; font-size: 14px; font-weight: bold;
-            margin-bottom: 15px; text-align: center; width: 100%; text-shadow: 0 0 5px rgba(230, 57, 70, 0.5);
+            height: 24px;
+            display: flex; align-items: center; justify-content: center;
+            color: #e63946; font-size: 14px; font-weight: bold;
+            width: 100%; opacity: 0; transition: opacity 0.3s;
+            text-shadow: 0 0 5px rgba(230, 57, 70, 0.5);
         }
+        .error-msg.show { opacity: 1; }
 
         /* زر التحقق */
         .verify-btn {
@@ -93,7 +118,7 @@
             padding: 16px; font-size: 20px; font-weight: 900; cursor: pointer;
             display: flex; justify-content: center; align-items: center; gap: 10px;
             box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4);
-            transition: 0.3s; margin-bottom: 25px;
+            transition: 0.3s; margin-bottom: 20px;
         }
         .verify-btn:active { transform: scale(0.98); }
 
@@ -176,6 +201,11 @@
 </head>
 <body>
 
+    <!-- زر القائمة للدخول إلى لوحة التحكم -->
+    <a href="https://key-system-yn0o.onrender.com" target="_blank" class="menu-btn" title="لوحة التحكم">
+        <i class="fa-solid fa-bars"></i>
+    </a>
+
     <div class="container">
         
         <!-- الشاشة الأولى -->
@@ -183,25 +213,25 @@
             
             <div class="title-container">
                 <div class="title-line"></div>
-                <div class="title">تفعيل التطبيق</div>
+                <div class="title">تفعيل سيرفر</div>
                 <div class="title-line"></div>
             </div>
 
             <div class="subtitle">أدخل مفتاح التفعيل الخاص بك للتحقق من جهازك</div>
 
-            <!-- خانة الإدخال -->
+            <!-- خانة الإدخال (تم تعديل الصيغة هنا) -->
             <div class="input-box">
                 <i class="fa-solid fa-key"></i>
-                <input type="text" id="accessCode" placeholder="Nacer-XXXX_XXXX-XXXX" autocomplete="off">
+                <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off">
                 <button class="paste-btn" onclick="pasteCode()">
                     <i class="fa-regular fa-copy"></i> لصق
                 </button>
             </div>
 
-            <!-- صندوق المثال -->
+            <!-- صندوق المثال (تم تعديل الصيغة هنا) -->
             <div class="example-box">
                 <i class="fa-solid fa-circle-info"></i>
-                <div>مثال على الصيغة: <span>Nacer-XXXX_XXXX-XXXX</span></div>
+                <div>مثال على الصيغة: <span>Nacer-XXXX-XXXX-XXXX</span></div>
             </div>
 
             <!-- رسالة الخطأ -->
@@ -271,7 +301,7 @@
             const inputCode = inputField.value.trim();
             
             if(!inputCode) {
-                errorDiv.style.display = "block";
+                errorDiv.classList.add("show");
                 errorText.innerText = "يرجى إدخال المفتاح أولاً";
                 return;
             }
@@ -280,7 +310,7 @@
             document.getElementById("currentCode").innerText = inputCode;
             document.getElementById("login-page").style.display = "none";
             document.getElementById("main-page").style.display = "block";
-            errorDiv.style.display = "none";
+            errorDiv.classList.remove("show");
             
             startCountdown(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
 
@@ -305,13 +335,13 @@
                     if (data.reason === "code_expired") msg = "مفتاح منتهي صلاحية";
                     
                     errorText.innerText = msg;
-                    errorDiv.style.display = "block";
+                    errorDiv.classList.add("show");
                 }
             } catch (error) {
                 document.getElementById("main-page").style.display = "none";
                 document.getElementById("login-page").style.display = "flex";
                 errorText.innerText = "تعذر الاتصال بالسيرفر. يرجى المحاولة لاحقاً.";
-                errorDiv.style.display = "block";
+                errorDiv.classList.add("show");
             }
         }
 
