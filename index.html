@@ -27,21 +27,31 @@
             overflow: hidden;
         }
 
-        /* صورة تيليجرام المكبرة والحواف الدائرية */
+        /* تصميم أيقونة تيليجرام الجديدة (دائرية وتوهج) */
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
         .telegram-top {
-            position: absolute; top: 15px; left: 15px;
+            position: absolute; top: 20px; left: 20px;
             display: flex; flex-direction: column; align-items: center;
             text-decoration: none; z-index: 100; animation: float 3s ease-in-out infinite;
         }
-        .telegram-top img {
-            width: 65px; height: 65px; 
+        .telegram-icon-wrapper {
+            width: 60px; height: 60px; 
+            background-color: #229ED9; /* لون تيليجرام */
             border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #229ED9;
-            box-shadow: 0 0 20px rgba(34, 158, 217, 0.6);
+            display: flex; justify-content: center; align-items: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(34, 158, 217, 0.8), 0 0 40px rgba(34, 158, 217, 0.4);
             margin-bottom: 8px;
-            background-color: #fff;
+            transition: 0.3s;
+        }
+        .telegram-top:hover .telegram-icon-wrapper {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(34, 158, 217, 1), 0 0 50px rgba(34, 158, 217, 0.6);
+        }
+        .telegram-icon-wrapper i {
+            color: #fff;
+            font-size: 30px;
+            margin-right: 4px; /* تعديل بسيط لتوسيط الأيقونة */
         }
         .telegram-top span { 
             font-size: 14px; 
@@ -121,7 +131,6 @@
         }
         .verify-btn:active { transform: scale(0.98); }
 
-        /* زر القناة الأساسية في الأسفل (يبقى كما هو) */
         .channel-btn {
             width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;
             background-color: rgba(20, 0, 0, 0.8); border: 1px solid #e63946;
@@ -212,9 +221,11 @@
 </head>
 <body>
 
-    <!-- صورة تيليجرام المكبرة (تم تغيير الرابط إلى حسابك الشخصي) -->
+    <!-- صورة تيليجرام الجديدة (دائرية وتوهج أزرق) -->
     <a href="https://t.me/Nacer_22" target="_blank" class="telegram-top">
-        <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram">
+        <div class="telegram-icon-wrapper">
+            <i class="fa-brands fa-telegram"></i>
+        </div>
         <span>تيليجرام</span>
     </a>
 
@@ -251,7 +262,6 @@
                 <i class="fa-solid fa-shield-halved"></i> تحقق
             </button>
 
-            <!-- زر القناة الأساسية في الأسفل (يبقى كما هو) -->
             <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="channel-btn">
                 انقر هنا لتوجه للقنات الأساسية <i class="fa-solid fa-arrow-left"></i>
             </a>
