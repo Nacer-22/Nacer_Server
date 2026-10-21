@@ -124,7 +124,6 @@
                 <button class="btn-copy" onclick="copyCode()">نسخ</button>
             </div>
             
-            <!-- زر الاتصال -->
             <a href="javascript:void(0)" id="connectBtn" onclick="openDynamicLink()" class="btn-connect">اتصال الآن ⚡</a>
         </div>
     </div>
@@ -228,25 +227,25 @@
             }, 1000);
         }
 
-        // --- دالة فك التشفير والربط الديناميكي ---
+        // --- دالة فك التشفير والربط الديناميكي (تم إصلاحها) ---
         function openDynamicLink() {
             if (!savedCode) return;
             
-            // النص المشفر الذي أرسلته (Base64)
+            // النص المشفر (Base64)
             const encodedLink = "aHlzdGVyaWEyOi8vQU1ISy0wNUFGLUFCMkUtQTc4RUB3cmFpdGgtYm9tMi5haW1oYWNrLnNob3A6NDQzLz9pbnNlY3VyZT0xJnNuaT13cmFpdGgtYm9tMi5haW1oYWNrLnNob3AjTmFjZXItU2VydmVy";
             
-            // فك التشفير
+            // فك التشفير للحصول على الرابط الأصلي
             const decodedLink = atob(encodedLink);
             
-            // فصل الرابط الأساسي عن الاسم القديم
+            // استخراج الرابط الأساسي (بدون الاسم القديم)
             const baseLink = decodedLink.split('#')[0];
             
             // استخراج آخر 4 حروف من الكود
             const last4 = savedCode.slice(-4); 
             const serverName = "Nacer-" + last4;
             
-            // دمج الرابط مع الاسم الجديد
-            const finalLink = baseLink + "#" + serverName;
+            // بناء الرابط النهائي مع happ://add/ لكي يفتح التطبيق
+            const finalLink = "happ://add/" + baseLink + "#" + serverName;
             
             // فتح التطبيق
             window.location.href = finalLink;
