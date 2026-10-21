@@ -11,143 +11,100 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
         
         body {
-            background-color: #050000;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(139, 0, 0, 0.25) 0%, transparent 60%),
-                radial-gradient(circle at 0% 100%, rgba(139, 0, 0, 0.15) 0%, transparent 50%);
+            /* هنا تم وضع الرابط المباشر لصورتك كخلفية */
+            background-image: url('https://i.imgur.com/DXmoUmz.png');
+            background-size: cover;
+            background-position: center top;
             background-attachment: fixed;
+            background-color: #000;
             color: #fff;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end; /* جعل المحتوى في الأسفل لأن الصورة تحتوي على الشعار في الأعلى */
             min-height: 100vh;
             padding: 20px;
+            padding-bottom: 40px;
             overflow-x: hidden;
         }
 
         .container {
-            width: 100%;
-            max-width: 420px;
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 100%; max-width: 400px; position: relative; z-index: 2;
+            display: flex; flex-direction: column; align-items: center;
+            background: rgba(5, 0, 0, 0.7); /* خلفية شفافة للمحتوى لضمان قراءة النص */
+            padding: 25px 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(230, 57, 70, 0.3);
+            backdrop-filter: blur(5px);
         }
 
-        /* التاج والاسم */
-        .header-section {
-            display: flex; flex-direction: column; align-items: center; margin-bottom: 10px;
+        /* العنوان */
+        .title-container {
+            display: flex; align-items: center; justify-content: center;
+            gap: 15px; margin-bottom: 8px; width: 100%;
         }
-        .crown-icon { color: #ffd700; font-size: 24px; margin-bottom: 5px; text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
-        .name-container { display: flex; align-items: center; gap: 15px; }
-        .username {
-            font-family: 'Times New Roman', serif; font-size: 26px;
-            font-weight: bold; color: #ffd700; letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-        }
-        .line { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, #ffd700, transparent); }
-
-        /* الشعار بدون مربع */
-        .logo-container {
-            width: 200px; height: 200px; margin: 0 auto;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .logo-container img {
-            width: 100%; height: 100%; object-fit: contain;
-            mix-blend-mode: screen; /* إزالة المربع الأسود */
-            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
-        }
-
-        /* العنوان مع تأثير الفرشاة الحمراء */
-        .title-wrapper {
-            position: relative; width: 100%; text-align: center; margin: 15px 0 10px 0;
-        }
-        .title-bg {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80%; height: 40px; background: radial-gradient(ellipse, rgba(230, 57, 70, 0.4) 0%, transparent 70%);
-            filter: blur(10px); z-index: -1;
-        }
-        .title { font-size: 26px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .title-line { flex: 1; height: 2px; background: linear-gradient(90deg, transparent, #e63946, transparent); }
+        .title { font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); }
         
-        .subtitle { font-size: 14px; color: #ccc; margin-bottom: 15px; font-weight: 600; text-align: center; }
+        .subtitle { font-size: 14px; color: #ccc; margin-bottom: 25px; font-weight: 600; text-align: center; }
 
-        /* صيغة المثال */
-        .example-text {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            font-size: 14px; color: #e63946; font-family: monospace; margin-bottom: 20px; direction: ltr;
-        }
-        .example-text span { color: #aaa; font-family: 'Cairo', sans-serif; direction: rtl; }
-
-        /* خانة الإدخال */
+        /* خانة الإدخال (بشكل الصورة الثانية) */
         .input-box {
             display: flex; align-items: center; width: 100%;
-            background-color: rgba(10, 10, 10, 0.9); border: 1px solid #e63946; border-radius: 8px;
-            padding: 10px 15px; margin-bottom: 15px;
-            box-shadow: 0 0 15px rgba(230, 57, 70, 0.2), inset 0 0 10px rgba(230, 57, 70, 0.1);
+            background-color: rgba(10, 0, 0, 0.9); border: 1px solid #e63946;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            padding: 5px 15px; margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.3), inset 0 0 10px rgba(230, 57, 70, 0.2);
         }
         .input-box i.fa-key { color: #e63946; font-size: 18px; margin-left: 10px; }
         .input-box input {
             flex: 1; background: transparent; border: none; color: #fff;
-            font-size: 16px; padding: 5px; font-family: monospace;
-            text-align: right; outline: none;
+            font-size: 16px; padding: 12px 5px; font-family: monospace;
+            text-align: left; direction: ltr; outline: none;
         }
-        .input-box input::placeholder { color: #888; font-family: 'Cairo', sans-serif; font-size: 15px; }
-        .input-box .clear-btn {
-            background: transparent; border: none; color: #888; cursor: pointer; font-size: 16px;
+        .input-box input::placeholder { color: #777; font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; font-size: 14px; }
+        .input-box .paste-btn {
+            background: transparent; border: 1px solid #444; color: #aaa;
+            padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: 0.3s;
         }
-        .input-box .clear-btn:hover { color: #fff; }
+        .input-box .paste-btn:hover { background: #222; color: #fff; border-color: #e63946; }
 
-        /* زر اللصق */
-        .paste-btn {
-            width: 100%; background-color: rgba(20, 10, 10, 0.8);
-            border: 1px solid #e63946; border-radius: 8px; color: #fff;
-            padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer;
-            display: flex; justify-content: center; align-items: center; gap: 10px;
-            margin-bottom: 20px; transition: 0.3s;
+        /* صندوق المثال */
+        .example-box {
+            width: 100%; display: flex; align-items: center; gap: 10px;
+            background-color: rgba(15, 15, 15, 0.8); border: 1px solid #222;
+            border-radius: 8px; padding: 12px 15px; margin-bottom: 25px;
         }
-        .paste-btn:hover { background-color: rgba(230, 57, 70, 0.2); }
-
-        /* زر التحقق الكبير */
-        .verify-btn {
-            width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%);
-            color: #fff; border: 1px solid #ff4d4d; border-radius: 12px;
-            padding: 16px; font-size: 22px; font-weight: 900; cursor: pointer;
-            display: flex; justify-content: center; align-items: center; gap: 15px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.4);
-            transition: 0.3s; margin-bottom: 25px; position: relative;
-        }
-        .verify-btn:hover { box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), inset 0 0 20px rgba(255, 0, 0, 0.6); }
-        .verify-btn:active { transform: scale(0.98); }
-        .verify-btn i.fa-chevron-left, .verify-btn i.fa-chevron-right { font-size: 16px; color: #ff9999; }
+        .example-box i { color: #e63946; font-size: 16px; }
+        .example-box div { font-size: 13px; color: #aaa; font-weight: 600; }
+        .example-box span { color: #e63946; font-family: monospace; font-size: 14px; direction: ltr; }
 
         /* رسالة الخطأ */
         .error-msg {
             display: none; color: #e63946; font-size: 14px; font-weight: bold;
-            margin-bottom: 15px; text-align: center; width: 100%;
-            background: rgba(230, 57, 70, 0.1); padding: 10px; border-radius: 5px; border: 1px solid #e63946;
+            margin-bottom: 15px; text-align: center; width: 100%; text-shadow: 0 0 5px rgba(230, 57, 70, 0.5);
         }
 
-        /* الأيقونات السفلية */
-        .bottom-features {
-            display: flex; justify-content: space-between; align-items: center;
-            width: 100%; background-color: rgba(10, 10, 10, 0.8);
-            border: 1px solid #222; border-radius: 8px; padding: 15px 10px;
-            margin-bottom: 20px;
+        /* زر التحقق */
+        .verify-btn {
+            width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%);
+            color: #fff; border: 1px solid #ff1a1a;
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 20px 100%, 0 50%);
+            padding: 16px; font-size: 20px; font-weight: 900; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: 0.3s; margin-bottom: 25px;
         }
-        .feature-item {
-            display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1;
-        }
-        .feature-item i { color: #e63946; font-size: 18px; }
-        .feature-item span { font-size: 11px; color: #aaa; font-weight: 600; text-align: center; }
-        .divider { width: 1px; height: 30px; background-color: #333; }
+        .verify-btn:active { transform: scale(0.98); }
 
-        /* شعار أسفل الصفحة */
-        .footer-logo {
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
+        /* رابط القناة في الأسفل */
+        .channel-btn {
+            width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;
+            background-color: rgba(20, 0, 0, 0.8); border: 1px solid #e63946;
+            color: #e63946; text-decoration: none; padding: 14px; border-radius: 8px;
+            font-size: 15px; font-weight: bold; transition: 0.3s;
         }
-        .footer-logo i { color: #ffd700; font-size: 14px; }
-        .footer-logo span { color: #e63946; font-size: 12px; font-weight: bold; letter-spacing: 1px; }
+        .channel-btn:hover { background-color: #e63946; color: #fff; }
 
         /* ================= الشاشة الثانية ================= */
         #main-page { display: none; text-align: center; width: 100%; }
@@ -199,7 +156,7 @@
 
         .code-display {
             display: flex; border: 1px solid #333; border-radius: 8px;
-            overflow: hidden; margin-bottom: 30px; background-color: #050505;
+            overflow: hidden; margin-bottom: 30px; background-color: rgba(5, 5, 5, 0.8);
             box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
         }
         .code-box { flex: 1; padding: 15px; font-family: monospace; font-size: 16px; color: #aaa; direction: ltr; text-align: center; }
@@ -224,47 +181,28 @@
         <!-- الشاشة الأولى -->
         <div id="login-page" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             
-            <!-- التاج والاسم -->
-            <div class="header-section">
-                <i class="fa-solid fa-crown crown-icon"></i>
-                <div class="name-container">
-                    <span class="line"></span>
-                    <span class="username">Nacer_22</span>
-                    <span class="line"></span>
-                </div>
-            </div>
-
-            <!-- الشعار -->
-            <div class="logo-container">
-                <img src="https://files.catbox.moe/lbr98b.png" alt="HAX_NON_ROOT Logo">
-            </div>
-
-            <!-- العنوان -->
-            <div class="title-wrapper">
-                <div class="title-bg"></div>
+            <div class="title-container">
+                <div class="title-line"></div>
                 <div class="title">تفعيل التطبيق</div>
+                <div class="title-line"></div>
             </div>
-            
-            <div class="subtitle">يرجى إدخال مفتاح التفعيل للمتابعة</div>
 
-            <!-- المثال -->
-            <div class="example-text">
-                <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i>
-                Nacer-XXXX_XXXX-XXXX
-                <i class="fa-solid fa-arrow-left" style="font-size:10px;"></i>
-            </div>
+            <div class="subtitle">أدخل مفتاح التفعيل الخاص بك للتحقق من جهازك</div>
 
             <!-- خانة الإدخال -->
             <div class="input-box">
                 <i class="fa-solid fa-key"></i>
-                <input type="text" id="accessCode" placeholder="أدخل مفتاح التفعيل" autocomplete="off">
-                <button class="clear-btn" onclick="document.getElementById('accessCode').value=''"><i class="fa-solid fa-xmark"></i></button>
+                <input type="text" id="accessCode" placeholder="Nacer-XXXX_XXXX-XXXX" autocomplete="off">
+                <button class="paste-btn" onclick="pasteCode()">
+                    <i class="fa-regular fa-copy"></i> لصق
+                </button>
             </div>
 
-            <!-- زر اللصق -->
-            <button class="paste-btn" onclick="pasteCode()">
-                <i class="fa-regular fa-clipboard"></i> لصق الكود
-            </button>
+            <!-- صندوق المثال -->
+            <div class="example-box">
+                <i class="fa-solid fa-circle-info"></i>
+                <div>مثال على الصيغة: <span>Nacer-XXXX_XXXX-XXXX</span></div>
+            </div>
 
             <!-- رسالة الخطأ -->
             <div class="error-msg" id="errorMsg">
@@ -273,39 +211,13 @@
 
             <!-- زر التحقق -->
             <button class="verify-btn" id="mainBtn" onclick="checkCode()">
-                <i class="fa-solid fa-chevron-left"></i>
                 <i class="fa-solid fa-shield-halved"></i> تحقق
-                <i class="fa-solid fa-chevron-right"></i>
             </button>
 
-            <!-- الأيقونات السفلية -->
-            <div class="bottom-features">
-                <div class="feature-item">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <span>تفعيل آمن</span>
-                </div>
-                <div class="divider"></div>
-                <div class="feature-item">
-                    <i class="fa-solid fa-bolt"></i>
-                    <span>اتصال بالسيرفر</span>
-                </div>
-                <div class="divider"></div>
-                <div class="feature-item">
-                    <i class="fa-solid fa-globe"></i>
-                    <span>تحقق فوري</span>
-                </div>
-                <div class="divider"></div>
-                <div class="feature-item">
-                    <i class="fa-solid fa-lock"></i>
-                    <span>الوصول للواجهة</span>
-                </div>
-            </div>
-
-            <!-- شعار أسفل الصفحة -->
-            <div class="footer-logo">
-                <i class="fa-solid fa-crown"></i>
-                <span>HAX_NON_ROOT</span>
-            </div>
+            <!-- رابط القناة في الأسفل -->
+            <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="channel-btn">
+                انقر هنا لتوجه للقنات الأساسية <i class="fa-solid fa-arrow-left"></i>
+            </a>
 
         </div>
 
@@ -355,7 +267,6 @@
             navigator.clipboard.writeText(savedCode).then(() => alert("✅ تم نسخ الكود!"));
         }
 
-        // الانتقال الفوري والتحقق في الخلفية
         async function checkCode() {
             const inputCode = inputField.value.trim();
             
@@ -365,7 +276,6 @@
                 return;
             }
 
-            // الانتقال الفوري
             savedCode = inputCode;
             document.getElementById("currentCode").innerText = inputCode;
             document.getElementById("login-page").style.display = "none";
@@ -428,4 +338,17 @@
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                let displayHours =
+                let displayHours = hours < 10 ? '0' + hours : hours;
+                let displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+                let displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+                countdownText.innerText = days > 0 ? `${days}ي : ${displayHours}:${displayMinutes}:${displaySeconds}` : `${displayHours}:${displayMinutes}:${displaySeconds}`;
+                const totalMaxTime = 24 * 60 * 60 * 1000;
+                let percentage = distance / totalMaxTime;
+                if(percentage > 1) percentage = 1;
+                const offset = circumference - (percentage * circumference);
+                progressRing.style.strokeDashoffset = offset;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
