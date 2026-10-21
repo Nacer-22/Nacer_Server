@@ -2,7 +2,6 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <!-- منع تحرك الشاشة وتثبيتها -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HAX_NON_ROOT - تفعيل سيرفر</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -22,13 +21,13 @@
             justify-content: center;
             align-items: flex-end;
             min-height: 100vh;
-            min-height: 100dvh; /* لضمان الثبات على الهواتف */
+            min-height: 100dvh;
             padding: 20px;
             padding-bottom: 30px;
-            overflow: hidden; /* منع التمرير وتثبيت الشاشة */
+            overflow: hidden;
         }
 
-        /* صورة تيليجرام التي تطفو في أعلى اليسار (كما طلبت) */
+        /* صورة تيليجرام التي تطفو */
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
         .telegram-top {
             position: absolute; top: 20px; left: 20px;
@@ -45,14 +44,16 @@
         .container {
             width: 100%; max-width: 400px; position: relative; z-index: 2;
             display: flex; flex-direction: column; align-items: center;
-            background: rgba(5, 0, 0, 0.8);
+            background: rgba(5, 0, 0, 0.85);
             padding: 20px;
             border-radius: 15px;
             border: 1px solid rgba(230, 57, 70, 0.4);
             backdrop-filter: blur(8px);
         }
 
-        /* العنوان */
+        /* ================= الشاشة الأولى ================= */
+        #login-page { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        
         .title-container {
             display: flex; align-items: center; justify-content: center;
             gap: 15px; margin-bottom: 8px; width: 100%;
@@ -62,7 +63,6 @@
         
         .subtitle { font-size: 14px; color: #ccc; margin-bottom: 20px; font-weight: 600; text-align: center; }
 
-        /* خانة الإدخال */
         .input-box {
             display: flex; align-items: center; width: 100%;
             background-color: rgba(10, 0, 0, 0.9); border: 1px solid #e63946;
@@ -84,7 +84,6 @@
         }
         .input-box .paste-btn:hover { background: #222; color: #fff; border-color: #e63946; }
 
-        /* صندوق المثال */
         .example-box {
             width: 100%; display: flex; align-items: center; gap: 10px;
             background-color: rgba(15, 15, 15, 0.8); border: 1px solid #222;
@@ -94,17 +93,14 @@
         .example-box div { font-size: 13px; color: #aaa; font-weight: 600; }
         .example-box span { color: #e63946; font-family: monospace; font-size: 14px; direction: ltr; }
 
-        /* رسالة الخطأ - مساحة ثابتة لا تحرك الشاشة */
         .error-msg {
-            height: 24px;
-            display: flex; align-items: center; justify-content: center;
+            height: 24px; display: flex; align-items: center; justify-content: center;
             color: #e63946; font-size: 14px; font-weight: bold;
             width: 100%; opacity: 0; transition: opacity 0.3s;
             text-shadow: 0 0 5px rgba(230, 57, 70, 0.5);
         }
         .error-msg.show { opacity: 1; }
 
-        /* زر التحقق */
         .verify-btn {
             width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%);
             color: #fff; border: 1px solid #ff1a1a;
@@ -116,7 +112,6 @@
         }
         .verify-btn:active { transform: scale(0.98); }
 
-        /* رابط القناة في الأسفل */
         .channel-btn {
             width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;
             background-color: rgba(20, 0, 0, 0.8); border: 1px solid #e63946;
@@ -125,77 +120,109 @@
         }
         .channel-btn:hover { background-color: #e63946; color: #fff; }
 
-        /* ================= الشاشة الثانية ================= */
-        #main-page { display: none; text-align: center; width: 100%; }
+        /* ================= الشاشة الثانية (تعديلات جديدة) ================= */
+        #main-page { display: none; text-align: center; width: 100%; position: relative; }
         
+        /* زر تحميل الحاقن */
         .download-btn-top {
             display: block; width: 100%; background: linear-gradient(90deg, #b31217, #e63946, #b31217);
-            background-size: 200% auto; color: #fff; text-decoration: none; padding: 14px;
-            border-radius: 8px; font-size: 15px; font-weight: 900; margin-bottom: 25px;
+            background-size: 200% auto; color: #fff; text-decoration: none; padding: 12px;
+            border-radius: 8px; font-size: 15px; font-weight: 900; margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4); animation: shine 3s linear infinite;
+            border: 1px solid #ff4d4d;
         }
         .download-btn-top::before { content: '⬇️'; margin-left: 8px; }
         @keyframes shine { to { background-position: 200% center; } }
 
-        .fire-container {
-            position: relative; width: 120px; height: 120px; margin: 0 auto 30px auto;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .fire-container::before {
-            content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 50%; background: conic-gradient(#ff0000, #ff8c00, #ff0000, #ff8c00, #ff0000);
-            animation: rotateFire 3s linear infinite; filter: blur(8px); z-index: -1;
-        }
-        .fire-profile-img {
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-            border: 3px solid #fff; box-shadow: 0 0 20px #ff4500, 0 0 40px #ff0000;
-            position: relative; z-index: 2; background: #000;
-        }
-        @keyframes rotateFire { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
+        /* المؤقت الصغير (أعلى اليمين) */
         .timer-circle-container {
-            position: relative; width: 220px; height: 220px; margin: 0 auto 30px auto;
+            position: absolute; top: 70px; right: 0px;
+            width: 90px; height: 90px; 
             display: flex; justify-content: center; align-items: center;
+            z-index: 10;
         }
-        .timer-circle-container svg { transform: rotate(-90deg); width: 100%; height: 100%; filter: drop-shadow(0 0 15px rgba(230, 57, 70, 0.5)); }
-        .circle-bg { fill: none; stroke: #111; stroke-width: 6; }
+        .timer-circle-container svg { 
+            transform: rotate(-90deg); width: 100%; height: 100%; 
+            filter: drop-shadow(0 0 8px rgba(230, 57, 70, 0.8)); 
+        }
+        .circle-bg { fill: #000; stroke: #222; stroke-width: 4; }
         .circle-progress {
-            fill: none; stroke: url(#redGradient); stroke-width: 6;
-            stroke-linecap: round; stroke-dasharray: 628; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear;
+            fill: none; stroke: url(#redGradient); stroke-width: 4;
+            stroke-linecap: round; stroke-dasharray: 283; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear;
         }
+        /* إضافة خطوط أفقية داخل الدائرة */
         .timer-content {
             position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
             width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 0, 0, 0.1) 2px, rgba(255, 0, 0, 0.1) 3px);
+            border-radius: 50%;
         }
         .time-text {
-            font-size: 30px; font-weight: 900; font-family: monospace;
-            color: #fff; text-shadow: 0 0 15px rgba(230, 57, 70, 0.8); direction: ltr; letter-spacing: 2px;
+            font-size: 12px; font-weight: 900; font-family: monospace;
+            color: #fff; text-shadow: 0 0 5px #e63946; direction: ltr; 
+            line-height: 1.2;
         }
-        .time-label { font-size: 13px; color: #e63946; margin-top: 5px; letter-spacing: 1px; font-weight: 900; }
+        .time-label { font-size: 8px; color: #e63946; margin-top: 2px; font-weight: bold; }
 
+        /* صورة الجمجمة الكبيرة مع توهج النار */
+        .fire-container {
+            position: relative; width: 180px; height: 180px; margin: 30px auto 30px auto;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .fire-container::before {
+            content: ''; position: absolute; top: -15px; left: -15px; right: -15px; bottom: -15px;
+            border-radius: 50%; 
+            background: radial-gradient(circle, #ff0000 0%, #ff4500 30%, transparent 70%);
+            animation: fireGlow 2s infinite alternate;
+            filter: blur(15px); z-index: -1;
+        }
+        .fire-profile-img {
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+            position: relative; z-index: 2; background: #000;
+            box-shadow: inset 0 0 20px #000;
+        }
+        @keyframes fireGlow {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* خانة الكود (بنفس شكل الواجهة الأولى) */
         .code-display {
-            display: flex; border: 1px solid #333; border-radius: 8px;
-            overflow: hidden; margin-bottom: 30px; background-color: rgba(5, 5, 5, 0.8);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            display: flex; width: 100%;
+            background-color: rgba(10, 0, 0, 0.9); border: 1px solid #e63946;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            padding: 5px 15px; margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.3), inset 0 0 10px rgba(230, 57, 70, 0.2);
+            align-items: center;
         }
-        .code-box { flex: 1; padding: 15px; font-family: monospace; font-size: 16px; color: #aaa; direction: ltr; text-align: center; }
+        .code-box { 
+            flex: 1; padding: 12px 5px; font-family: monospace; font-size: 16px; 
+            color: #aaa; direction: ltr; text-align: center; 
+        }
         .btn-copy {
-            background-color: #111; color: #fff; border: none; border-right: 1px solid #333;
-            padding: 0 20px; font-family: 'Cairo', sans-serif; font-weight: bold; cursor: pointer; transition: 0.3s;
+            background: transparent; border: 1px solid #444; color: #aaa;
+            padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 13px; font-weight: bold; transition: 0.3s; font-family: 'Cairo', sans-serif;
         }
-        .btn-copy:hover { background-color: #222; color: #e63946; }
+        .btn-copy:hover { background: #222; color: #fff; border-color: #e63946; }
 
+        /* زر الاتصال (بنفس شكل زر التحقق) */
         .btn-connect {
-            display: block; background: linear-gradient(135deg, #e63946 0%, #850c16 100%);
-            color: white; text-decoration: none; padding: 18px; font-size: 20px; font-weight: 900;
-            border-radius: 8px; box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4); transition: 0.3s;
-            border: 1px solid #ff4d4d; width: 100%;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+            width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%);
+            color: #fff; border: 1px solid #ff1a1a;
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 20px 100%, 0 50%);
+            padding: 16px; font-size: 20px; font-weight: 900; cursor: pointer;
+            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4);
+            transition: 0.3s; text-decoration: none;
         }
+        .btn-connect:active { transform: scale(0.98); }
+        
     </style>
 </head>
 <body>
 
-    <!-- صورة تيليجرام التي تطفو (تم وضعها في أعلى اليسار) -->
+    <!-- صورة تيليجرام -->
     <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="telegram-top">
         <img src="https://files.catbox.moe/94yy7j.webp" alt="Telegram">
         <span>تيليجرام</span>
@@ -204,8 +231,7 @@
     <div class="container">
         
         <!-- الشاشة الأولى -->
-        <div id="login-page" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-            
+        <div id="login-page">
             <div class="title-container">
                 <div class="title-line"></div>
                 <div class="title">تفعيل سيرفر</div>
@@ -214,7 +240,6 @@
 
             <div class="subtitle">أدخل مفتاح التفعيل الخاص بك للتحقق من جهازك</div>
 
-            <!-- خانة الإدخال (صيغة صحيحة بدون _) -->
             <div class="input-box">
                 <i class="fa-solid fa-key"></i>
                 <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off">
@@ -223,49 +248,63 @@
                 </button>
             </div>
 
-            <!-- صندوق المثال -->
             <div class="example-box">
                 <i class="fa-solid fa-circle-info"></i>
                 <div>مثال على الصيغة: <span>Nacer-XXXX-XXXX-XXXX</span></div>
             </div>
 
-            <!-- رسالة الخطأ -->
             <div class="error-msg" id="errorMsg">
                 <span id="errorText">مفتاح غير صالح</span>
             </div>
 
-            <!-- زر التحقق -->
             <button class="verify-btn" id="mainBtn" onclick="checkCode()">
                 <i class="fa-solid fa-shield-halved"></i> تحقق
             </button>
 
-            <!-- رابط القناة في الأسفل -->
             <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="channel-btn">
                 انقر هنا لتوجه للقنات الأساسية <i class="fa-solid fa-arrow-left"></i>
             </a>
-
         </div>
 
-        <!-- الشاشة الثانية -->
+        <!-- الشاشة الثانية (بعد التفعيل) -->
         <div id="main-page">
+            
             <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn-top">اضغط هنا لتحميل الحاقن</a>
-            <div class="fire-container"><img src="https://files.catbox.moe/lbr98b.png" class="fire-profile-img"></div>
+
+            <!-- المؤقت الصغير في الزاوية -->
             <div class="timer-circle-container">
                 <svg>
-                    <defs><linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff4d4d" /><stop offset="50%" stop-color="#e63946" /><stop offset="100%" stop-color="#550000" /></linearGradient></defs>
-                    <circle class="circle-bg" cx="110" cy="110" r="100"></circle>
-                    <circle class="circle-progress" id="progressRing" cx="110" cy="110" r="100"></circle>
+                    <defs>
+                        <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff4d4d" />
+                            <stop offset="50%" stop-color="#e63946" />
+                            <stop offset="100%" stop-color="#550000" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="circle-bg" cx="45" cy="45" r="40"></circle>
+                    <circle class="circle-progress" id="progressRing" cx="45" cy="45" r="40"></circle>
                 </svg>
                 <div class="timer-content">
                     <div class="time-text" id="countdownText">00:00:00</div>
-                    <div class="time-label">الوقت المتبقي</div>
+                    <div class="time-label">الوقت</div>
                 </div>
             </div>
+
+            <!-- الصورة الكبيرة مع توهج النار -->
+            <div class="fire-container">
+                <img src="https://files.catbox.moe/lbr98b.png" class="fire-profile-img">
+            </div>
+
+            <!-- خانة الكود بتصميم الواجهة الأولى -->
             <div class="code-display">
                 <div class="code-box" id="currentCode">Nacer-xxxx</div>
                 <button class="btn-copy" onclick="copyCode()">نسخ</button>
             </div>
-            <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">اتصال الآن ⚡</a>
+
+            <!-- زر الاتصال بتصميم زر التحقق -->
+            <a href="happ://add/hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-connect">
+                اتصال الآن ⚡
+            </a>
         </div>
 
     </div>
@@ -343,7 +382,7 @@
         function startCountdown(expiryDateString) {
             const countdownText = document.getElementById("countdownText");
             const progressRing = document.getElementById("progressRing");
-            const radius = 100;
+            const radius = 40;
             const circumference = 2 * Math.PI * radius;
             const expiryDate = new Date(expiryDateString).getTime();
             
@@ -354,19 +393,28 @@
                 const distance = expiryDate - now;
                 if (distance < 0) {
                     clearInterval(timerInterval);
-                    countdownText.innerText = "00:00:00";
+                    countdownText.innerHTML = "00:00:00";
                     countdownText.style.color = "#e63946";
                     progressRing.style.strokeDashoffset = circumference;
                     return;
                 }
+                
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
                 let displayHours = hours < 10 ? '0' + hours : hours;
                 let displayMinutes = minutes < 10 ? '0' + minutes : minutes;
                 let displaySeconds = seconds < 10 ? '0' + seconds : seconds;
-                countdownText.innerText = days > 0 ? `${days}ي : ${displayHours}:${displayMinutes}:${displaySeconds}` : `${displayHours}:${displayMinutes}:${displaySeconds}`;
+                
+                // ترتيب الأيام والساعات بشكل أفقي ومنظم
+                if (days > 0) {
+                    countdownText.innerHTML = `${days}ي<br>${displayHours}:${displayMinutes}:${displaySeconds}`;
+                } else {
+                    countdownText.innerHTML = `${displayHours}:${displayMinutes}:${displaySeconds}`;
+                }
+
                 const totalMaxTime = 24 * 60 * 60 * 1000;
                 let percentage = distance / totalMaxTime;
                 if(percentage > 1) percentage = 1;
@@ -376,4 +424,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
