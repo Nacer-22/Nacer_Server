@@ -8,77 +8,171 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        :root {
+            --primary-red: #e50914;
+            --primary-hover: #ff1a25;
+            --dark-bg: #050000;
+            --card-bg: rgba(15, 5, 5, 0.85);
+            --gold: #ffd700;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        
         body {
             background-image: url('https://i.imgur.com/DXmoUmz.png');
             background-size: cover; background-position: center top; background-attachment: fixed;
-            background-color: #000; color: #fff; display: flex; justify-content: center; align-items: flex-end;
-            min-height: 100vh; min-height: 100dvh; padding: 20px; padding-bottom: 30px; overflow: hidden;
+            background-color: var(--dark-bg); color: var(--text-main); 
+            display: flex; justify-content: center; align-items: flex-end;
+            min-height: 100vh; min-height: 100dvh; padding: 15px; padding-bottom: 25px; 
+            overflow: hidden;
         }
 
+        /* تأثيرات الدخول (Animations) */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
-        .telegram-top { position: absolute; top: 25px; left: 25px; display: flex; flex-direction: column; align-items: center; text-decoration: none; z-index: 100; animation: float 3s ease-in-out infinite; }
-        .telegram-icon-wrapper { width: 45px; height: 45px; background-color: #229ED9; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #fff; box-shadow: 0 0 15px rgba(34, 158, 217, 0.8), 0 0 30px rgba(34, 158, 217, 0.4); margin-bottom: 5px; transition: 0.3s; overflow: hidden; }
-        .telegram-top:hover .telegram-icon-wrapper { transform: scale(1.1); box-shadow: 0 0 25px rgba(34, 158, 217, 1), 0 0 40px rgba(34, 158, 217, 0.6); }
-        .telegram-icon-wrapper i { color: #fff; font-size: 24px; margin-right: 2px; }
-        .telegram-top span { font-size: 11px; color: #fff; font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .container { width: 100%; max-width: 400px; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; background: rgba(5, 0, 0, 0.85); padding: 20px; border-radius: 15px; border: 1px solid rgba(230, 57, 70, 0.4); backdrop-filter: blur(8px); }
+        /* زر التيليجرام العلوي */
+        .telegram-top { 
+            position: absolute; top: 20px; left: 20px; 
+            display: flex; flex-direction: column; align-items: center; 
+            text-decoration: none; z-index: 100; animation: float 3s ease-in-out infinite; 
+        }
+        .telegram-icon-wrapper { 
+            width: 42px; height: 42px; background-color: #229ED9; border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; 
+            border: 2px solid #fff; box-shadow: 0 0 15px rgba(34, 158, 217, 0.8), 0 0 25px rgba(34, 158, 217, 0.4); 
+            margin-bottom: 5px; transition: 0.3s; 
+        }
+        .telegram-top:hover .telegram-icon-wrapper { transform: scale(1.1); box-shadow: 0 0 25px rgba(34, 158, 217, 1); }
+        .telegram-icon-wrapper i { color: #fff; font-size: 22px; margin-right: 2px; }
+        .telegram-top span { font-size: 11px; color: var(--text-muted); font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 
-        #login-page { width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .title-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 8px; width: 100%; }
-        .title-line { flex: 1; height: 2px; background: linear-gradient(90deg, transparent, #e63946, transparent); }
-        .title { font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); }
-        .subtitle { font-size: 14px; color: #ccc; margin-bottom: 20px; font-weight: 600; text-align: center; }
+        /* الحاوية الرئيسية (تصغير الشعار لجعل الصندوق يظهر أسرع) */
+        .container { 
+            width: 100%; max-width: 380px; position: relative; z-index: 2; 
+            display: flex; flex-direction: column; align-items: center; 
+            animation: fadeIn 0.8s ease-out;
+        }
 
-        .input-box { display: flex; align-items: center; width: 100%; background-color: rgba(10, 0, 0, 0.9); border: 1px solid #e63946; clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); padding: 5px 15px; margin-bottom: 10px; box-shadow: 0 0 15px rgba(230, 57, 70, 0.3), inset 0 0 10px rgba(230, 57, 70, 0.2); }
-        .input-box i.fa-key { color: #e63946; font-size: 18px; margin-left: 10px; }
-        .input-box input { flex: 1; background: transparent; border: none; color: #fff; font-size: 16px; padding: 12px 5px; font-family: monospace; text-align: left; direction: ltr; outline: none; }
-        .input-box input::placeholder { color: #777; font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; font-size: 14px; }
-        .input-box .paste-btn { background: transparent; border: 1px solid #444; color: #aaa; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
-        .input-box .paste-btn:hover { background: #222; color: #fff; border-color: #e63946; }
+        /* صندوق التفعيل */
+        .activation-box {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid rgba(229, 9, 20, 0.4);
+            border-radius: 16px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(229, 9, 20, 0.1), 0 0 15px rgba(229, 9, 20, 0.2);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.6s ease-out;
+            text-align: center;
+        }
 
-        .example-box { width: 100%; display: flex; align-items: center; gap: 10px; background-color: rgba(15, 15, 15, 0.8); border: 1px solid #222; border-radius: 8px; padding: 12px 15px; margin-bottom: 10px; }
-        .example-box i { color: #e63946; font-size: 16px; }
-        .example-box div { font-size: 13px; color: #aaa; font-weight: 600; }
-        .example-box span { color: #e63946; font-family: monospace; font-size: 14px; direction: ltr; }
+        .title-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
+        .title-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--primary-red), transparent); }
+        .title { font-size: 22px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+        
+        .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 25px; font-weight: 600; }
 
-        .error-msg { height: 24px; display: flex; align-items: center; justify-content: center; color: #e63946; font-size: 14px; font-weight: bold; width: 100%; opacity: 0; transition: opacity 0.3s; text-shadow: 0 0 5px rgba(230, 57, 70, 0.5); }
-        .error-msg.show { opacity: 1; }
+        /* حقل الإدخال */
+        .input-group { 
+            display: flex; align-items: center; width: 100%; 
+            background-color: rgba(0, 0, 0, 0.8); 
+            border: 1px solid #333; border-radius: 10px;
+            padding: 5px 12px; margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        .input-group:focus-within {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.3);
+        }
+        .input-group i.fa-key { color: var(--primary-red); font-size: 16px; margin-left: 8px; }
+        
+        .input-group input { 
+            flex: 1; background: transparent; border: none; color: #fff; 
+            font-size: 15px; padding: 10px 5px; font-family: monospace; 
+            text-align: left; direction: ltr; outline: none; 
+        }
+        .input-group input::placeholder { 
+            color: #555; font-family: 'Cairo', sans-serif; direction: rtl; 
+            text-align: right; font-size: 13px; 
+        }
+        
+        .paste-btn { 
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: #ccc; padding: 6px 10px; border-radius: 6px; cursor: pointer; 
+            font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; 
+            transition: 0.3s;
+        }
+        .paste-btn:hover { background: var(--primary-red); color: #fff; border-color: var(--primary-red); }
 
-        .verify-btn { width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%); color: #fff; border: 1px solid #ff1a1a; clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 20px 100%, 0 50%); padding: 16px; font-size: 20px; font-weight: 900; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4); transition: 0.3s; margin-bottom: 20px; }
-        .verify-btn:active { transform: scale(0.98); }
+        /* صندوق الرسائل (للأخطاء والنجاح) */
+        .message-box {
+            height: 24px; font-size: 13px; font-weight: bold; 
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 15px; opacity: 0; transition: opacity 0.3s;
+        }
+        .message-box.show { opacity: 1; }
+        .msg-error { color: var(--error); }
+        .msg-success { color: var(--success); }
 
-        .channel-btn { width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; background-color: rgba(20, 0, 0, 0.8); border: 1px solid #e63946; color: #e63946; text-decoration: none; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: bold; transition: 0.3s; }
-        .channel-btn:hover { background-color: #e63946; color: #fff; }
+        /* زر التحقق */
+        .verify-btn {
+            width: 100%; background: linear-gradient(180deg, var(--primary-red) 0%, #8b0000 100%);
+            color: #fff; border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px; padding: 14px; font-size: 18px; font-weight: 900;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+            transition: all 0.3s ease; margin-bottom: 20px;
+        }
+        .verify-btn:hover:not(:disabled) { background: linear-gradient(180deg, var(--primary-hover) 0%, #a00000 100%); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5); }
+        .verify-btn:active:not(:disabled) { transform: translateY(0); }
+        .verify-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .verify-btn i.fa-spinner { animation: spin 1s linear infinite; }
 
+        /* زر القناة (Secondary) */
+        .channel-btn { 
+            width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;
+            background-color: transparent; border: 1px solid var(--primary-red); 
+            color: var(--primary-red); text-decoration: none; padding: 12px; border-radius: 10px;
+            font-size: 14px; font-weight: bold; transition: 0.3s;
+        }
+        .channel-btn:hover { background-color: rgba(229, 9, 20, 0.1); color: #fff; }
+        .channel-btn:active { transform: scale(0.98); }
+
+        /* ================= الشاشة الثانية (المخفية) ================= */
         #main-page { display: none; text-align: center; width: 100%; position: relative; }
-        .download-btn-top { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: rgba(20, 5, 5, 0.8); border: 1px solid #e63946; color: #fff; text-decoration: none; padding: 12px 15px; border-radius: 8px; font-size: 16px; font-weight: 900; margin-bottom: 20px; box-shadow: 0 0 15px rgba(230, 57, 70, 0.2); transition: 0.3s; position: relative; overflow: hidden; }
-        .download-btn-top:hover { background: rgba(230, 57, 70, 0.2); box-shadow: 0 0 25px rgba(230, 57, 70, 0.6); }
-        .download-btn-top img { width: 26px; height: 26px; object-fit: cover; border-radius: 6px; border: 1px solid #ff4d4d; background: #000; }
+        .download-btn-top { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: rgba(20, 5, 5, 0.8); border: 1px solid var(--primary-red); color: #fff; text-decoration: none; padding: 12px 15px; border-radius: 8px; font-size: 15px; font-weight: 900; margin-bottom: 20px; box-shadow: 0 0 15px rgba(229, 9, 20, 0.2); transition: 0.3s; position: relative; overflow: hidden; }
+        .download-btn-top:hover { background: rgba(229, 9, 20, 0.2); box-shadow: 0 0 25px rgba(229, 9, 20, 0.6); }
+        .download-btn-top img { width: 24px; height: 24px; object-fit: cover; border-radius: 6px; border: 1px solid var(--primary-red); background: #000; }
 
-        .timer-display { display: flex; align-items: center; justify-content: center; flex-direction: column; width: 100%; background: rgba(10, 0, 0, 0.9); border: 1px solid #e63946; padding: 10px; border-radius: 8px; margin-bottom: 25px; box-shadow: inset 0 0 15px rgba(230, 57, 70, 0.2), 0 0 10px rgba(230, 57, 70, 0.3); background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 0, 0, 0.05) 2px, rgba(255, 0, 0, 0.05) 4px); }
-        .timer-title { font-size: 12px; color: #e63946; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px;}
-        .time-text { font-size: 24px; font-weight: 900; font-family: monospace; color: #fff; text-shadow: 0 0 10px #e63946; direction: ltr; letter-spacing: 2px; }
+        .timer-display { display: flex; align-items: center; justify-content: center; flex-direction: column; width: 100%; background: rgba(10, 0, 0, 0.9); border: 1px solid var(--primary-red); padding: 10px; border-radius: 8px; margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(229, 9, 20, 0.2), 0 0 10px rgba(229, 9, 20, 0.3); background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(229, 9, 20, 0.05) 2px, rgba(229, 9, 20, 0.05) 4px); }
+        .timer-title { font-size: 12px; color: var(--primary-red); font-weight: bold; margin-bottom: 5px; letter-spacing: 1px;}
+        .time-text { font-size: 22px; font-weight: 900; font-family: monospace; color: #fff; text-shadow: 0 0 10px var(--primary-red); direction: ltr; letter-spacing: 2px; }
 
-        .fire-container { position: relative; width: 200px; height: 200px; margin: 0 auto 30px auto; display: flex; justify-content: center; align-items: center; border-radius: 50%; border: 2px solid #fff; overflow: hidden; }
+        .fire-container { position: relative; width: 160px; height: 160px; margin: 0 auto 20px auto; display: flex; justify-content: center; align-items: center; border-radius: 50%; border: 2px solid #fff; overflow: hidden; }
         .fire-container::before { content: ''; position: absolute; top: -15px; left: -15px; right: -15px; bottom: -15px; border-radius: 50%; background: radial-gradient(circle, #ff0000 0%, #ff4500 30%, transparent 70%); animation: fireGlow 2s infinite alternate; filter: blur(15px); z-index: -1; }
         .fire-profile-img { width: 100%; height: 100%; object-fit: cover; object-position: center; position: relative; z-index: 2; background: #000; }
         @keyframes fireGlow { 0% { transform: scale(0.9); opacity: 0.7; } 100% { transform: scale(1.1); opacity: 1; } }
 
-        .code-display { display: flex; width: 100%; background-color: rgba(10, 0, 0, 0.9); border: 1px solid #e63946; clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); padding: 5px 15px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(230, 57, 70, 0.3), inset 0 0 10px rgba(230, 57, 70, 0.2); align-items: center; }
-        .code-box { flex: 1; padding: 12px 5px; font-family: monospace; font-size: 16px; color: #aaa; direction: ltr; text-align: center; }
-        .btn-copy { background: transparent; border: 1px solid #444; color: #aaa; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s; font-family: 'Cairo', sans-serif; }
-        .btn-copy:hover { background: #222; color: #fff; border-color: #e63946; }
+        .code-display { display: flex; width: 100%; background-color: rgba(10, 0, 0, 0.9); border: 1px solid #333; border-radius: 10px; padding: 5px 15px; margin-bottom: 20px; align-items: center; }
+        .code-box { flex: 1; padding: 10px 5px; font-family: monospace; font-size: 15px; color: var(--gold); direction: ltr; text-align: center; }
+        .btn-copy { background: transparent; border: 1px solid #444; color: #aaa; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.3s; }
+        .btn-copy:hover { background: #222; color: #fff; border-color: var(--primary-red); }
 
-        .btn-connect { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; background: linear-gradient(180deg, #cc0000 0%, #550000 100%); color: #fff; border: 1px solid #ff1a1a; clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 20px 100%, 0 50%); padding: 16px; font-size: 20px; font-weight: 900; cursor: pointer; box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4); transition: 0.3s; text-decoration: none; }
+        .btn-connect { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; background: linear-gradient(180deg, var(--primary-red) 0%, #8b0000 100%); color: #fff; border: 1px solid #ff1a1a; border-radius: 10px; padding: 15px; font-size: 18px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4); transition: 0.3s; text-decoration: none; }
         .btn-connect:active { transform: scale(0.98); }
-        
-        .btn-connect.disabled { background: #333; color: #777; border-color: #444; box-shadow: none; pointer-events: none; }
+        .btn-connect.disabled { background: #222; color: #555; border-color: #333; box-shadow: none; pointer-events: none; }
     </style>
 </head>
 <body>
 
+    <!-- زر تيليجرام العلوي -->
     <a href="https://t.me/Nacer_22" target="_blank" class="telegram-top">
         <div class="telegram-icon-wrapper">
             <i class="fa-brands fa-telegram"></i>
@@ -87,38 +181,51 @@
     </a>
 
     <div class="container">
-        <div id="login-page">
+        
+        <!-- الشاشة الأولى -->
+        <div class="activation-box" id="login-page">
             <div class="title-container">
                 <div class="title-line"></div>
                 <div class="title">تفعيل سيرفر</div>
                 <div class="title-line"></div>
             </div>
             <div class="subtitle">أدخل مفتاح التفعيل الخاص بك للتحقق من جهازك</div>
-            <div class="input-box">
+
+            <div class="input-group">
                 <i class="fa-solid fa-key"></i>
                 <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off">
                 <button class="paste-btn" onclick="pasteCode()"><i class="fa-regular fa-copy"></i> لصق</button>
             </div>
-            <div class="example-box">
-                <i class="fa-solid fa-circle-info"></i>
-                <div>مثال على الصيغة: <span>Nacer-XXXX-XXXX-XXXX</span></div>
+
+            <!-- صندوق الرسائل -->
+            <div class="message-box" id="messageBox">
+                <span id="messageText"></span>
             </div>
-            <div class="error-msg" id="errorMsg"><span id="errorText">مفتاح غير صالح</span></div>
-            <button class="verify-btn" id="mainBtn" onclick="checkCode()"><i class="fa-solid fa-shield-halved"></i> تحقق</button>
-            <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="channel-btn">انقر هنا لتوجه للقنات الأساسية <i class="fa-solid fa-arrow-left"></i></a>
+
+            <button class="verify-btn" id="mainBtn" onclick="checkCode()">
+                <i class="fa-solid fa-shield-halved"></i> تحقق
+            </button>
+
+            <a href="https://t.me/HAX_NON_ROOT" target="_blank" class="channel-btn">
+                <i class="fa-brands fa-telegram"></i> التوجه للقنوات الأساسية
+            </a>
         </div>
 
-        <div id="main-page">
+        <!-- الشاشة الثانية -->
+        <div class="activation-box" id="main-page">
             <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn-top">
-                <img src="https://i.imgur.com/YexrNvz.jpeg" alt="Happ Icon"> اضغط هنا لتحميل الحاقن
+                <img src="https://i.imgur.com/YexrNvz.jpeg" alt="Happ Icon"> تحميل الحاقن
             </a>
+
             <div class="timer-display">
                 <div class="timer-title">الوقت المتبقي للاتصال</div>
                 <div class="time-text" id="countdownText">00:00:00</div>
             </div>
+
             <div class="fire-container">
                 <img src="https://i.imgur.com/kf1AmpO.png" class="fire-profile-img" alt="Logo">
             </div>
+
             <div class="code-display">
                 <div class="code-box" id="currentCode">Nacer-xxxx</div>
                 <button class="btn-copy" onclick="copyCode()">نسخ</button>
@@ -126,18 +233,30 @@
             
             <a href="javascript:void(0)" id="connectBtn" onclick="openLink()" class="btn-connect">اتصال الآن ⚡</a>
         </div>
+
     </div>
 
     <script>
+        // ⚠️ لم يتم تغيير أي متغير أو رابط سيرفر ⚠️
         const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
         let timerInterval;
         let savedCode = "";
 
         const inputField = document.getElementById("accessCode");
-        const errorDiv = document.getElementById("errorMsg");
-        const errorText = document.getElementById("errorText");
         const mainBtn = document.getElementById("mainBtn");
+        const messageBox = document.getElementById("messageBox");
+        const messageText = document.getElementById("messageText");
         const connectBtn = document.getElementById("connectBtn");
+
+        function showMessage(msg, type) {
+            messageText.innerText = msg;
+            messageBox.className = `message-box show msg-${type}`;
+        }
+
+        function clearMessage() {
+            messageBox.className = "message-box";
+            messageText.innerText = "";
+        }
 
         function getDeviceId() {
             let deviceId = localStorage.getItem('nacer_device_id');
@@ -149,17 +268,33 @@
         }
 
         async function pasteCode() {
-            try { const text = await navigator.clipboard.readText(); inputField.value = text; } catch (err) { alert("يرجى لصق الكود يدوياً"); }
+            try { 
+                const text = await navigator.clipboard.readText(); 
+                inputField.value = text; 
+                clearMessage(); // إخفاء الأخطاء عند اللصق
+            } catch (err) { 
+                showMessage("يرجى لصق الكود يدوياً", "error");
+            }
         }
-        function copyCode() { navigator.clipboard.writeText(savedCode).then(() => alert("✅ تم نسخ الكود!")); }
+
+        function copyCode() { 
+            navigator.clipboard.writeText(savedCode).then(() => alert("✅ تم نسخ الكود!")); 
+        }
 
         async function checkCode() {
             const inputCode = inputField.value.trim();
-            if(!inputCode) { errorDiv.classList.add("show"); errorText.innerText = "يرجى إدخال المفتاح أولاً"; return; }
+            
+            // التحقق من الحقل الفارغ
+            if(!inputCode) { 
+                showMessage("يرجى إدخال المفتاح أولاً", "error");
+                return; 
+            }
 
-            mainBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحقق...';
-            mainBtn.style.pointerEvents = "none";
-            errorDiv.classList.remove("show");
+            // حالة التحميل (Loading State)
+            clearMessage();
+            const originalBtnHTML = mainBtn.innerHTML;
+            mainBtn.innerHTML = '<i class="fa-solid fa-spinner"></i> جاري التحقق...';
+            mainBtn.disabled = true;
 
             try {
                 const deviceId = getDeviceId();
@@ -172,27 +307,42 @@
                 const data = await response.json();
 
                 if (data.valid === true) {
+                    // حالة النجاح
+                    mainBtn.innerHTML = '<i class="fa-solid fa-check"></i> تم التحقق';
+                    mainBtn.style.background = 'linear-gradient(180deg, #22c55e 0%, #166534 100%)';
+                    mainBtn.style.borderColor = '#22c55e';
+                    mainBtn.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.4)';
+                    showMessage("تم التحقق من المفتاح بنجاح", "success");
+
                     savedCode = inputCode;
                     document.getElementById("currentCode").innerText = inputCode;
-                    document.getElementById("login-page").style.display = "none";
-                    document.getElementById("main-page").style.display = "block";
-                    if (data.expires_at) { startCountdown(data.expires_at); }
+
+                    // الانتقال للشاشة الثانية بعد نصف ثانية لإظهار حالة النجاح
+                    setTimeout(() => {
+                        document.getElementById("login-page").style.display = "none";
+                        document.getElementById("main-page").style.display = "block";
+                        if (data.expires_at) { startCountdown(data.expires_at); }
+                    }, 800);
+
                 } else {
-                    let msg = "مفتاح غير صالح"; 
-                    if (data.reason === "code_expired") msg = "مفتاح منتهي صلاحية";
+                    // حالات الفشل
+                    let msg = "المفتاح غير صحيح"; 
+                    if (data.reason === "code_expired") msg = "المفتاح منتهي الصلاحية";
                     if (data.reason === "max_devices_reached") msg = "هذا المفتاح مستخدم على جهاز آخر";
                     if (data.reason === "too_many_requests") msg = "محاولات كثيرة جداً، انتظر 15 دقيقة.";
+                    if (data.reason === "code_not_found") msg = "هذا المفتاح غير موجود في النظام";
                     
-                    errorText.innerText = msg;
-                    errorDiv.classList.add("show");
-                    mainBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> تحقق';
-                    mainBtn.style.pointerEvents = "auto";
+                    showMessage(msg, "error");
+                    
+                    // إعادة الزر لحالته الطبيعية
+                    mainBtn.innerHTML = originalBtnHTML;
+                    mainBtn.disabled = false;
                 }
             } catch (error) {
-                errorText.innerText = "تعذر الاتصال بالسيرفر. يرجى المحاولة لاحقاً.";
-                errorDiv.classList.add("show");
-                mainBtn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> تحقق';
-                mainBtn.style.pointerEvents = "auto";
+                // خطأ في الاتصال
+                showMessage("تعذر الاتصال بالسيرفر، حاول مرة أخرى", "error");
+                mainBtn.innerHTML = originalBtnHTML;
+                mainBtn.disabled = false;
             }
         }
 
@@ -208,7 +358,7 @@
                 if (distance < 0) { 
                     clearInterval(timerInterval); 
                     countdownText.innerHTML = "00:00:00"; 
-                    countdownText.style.color = "#e63946"; 
+                    countdownText.style.color = "var(--primary-red)"; 
                     
                     connectBtn.classList.add("disabled");
                     connectBtn.innerText = "انتهى الاشتراك 🛑";
@@ -224,38 +374,8 @@
                 let displayHours = hours < 10 ? '0' + hours : hours;
                 let displayMinutes = minutes < 10 ? '0' + minutes : minutes;
                 let displaySeconds = seconds < 10 ? '0' + seconds : seconds;
-                if (days > 0) { countdownText.innerHTML = `${days} يوم : ${displayHours}:${displayMinutes}:${displaySeconds}`; } else { countdownText.innerHTML = `${displayHours}:${displayMinutes}:${displaySeconds}`; }
-            }, 1000);
-        }
-
-        function openLink() {
-            if (!savedCode) return;
-            
-            // رابط ملف الاشتراك الخاص بك
-            const subUrl = "https://raw.githubusercontent.com/Nacer-22/Nacer_Server/main/sub.txt";
-            
-            // اسم السيرفر الديناميكي (آخر 4 حروف)
-            const last4 = savedCode.slice(-4);
-            const serverName = "Nacer-" + last4;
-            
-            // إرسال رابط الاشتراك للتطبيق
-            const finalLink = "happ://add/" + subUrl + "#" + serverName;
-            
-            // فتح التطبيق فوراً
-            window.location.href = finalLink;
-        }
-    </script>
-
-    <!-- كود الحماية -->
-    <script>
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) { return false; }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
-        };
-    </script>
-</body>
-</html>
+                
+                if (days > 0) { 
+                    countdownText.innerHTML = `${days} يوم : ${displayHours}:${displayMinutes}:${displaySeconds}`; 
+                } else { 
+                    countdow
