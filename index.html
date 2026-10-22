@@ -3,41 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HAX_NON_ROOT - تفعيل سيرفر</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>HAX_NON_ROOT - بوابة التفعيل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
             --primary-red: #e50914;
             --primary-hover: #ff1a25;
-            --dark-bg: #050000;
+            --dark-red: #8b0000;
+            --bg-dark: #050000;
             --card-bg: rgba(15, 5, 5, 0.85);
-            --gold: #ffd700;
+            --gold: #ffcc00;
             --text-main: #ffffff;
-            --text-muted: #888888;
+            --text-muted: #9ca3af;
             --success: #22c55e;
             --error: #ef4444;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body {
-            background-image: url('https://i.imgur.com/DXmoUmz.png');
-            background-size: cover; background-position: center top; background-attachment: fixed;
-            background-color: var(--dark-bg); color: var(--text-main); 
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(139, 0, 0, 0.25) 0%, transparent 60%),
+                url('https://i.imgur.com/DXmoUmz.png');
+            background-size: cover;
+            background-position: center top;
+            background-attachment: fixed;
+            color: var(--text-main); 
             display: flex; justify-content: center; align-items: flex-end;
-            min-height: 100vh; min-height: 100dvh; padding: 15px; padding-bottom: 25px; 
+            min-height: 100vh; min-height: 100dvh; 
+            padding: 15px; padding-bottom: 25px; 
             overflow: hidden;
         }
 
-        /* تأثيرات الدخول (Animations) */
+        /* تأثيرات الدخول */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* زر التيليجرام العلوي */
+        /* زر تيليجرام العلوي */
         .telegram-top { 
             position: absolute; top: 20px; left: 20px; 
             display: flex; flex-direction: column; align-items: center; 
@@ -46,29 +53,29 @@
         .telegram-icon-wrapper { 
             width: 42px; height: 42px; background-color: #229ED9; border-radius: 50%; 
             display: flex; justify-content: center; align-items: center; 
-            border: 2px solid #fff; box-shadow: 0 0 15px rgba(34, 158, 217, 0.8), 0 0 25px rgba(34, 158, 217, 0.4); 
+            border: 2px solid #fff; box-shadow: 0 0 15px rgba(34, 158, 217, 0.6); 
             margin-bottom: 5px; transition: 0.3s; 
         }
         .telegram-top:hover .telegram-icon-wrapper { transform: scale(1.1); box-shadow: 0 0 25px rgba(34, 158, 217, 1); }
         .telegram-icon-wrapper i { color: #fff; font-size: 22px; margin-right: 2px; }
         .telegram-top span { font-size: 11px; color: var(--text-muted); font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 
-        /* الحاوية الرئيسية (تصغير الشعار لجعل الصندوق يظهر أسرع) */
+        /* الحاوية الرئيسية */
         .container { 
             width: 100%; max-width: 380px; position: relative; z-index: 2; 
             display: flex; flex-direction: column; align-items: center; 
             animation: fadeIn 0.8s ease-out;
         }
 
-        /* صندوق التفعيل */
+        /* بطاقة التفعيل */
         .activation-box {
             width: 100%;
             background: var(--card-bg);
             border: 1px solid rgba(229, 9, 20, 0.4);
             border-radius: 16px;
             padding: 25px 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(229, 9, 20, 0.1), 0 0 15px rgba(229, 9, 20, 0.2);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(229, 9, 20, 0.05), 0 0 15px rgba(229, 9, 20, 0.15);
+            backdrop-filter: blur(12px);
             animation: slideUp 0.6s ease-out;
             text-align: center;
         }
@@ -111,7 +118,7 @@
         }
         .paste-btn:hover { background: var(--primary-red); color: #fff; border-color: var(--primary-red); }
 
-        /* صندوق الرسائل (للأخطاء والنجاح) */
+        /* صندوق الرسائل (لاستبدال التنبيهات المزعجة) */
         .message-box {
             height: 24px; font-size: 13px; font-weight: bold; 
             display: flex; align-items: center; justify-content: center;
@@ -121,9 +128,10 @@
         .msg-error { color: var(--error); }
         .msg-success { color: var(--success); }
 
-        /* زر التحقق */
+        /* زر التحقق (Premium Gaming) */
         .verify-btn {
-            width: 100%; background: linear-gradient(180deg, var(--primary-red) 0%, #8b0000 100%);
+            width: 100%; 
+            background: linear-gradient(180deg, var(--primary-red) 0%, #8b0000 100%);
             color: #fff; border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px; padding: 14px; font-size: 18px; font-weight: 900;
             cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
@@ -135,7 +143,7 @@
         .verify-btn:disabled { opacity: 0.7; cursor: not-allowed; }
         .verify-btn i.fa-spinner { animation: spin 1s linear infinite; }
 
-        /* زر القناة (Secondary) */
+        /* زر القنوات (Secondary) */
         .channel-btn { 
             width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px;
             background-color: transparent; border: 1px solid var(--primary-red); 
@@ -147,6 +155,7 @@
 
         /* ================= الشاشة الثانية (المخفية) ================= */
         #main-page { display: none; text-align: center; width: 100%; position: relative; }
+        
         .download-btn-top { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: rgba(20, 5, 5, 0.8); border: 1px solid var(--primary-red); color: #fff; text-decoration: none; padding: 12px 15px; border-radius: 8px; font-size: 15px; font-weight: 900; margin-bottom: 20px; box-shadow: 0 0 15px rgba(229, 9, 20, 0.2); transition: 0.3s; position: relative; overflow: hidden; }
         .download-btn-top:hover { background: rgba(229, 9, 20, 0.2); box-shadow: 0 0 25px rgba(229, 9, 20, 0.6); }
         .download-btn-top img { width: 24px; height: 24px; object-fit: cover; border-radius: 6px; border: 1px solid var(--primary-red); background: #000; }
@@ -182,7 +191,7 @@
 
     <div class="container">
         
-        <!-- الشاشة الأولى -->
+        <!-- الشاشة الأولى: التفعيل -->
         <div class="activation-box" id="login-page">
             <div class="title-container">
                 <div class="title-line"></div>
@@ -194,10 +203,10 @@
             <div class="input-group">
                 <i class="fa-solid fa-key"></i>
                 <input type="text" id="accessCode" placeholder="Nacer-XXXX-XXXX-XXXX" autocomplete="off">
-                <button class="paste-btn" onclick="pasteCode()"><i class="fa-regular fa-copy"></i> لصق</button>
+                <button class="paste-btn" onclick="pasteCode(event)"><i class="fa-regular fa-copy"></i> لصق</button>
             </div>
 
-            <!-- صندوق الرسائل -->
+            <!-- رسائل الخطأ والنجاح تظهر هنا -->
             <div class="message-box" id="messageBox">
                 <span id="messageText"></span>
             </div>
@@ -211,7 +220,7 @@
             </a>
         </div>
 
-        <!-- الشاشة الثانية -->
+        <!-- الشاشة الثانية: النجاح والاتصال -->
         <div class="activation-box" id="main-page">
             <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" class="download-btn-top">
                 <img src="https://i.imgur.com/YexrNvz.jpeg" alt="Happ Icon"> تحميل الحاقن
@@ -237,7 +246,6 @@
     </div>
 
     <script>
-        // ⚠️ لم يتم تغيير أي متغير أو رابط سيرفر ⚠️
         const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
         let timerInterval;
         let savedCode = "";
@@ -248,6 +256,7 @@
         const messageText = document.getElementById("messageText");
         const connectBtn = document.getElementById("connectBtn");
 
+        // دالة إظهار الرسائل الأنيقة
         function showMessage(msg, type) {
             messageText.innerText = msg;
             messageBox.className = `message-box show msg-${type}`;
@@ -258,6 +267,7 @@
             messageText.innerText = "";
         }
 
+        // توليد معرف جهاز فريد وحفظه
         function getDeviceId() {
             let deviceId = localStorage.getItem('nacer_device_id');
             if (!deviceId) {
@@ -267,30 +277,39 @@
             return deviceId;
         }
 
-        async function pasteCode() {
+        // دالة اللصق مع معالجة حظر المتصفح
+        async function pasteCode(event) {
+            if(event) event.preventDefault(); 
             try { 
                 const text = await navigator.clipboard.readText(); 
-                inputField.value = text; 
-                clearMessage(); // إخفاء الأخطاء عند اللصق
+                if(text) {
+                    inputField.value = text; 
+                    clearMessage();
+                } else {
+                    showMessage("الحافظة فارغة", "error");
+                }
             } catch (err) { 
-                showMessage("يرجى لصق الكود يدوياً", "error");
+                showMessage("المتصفح يمنع اللصق التلقائي. يرجى الضغط مطولاً على الحقل واختيار (لصق).", "error");
+                inputField.focus();
             }
         }
 
         function copyCode() { 
-            navigator.clipboard.writeText(savedCode).then(() => alert("✅ تم نسخ الكود!")); 
+            navigator.clipboard.writeText(savedCode).then(() => {
+                showMessage("تم نسخ الكود!", "success");
+                setTimeout(clearMessage, 2000);
+            }); 
         }
 
+        // دالة التحقق
         async function checkCode() {
             const inputCode = inputField.value.trim();
             
-            // التحقق من الحقل الفارغ
             if(!inputCode) { 
                 showMessage("يرجى إدخال المفتاح أولاً", "error");
                 return; 
             }
 
-            // حالة التحميل (Loading State)
             clearMessage();
             const originalBtnHTML = mainBtn.innerHTML;
             mainBtn.innerHTML = '<i class="fa-solid fa-spinner"></i> جاري التحقق...';
@@ -317,7 +336,7 @@
                     savedCode = inputCode;
                     document.getElementById("currentCode").innerText = inputCode;
 
-                    // الانتقال للشاشة الثانية بعد نصف ثانية لإظهار حالة النجاح
+                    // الانتقال للشاشة الثانية بعد نصف ثانية
                     setTimeout(() => {
                         document.getElementById("login-page").style.display = "none";
                         document.getElementById("main-page").style.display = "block";
@@ -325,7 +344,7 @@
                     }, 800);
 
                 } else {
-                    // حالات الفشل
+                    // حالات الخطأ
                     let msg = "المفتاح غير صحيح"; 
                     if (data.reason === "code_expired") msg = "المفتاح منتهي الصلاحية";
                     if (data.reason === "max_devices_reached") msg = "هذا المفتاح مستخدم على جهاز آخر";
@@ -333,19 +352,17 @@
                     if (data.reason === "code_not_found") msg = "هذا المفتاح غير موجود في النظام";
                     
                     showMessage(msg, "error");
-                    
-                    // إعادة الزر لحالته الطبيعية
                     mainBtn.innerHTML = originalBtnHTML;
                     mainBtn.disabled = false;
                 }
             } catch (error) {
-                // خطأ في الاتصال
                 showMessage("تعذر الاتصال بالسيرفر، حاول مرة أخرى", "error");
                 mainBtn.innerHTML = originalBtnHTML;
                 mainBtn.disabled = false;
             }
         }
 
+        // دالة العداد التنازلي
         function startCountdown(expiryDateString) {
             const countdownText = document.getElementById("countdownText");
             const expiryDate = new Date(expiryDateString).getTime();
@@ -370,12 +387,4 @@
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                let displayHours = hours < 10 ? '0' + hours : hours;
-                let displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-                let displaySeconds = seconds < 10 ? '0' + seconds : seconds;
-                
-                if (days > 0) { 
-                    countdownText.innerHTML = `${days} يوم : ${displayHours}:${displayMinutes}:${displaySeconds}`; 
-                } else { 
-                    countdow
+       
