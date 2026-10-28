@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جاري فتح تطبيق Happ...</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>جارٍ فتح تطبيق Happ...</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #0d1117; color: #c9d1d9; text-align: center; padding: 50px 20px; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-image: url('https://files.catbox.moe/lbr98b.png'); background-size: cover; background-position: center; position: relative; }
@@ -15,22 +16,81 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .btn-manual { display: inline-block; padding: 12px 20px; background: linear-gradient(135deg, #e63946, #b31217); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 15px; font-family: 'Cairo', sans-serif; box-shadow: 0 4px 10px rgba(230, 57, 70, 0.4); transition: 0.3s; }
         .btn-manual:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(230, 57, 70, 0.6); }
+        .err { color: #ef4444; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>جاري فتح التطبيق...</h1>
-        <div class="spinner"></div>
-        <p>إذا لم يفتح تطبيق Happ تلقائياً، يرجى الضغط على الزر أدناه.</p>
-        <a href="hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server" class="btn-manual">اضغط هنا للفتح يدوياً</a>
+        <h1 id="title">جارٍ فتح التطبيق...</h1>
+        <div class="spinner" id="spin"></div>
+        <p id="note">إذا لم يفتح تطبيق Happ تلقائياً، يرجى الضغط على الزر أدناه.</p>
+        <a href="#" id="manualBtn" class="btn-manual" style="display:none">اضغط هنا للفتح يدوياً</a>
     </div>
 
     <script>
-        // الرابط المباشر لفتح Happ (تم تغيير الاسم فقط إلى Nacer-Server)
-        const serverLink = "hysteria2://AMHK-05AF-AB2E-A78E@wraith-bom2.aimhack.shop:443/?insecure=1&sni=wraith-bom2.aimhack.shop#Nacer-Server";
-        
-        // محاولة فتح التطبيق فوراً عند تحميل الصفحة
-        window.location.href = serverLink;
+        /*
+         * لا يوجد أي رابط سيرفر في هذا الملف.
+         * الرابط يُجلب من /api/sub بتوكن الجلسة الموجود في عنوان الصفحة (#t=...).
+         * التوكن قصير العمر ويُلغى عند إغلاق الصفحة.
+         */
+        (function () {
+            var API_BASE = "https://key-system-yn0o.onrender.com";
+
+            function fail(msg) {
+                document.getElementById('spin').style.display = 'none';
+                document.getElementById('title').textContent = 'تعذّر الفتح';
+                document.getElementById('title').className = 'err';
+                document.getElementById('note').textContent = msg;
+            }
+
+            function getToken() {
+                var h = window.location.hash || '';
+                var m = h.match(/[#&]t=([^&]+)/);
+                if (m) return decodeURIComponent(m[1]);
+                var q = window.location.search || '';
+                var qm = q.match(/[?&]t=([^&]+)/);
+                return qm ? decodeURIComponent(qm[1]) : '';
+            }
+
+            var token = getToken();
+            if (!token) {
+                fail('افتح هذه الصفحة من زر الاتصال داخل الموقع.');
+                return;
+            }
+
+            // نظّف التوكن من شريط العنوان فور قراءته
+            try { history.replaceState(null, '', window.location.pathname); } catch (e) {}
+
+            fetch(API_BASE + '/api/sub', {
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                credentials: 'omit',
+                cache: 'no-store'
+            })
+            .then(function (r) {
+                if (r.status === 401) throw new Error('انتهت الجلسة، أعد إدخال المفتاح.');
+                if (r.status === 403) throw new Error('الاشتراك غير فعّال.');
+                if (!r.ok) throw new Error('تعذّر جلب الرابط، حاول مرة أخرى.');
+                return r.json();
+            })
+            .then(function (d) {
+                if (!d || typeof d.link !== 'string' || !d.link) {
+                    throw new Error('رابط غير صالح.');
+                }
+                var link = d.link;
+                document.getElementById('spin').style.display = 'none';
+                document.getElementById('title').textContent = 'جارٍ فتح Happ...';
+                document.getElementById('note').textContent =
+                    'إذا لم يفتح التطبيق تلقائياً، اضغط الزر أدناه.';
+
+                var btn = document.getElementById('manualBtn');
+                btn.href = link;
+                btn.style.display = 'inline-block';
+
+                window.location.href = link;
+            })
+            .catch(function (e) { fail(e.message || 'حدث خطأ غير متوقع.'); });
+        })();
     </script>
 </body>
 </html>
