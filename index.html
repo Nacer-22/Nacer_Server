@@ -223,9 +223,15 @@
         </div>
 
     </div>    <script>
-        const RENDER_API_URL = "https://key-system-yn0o.onrender.com/api/verify";
+        const API_BASE = "https://key-system-yn0o.onrender.com";
+        const RENDER_API_URL = API_BASE + "/api/verify";
+        const SUB_API_URL = API_BASE + "/api/sub";
+
         let timerInterval;
         let savedCode = "";
+        // التوكن يعيش في الذاكرة فقط — لا localStorage ولا sessionStorage.
+        // إعادة تحميل الصفحة تعني إعادة التحقق، وهذا مقصود.
+        let sessionToken = "";
 
         const inputField = document.getElementById("accessCode");
         const mainBtn = document.getElementById("mainBtn");
@@ -243,11 +249,25 @@
             messageText.innerText = "";
         }
 
+        // معرّف الجهاز: عشوائي تشفيرياً، لا Math.random().
+        // ملاحظة: هذا المعرّف لا يكفي وحده — السيرفر المُحصّن يدمجه مع IP
+        // وUser-Agent قبل أن يحسب البصمة النهائية.
         function getDeviceId() {
-            let deviceId = localStorage.getItem('nacer_device_id');
-            if (!deviceId) {
-                deviceId = 'DEV-' + Math.random().toString(36).substring(2, 15);
-                localStorage.setItem('nacer_device_id', deviceId);
+            const KEY = 'nacer_device_id';
+            const VALID = /^DEV-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+            let deviceId = localStorage.getItem(KEY);
+
+            if (!deviceId || !VALID.test(deviceId)) {
+                if (window.crypto && typeof crypto.randomUUID === 'function') {
+                    deviceId = 'DEV-' + crypto.randomUUID();
+                } else {
+                    const b = new Uint8Array(16);
+                    crypto.getRandomValues(b);
+                    const h = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
+                    deviceId = 'DEV-' + h.slice(0,8) + '-' + h.slice(8,12) + '-' +
+                               h.slice(12,16) + '-' + h.slice(16,20) + '-' + h.slice(20,32);
+                }
+                localStorage.setItem(KEY, deviceId);
             }
             return deviceId;
         }
@@ -299,6 +319,7 @@
                 const data = await response.json();
 
                 if (data.valid === true) {
+                    sessionToken = data.token || "";
                     mainBtn.innerHTML = '<i class="fa-solid fa-check"></i> تم التحقق';
                     mainBtn.style.background = 'linear-gradient(180deg, #22c55e 0%, #166534 100%)';
                     mainBtn.style.borderColor = '#22c55e';
@@ -306,7 +327,11 @@
                     showMessage("تم التحقق من المفتاح بنجاح", "success");
 
                     savedCode = inputCode;
-                    document.getElementById("currentCode").innerText = inputCode;
+                    // لا نعرض المفتاح كاملاً بعد التحقق — لا حاجة له بعد إصدار التوكن.
+                    document.getElementById("currentCode").innerText =
+                        inputCode.length > 10
+                            ? inputCode.slice(0, 4) + '-••••-••••-' + inputCode.slice(-4)
+                            : inputCode;
 
                     setTimeout(() => {
                         document.getElementById("login-page").style.display = "none";
@@ -320,6 +345,8 @@
                     if (data.reason === "max_devices_reached") msg = "هذا المفتاح مستخدم على جهاز آخر";
                     if (data.reason === "too_many_requests") msg = "محاولات كثيرة جداً، انتظر 15 دقيقة.";
                     if (data.reason === "code_not_found") msg = "هذا المفتاح غير موجود في النظام";
+                    if (data.reason === "max_devices") msg = "هذا المفتاح مستخدم على جهاز آخر";
+                    if (data.reason === "invalid") msg = "المفتاح غير صحيح";
                     
                     showMessage(msg, "error");
                     mainBtn.innerHTML = originalBtnHTML;
@@ -369,39 +396,56 @@
             }, 1000);
         }
 
-        function openLink() {
-            if (!savedCode) return;
-            
-            // الرابط المشفر الجديد الذي أرسلته
-            const encryptedServerLink = "happ://crypt5/fzvdN7blNv5QA96f9rNx6zSH26EDqc8FqZwiYqtoTFQ08O/IsOOu0Lws2bpU9kT1+hfir0bNTdJuybPnU6QT6o1HV2EJrUNy7mhSPRGhdfqb2qB1sdXPnCWyE+1j/9pR18zmlo67uJ1VpyeNSC8MUM8Rcq/Xg2V9OWL2saFup6XlChg9WCnDn1eDBEdyNqL/W5S81t19S5ZIm5PBATd01xV36hPsoGIB8lh6TfxqbCPM1RvE24+aiN45r5Q36hyKSZsN7c3/ZxGUWWDVDoU9xWb63N2typgBGuN6MCX4N6o=9egUet42wIys0R95C3nOYqnVbyC7IRkcgb0/lEtpCy8LxKJlBdjJcpCOYzGo1/oGikfyuZmcY9R/rn2fdpRr3jfKIgcL/LVjAstGpi5gk6tfnYejjS7JtNNhm4g1nHlI6EWAP8loSqTRpxVJGsN91Gq8ySNX667WzH5/nVzmIAFzQ/k/+T5oz7dfd6PicXFVIqQP+H9KwCMTN/bAne56UAHiK/9TeYroprAlS9W+rr8gTueT1v6BHRNE9j2XUPx7qjkt3m/7U7vKyX349v3N4EUzgUW6MKamSIuiqpqibZhkqJyIV+tgG++lgHGVhgfsBKeNwgi5xhuDZ1JJvEgHVavrvRuiEYjdur3k3z3EY8FCk/PRJxkXs9UzZiKnRMXlQUTVuYGncjDddBZIuSFYH0FT+H9X/HOAly+5lNy9QKiuujc8K9TLbKDykt1Yf1s/S2MPHRjUfhpdfcJlRvL/22Z/wGjg6A4O+z4BbPtX/SvhiMDFLdJ7GJ5MD5wGXyZELs+YP7W924aAZFtZG6awc6U5UrPv0bUZv7Du3zWmfNxkWq20nbSTeIl/03a9QBwy6chUwgkenJnHt7d0NWCa3Y82PM30zve9b+YxqOhAvHJIWhI4dHElLSQAswRY9GVg+EaZH5CjeAhsGln9DWfHKEsI+MBi/2RfFxJbRcBWfoY=ff";
-            
-            // استخراج آخر 4 حروف من الكود
-            const last4 = savedCode.slice(-4); 
-            const serverName = "Nacer-" + last4;
-            
-            // دمج الرابط المشفر مع الاسم الديناميكي
-            let finalLink = encryptedServerLink;
-            if (finalLink.includes('#')) {
-                finalLink = finalLink.split('#')[0] + "#" + serverName;
-            } else {
-                finalLink = finalLink + "#" + serverName;
+        // لم يبق أي رابط سيرفر داخل الصفحة.
+        // الرابط يُطلب من /api/sub وقت الضغط، بتوكن صالح فقط.
+        async function openLink() {
+            if (!sessionToken) {
+                showMessage("انتهت الجلسة، أعد إدخال المفتاح", "error");
+                return;
             }
-            
-            // فتح التطبيق
-            window.location.href = finalLink;
+
+            const originalText = connectBtn.innerText;
+            connectBtn.innerText = "جارٍ التحضير...";
+            connectBtn.classList.add("disabled");
+
+            try {
+                const res = await fetch(SUB_API_URL, {
+                    method: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + sessionToken },
+                    credentials: 'omit',
+                    cache: 'no-store'
+                });
+
+                if (res.status === 401) {
+                    sessionToken = "";
+                    showMessage("انتهت الجلسة، أعد إدخال المفتاح", "error");
+                    return;
+                }
+                if (res.status === 403) {
+                    showMessage("الاشتراك غير فعّال", "error");
+                    return;
+                }
+                if (!res.ok) throw new Error("sub_failed");
+
+                const data = await res.json();
+                if (!data || typeof data.link !== 'string' || !data.link) {
+                    throw new Error("bad_link");
+                }
+
+                // اسم العرض فقط — لا يغيّر وجهة الاتصال
+                const last4 = savedCode.slice(-4);
+                let finalLink = data.link;
+                finalLink = finalLink.split('#')[0] + "#Nacer-" + last4;
+
+                window.location.href = finalLink;
+            } catch (err) {
+                showMessage("تعذّر جلب رابط الاتصال، حاول مرة أخرى", "error");
+            } finally {
+                connectBtn.innerText = originalText;
+                connectBtn.classList.remove("disabled");
+            }
         }
     </script>
 
-    <!-- كود الحماية -->
-    <script>
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) { return false; }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
-        };
-    </script>
 </body>
 </html>
